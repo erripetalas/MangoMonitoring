@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     #User defined apps 
-    'MangoSurveillance',
+    'App1', #app name 
 ]
 
 MIDDLEWARE = [
