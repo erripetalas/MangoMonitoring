@@ -21,7 +21,7 @@ class PestDisease:
         return f"{self.name}" # returns representation of the object in string format 
 
 
-# Creating instances of the pests/diseases
+# Creating instances of the pests info
 def get_pests_diseases(): 
     pests_diseases = [ 
         PestDisease(

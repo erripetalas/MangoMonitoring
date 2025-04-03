@@ -21,5 +21,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
+    # All URLs defined in App1.urls will be accessible from the root URL
     path('', include('App1.urls')),
+    
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

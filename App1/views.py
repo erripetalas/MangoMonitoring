@@ -7,14 +7,14 @@ def home(request):
         "title": "Home - Mango Monitoring",
         
     }
-    return render(request, 'App1/index.html', context)
+    return render(request, "App1/index.html", context)
 
 def project_list(request): 
     """View for the project list page showing all pests/diseases"""
-    pests_diseases = get_pests_diseases
+    pests_diseases = get_pests_diseases()  # Added parentheses to call the function
     context = {
-        'title': 'Pests & Diseases - Mango Monitoring',
-        'pests_diseases': pests_diseases
+        "title": "Pests & Diseases - Mango Monitoring",
+        "pests_diseases": pests_diseases
     }
     return render(request, "App1/projectlist.html", context)
 
@@ -35,28 +35,38 @@ def project_details(request, project_id):
     else:
         # Define context only when we have a valid project
         context = {
-            'title': f'{project.name} - Mango Monitoring',
-            'project': project
+            "title": f"{project.name} - Mango Monitoring",
+            "project": project
         }
-        return render(request, 'App1/projectdetails.html', context)
+        return render(request, "App1/projectdetails.html", context)
 
 def about(request):
-    """View for the about page with team information"""
-    # Replace with your team information
+    """
+    View for the about page with team information
+    Update the student ID with your own
+    
+    """
     team_members = [
         {
-            'name': 'Team Member 1',
-            'student_id': 'S123456'
+            "name": "Erri Petalas",  
+            "student_id": "S320775"
         },
         {
-            'name': 'Team Member 2',
-            'student_id': 'S123457'
+            "name": "Surendra Phuyal",
+            "student_id": "S123457"
         },
-        # Add more team members as needed
+          {
+            "name": "Rheka Khadka",
+            "student_id": "S123457"
+        },
+            {
+            "name": "Dylan Tomlinson",
+            "student_id": "S123457" 
+        },
     ]
     
     context = {
-        'title': 'About - Mango Monitoring',
-        'team_members': team_members
+        "title": "About - Mango Monitoring",
+        "team_members": team_members
     }
-    return render(request, 'App1/about.html', context)
+    return render(request, "App1/about.html", context)

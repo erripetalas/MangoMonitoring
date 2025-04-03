@@ -37,8 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'App1.apps.MangosurveillanceConfig',  # Use the explicit reference
-
+    'App1.apps.MangosurveillanceConfig', # app name refrencing from App1/apps.py file
 ]
 
 MIDDLEWARE = [
