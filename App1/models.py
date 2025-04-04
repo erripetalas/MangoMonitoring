@@ -22,7 +22,7 @@ class PestDisease:
 
 
 # Creating instances of the pests info
-def get_pests_diseases(): 
+def get_pests_diseases(): # This function returns a list of the information of all of the pests
     pests_diseases = [ 
         PestDisease(
             id=1,
