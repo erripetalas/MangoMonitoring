@@ -18,9 +18,16 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from App1 import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
+    # testing by manually adding the 4 due to not working
+    path('', views.home, name='home'), # home page
+    path('projects/', views.project_list, name='projectlist'), # project list page
+    # path('project/<int:pk>', views.project_details, name='projectdetails'), # project details page  # Commented out due to errors
+    path('about', views.about, name='about'), # about page
     
     # All URLs defined in App1.urls will be accessible from the root URL
     path('', include('App1.urls')),

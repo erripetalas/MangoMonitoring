@@ -61,7 +61,7 @@ def about(request):
         },
             {
             "name": "Dylan Tomlinson",
-            "student_id": "S123457" 
+            "student_id": "S372936" 
         },
     ]
     
