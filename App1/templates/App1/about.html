@@ -1,10 +1,25 @@
-{% extends "App1/base.html" %}
-
-{% block title %}About Us{% endblock %}
-
-{% block heading1 %}About Us{% endblock %}
+{% extends 'App1/base.html' %}
 
 {% block content %}
-<h2>About Us Page!</h2>
-<p> Page Content Goes Here</p>
+<h2>About Our Team</h2>
+<p> Add basic information about our team</p>
+<div>
+    <h3>Team Members</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Student ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in team_members %}
+            <tr>
+                <td>{{ member.name }}</td>
+                <td>{{ member.student_id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
