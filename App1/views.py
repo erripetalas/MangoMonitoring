@@ -56,8 +56,8 @@ def about(request):
             "student_id": "S123457"
         },
           {
-            "name": "Rheka Khadka",
-            "student_id": "S123457"
+            "name": "Rekha Khadka",
+            "student_id": "S372366"
         },
             {
             "name": "Dylan Tomlinson",
