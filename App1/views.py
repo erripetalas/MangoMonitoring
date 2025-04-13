@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from App1.models import get_pests_diseases
+from App1.pests import get_pests_diseases  # Updated import to use pests.py instead of models.py
 
 def home(request):
     """view for the home/landing page"""
@@ -11,7 +11,7 @@ def home(request):
 
 def project_list(request): 
     """View for the project list page showing all pests/diseases"""
-    pests_diseases = get_pests_diseases()  # Added parentheses to call the function
+    pests_diseases = get_pests_diseases()  
     context = {
         "title": "Pests & Diseases - Mango Monitoring",
         "pests_diseases": pests_diseases
@@ -33,7 +33,7 @@ def project_details(request, project_id):
     if project is None:
         return project_list(request)
     else:
-        # Define context only when we have a valid project
+        # Define context only when a valid project is found
         context = {
             "title": f"{project.name} - Mango Monitoring",
             "project": project
@@ -53,11 +53,11 @@ def about(request):
         },
         {
             "name": "Surendra Phuyal",
-            "student_id": "S372088"
+            "student_id": "S123457"
         },
           {
-            "name": "Rekha Khadka",
-            "student_id": "S372366"
+            "name": "Rheka Khadka",
+            "student_id": "S123457"
         },
             {
             "name": "Dylan Tomlinson",
