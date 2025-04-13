@@ -1,10 +1,23 @@
-{% extends "App1/base.html" %}
-
-{% block title %}Project List{% endblock %}
-
-{% block heading1 %}Project List{% endblock %}
+{% extends 'App1/base.html' %}
 
 {% block content %}
-<h2>Project List Page!</h2>
-<p> Page Content Goes Here</p>
+<h2>Mango Pests & Diseases</h2>
+<p>Click on any pest or disease to view detailed information.</p>
+
+<div>
+    {% for item in pests_diseases %} <!--  -->
+    
+    <div>
+        <h3>{{ item.name }}</h3>
+        
+        {% if item.image_url %}
+        <img src="/{{ item.image_url }}" alt="{{ item.name }}">
+        {% endif %}
+        
+        <p>{{ item.damage|truncatewords:10 }}</p>
+        
+        <p><a href="{% url 'App1:projectdetails' item.id %}"><em>Click for more details</em></a></p>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

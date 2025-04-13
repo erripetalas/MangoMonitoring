@@ -53,11 +53,11 @@ def about(request):
         },
         {
             "name": "Surendra Phuyal",
-            "student_id": "S123457"
+            "student_id": "S372088"
         },
           {
-            "name": "Rheka Khadka",
-            "student_id": "S123457"
+            "name": "Rekha Khadka",
+            "student_id": "S372366"
         },
             {
             "name": "Dylan Tomlinson",

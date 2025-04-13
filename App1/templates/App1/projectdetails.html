@@ -1,10 +1,58 @@
-{% extends "App1/base.html" %}
-
-{% block title %}Project Details{% endblock %}
-
-{% block heading1 %}Project Details{% endblock %}
+{% extends 'App1/base.html' %}
 
 {% block content %}
-<h2>Project Details Page!</h2>
-<p> Page Content Goes Here</p>
+<div>
+    <div>
+        {% if project.image_url %}
+        <img src="/{{ project.image_url }}" alt="{{ project.name }}" style="max-width: 100%; height: auto; border-radius: 5px;">
+        {% endif %}
+    </div>
+    
+    <div>
+        <h2>{{ project.name }}</h2>
+        
+        <h3>Description</h3>
+        <div>
+            {% if project.description.eggs %}
+            <p><strong>Eggs:</strong> {{ project.description.eggs }}</p>
+            {% endif %}
+            
+            {% if project.description.immatures %}
+            <p><strong>Immatures:</strong> {{ project.description.immatures }}</p>
+            {% endif %}
+            
+            {% if project.description.adults %}
+            <p><strong>Adults:</strong> {{ project.description.adults }}</p>
+            {% endif %}
+            
+            {% if project.description.scientific %}
+            <p><strong>Scientific name:</strong> {{ project.description.scientific }}</p>
+            {% endif %}
+        </div>
+        
+        <h3>Life Cycle</h3>
+        <p>{{ project.life_cycle }}</p>
+        
+        <h3>Similar To</h3>
+        <p>{{ project.similar_to }}</p>
+        
+        <h3>Damage</h3>
+        <p>{{ project.damage }}</p>
+        
+        <h3>Critical Control Period</h3>
+        <p>{{ project.critical_control_period|default:"Not specified" }}</p>
+        
+        <h3>Monitoring</h3>
+        <p>{{ project.monitoring }}</p>
+        
+        {% if project.other_comments %}
+        <h3>Additional Information</h3>
+        <p>{{ project.other_comments }}</p>
+        {% endif %}
+        
+        <div>
+            <a href="{% url 'App1:projectlist' %}">Back to List</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -3,34 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="'App1/css/style.css'"> -->
-    <title>{% block title %} Page Name {% endblock %}</title>
+    <title>{{ title }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <div>
-        <h1>{% block heading1 %} Heading 1 for Page {% endblock %}</h1>
-    </div>
-
-    <div>
-        <h2> Navigation </h2>
-        <nav>
+    <header>
+        <div>
+            <h1>Mango Monitoring System</h1>
+        </div>
+    </header>
+    
+    <nav>
+        <div>
             <ul>
                 <li><a href="{% url 'App1:index' %}">Home</a></li>
-                <li><a href="{% url 'App1:projectlist' %}">List</a></li>
-                <!-- Project List goes here, was removed to due some error -->
-                <li><a href="{% url 'App1:about' %}">About Us</a></li>
+                <li><a href="{% url 'App1:projectlist' %}">Pests & Diseases</a></li>
+                <li><a href="{% url 'App1:about' %}">About</a></li>
             </ul>
-        </nav> 
-    </div>
-
-    <div>
-        {% block content %} Content for Page {% endblock %}
-    </div> 
+        </div>
+    </nav>
     
     <div>
-        <footer>
-            <p>HIT 237 | GROUP 12 | SEMESTER 1 2025</p> 
-        </footer>
-    </div>        
+        {% block content %}
+        {% endblock %}
+    </div>
+    
+    <footer>
+        <div>
+            <p>2024 Mango Monitoring System | HIT237 Building Interactive Software</p>
+        </div>
+    </footer>
 </body>
 </html>

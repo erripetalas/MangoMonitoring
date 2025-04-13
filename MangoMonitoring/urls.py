@@ -1,6 +1,6 @@
 """
 URL configuration for MangoMonitoring project.
-
+ 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.2/topics/http/urls/
 Examples:
@@ -19,11 +19,11 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from App1 import views
-
+ 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('about', views.about, name='about'), # about page
     # All URLs defined in App1.urls will be accessible from the root URL
     path('', include('App1.urls')),
-    
+   
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
