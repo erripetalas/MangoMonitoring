@@ -1,25 +1,36 @@
 {% extends 'App1/base.html' %}
 
 {% block content %}
-<h2>About Our Team</h2>
-<p> Add basic information about our team</p>
-<div>
-    <h3>Team Members</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Student ID</th>
-            </tr>
-        </thead>
-        <tbody>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+<div class="about-page">
+    <h2>About Our Team</h2>
+    
+    <div class="team-introduction">
+        <p>We are a group of students from the HIT237 Building Interactive Software unit, dedicated to creating an informative platform for mango pest and disease monitoring.</p>
+    </div>
+
+    <div class="team-members-container">
+        <h3>Team Members</h3>
+        <div class="team-members-grid">
             {% for member in team_members %}
-            <tr>
-                <td>{{ member.name }}</td>
-                <td>{{ member.student_id }}</td>
-            </tr>
+            <div class="team-member-card">
+                <div class="member-icon">
+                    {{ member.name.0 }}
+                </div>
+                <div class="member-details">
+                    <h4>{{ member.name }}</h4>
+                    <p>Student ID: {{ member.student_id }}</p>
+                </div>
+            </div>
             {% endfor %}
-        </tbody>
-    </table>
+        </div>
+    </div>
+
+    <div class="project-description">
+        <h3>Our Project</h3>
+        <p>This Mango Monitoring System is a comprehensive web application designed to help farmers and agricultural professionals identify and manage common pests and diseases affecting mango trees in the Northern Territory.</p>
+        <p>The project aims to provide easy access to critical information that can help improve mango crop health and productivity.</p>
+    </div>
 </div>
 {% endblock %}
