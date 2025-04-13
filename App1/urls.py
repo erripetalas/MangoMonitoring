@@ -14,8 +14,7 @@ urlpatterns = [
     # The regex (?P<project_id>\d+) captures one or more digits and names it "project_id"
     # This will match URLs like "/project/1/", "/project/2/", etc.
     
-    
-    # re_path(r'^project/(?P<project_id>\d+)/$', views.project_details, name="projectdetails"), Commented out due to some clash errors
+    re_path(r'^project/(?P<project_id>\d+)/$', views.project_details, name="projectdetails"),
     
     # About page - matches "/about/"
     path("about/", views.about, name="about"),
