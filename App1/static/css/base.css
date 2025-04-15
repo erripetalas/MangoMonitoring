@@ -32,6 +32,8 @@
     background-color: var(--primary-green);
     padding: 1.2rem 0;
     box-shadow: var(--shadow-sm);
+    display:flex;
+    justify-content: center ;
   }
   
   .header-container {
@@ -39,7 +41,7 @@
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
   }
@@ -73,6 +75,8 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 0.8rem 0;
+    display: flex;
+    justify-content: center;
   }
   
   nav ul {
@@ -167,6 +171,9 @@
       flex-direction: column;
       gap: 0.8rem;
       align-items: center;
+      flex-wrap:row;
+      justify-content: center;
+      
     }
   
     nav a {
