@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Hide stop button when speech ends
         utterance.onend = () => {
             stopButton.style.display = "none";
+            utterance = null;
         };
 
         utterance.onerror = (e) => {
@@ -44,10 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     });
 
+    // ✅ Fixed: Simplified stopButton logic
     stopButton.addEventListener("click", () => {
-        if (utterance) {
-            window.speechSynthesis.cancel(); // Stop the speech
-            stopButton.style.display = "none"; // Hide stop button
-        }
+        window.speechSynthesis.cancel(); // Stop all speech immediately
+        stopButton.style.display = "none"; // Hide stop button
     });
 });
