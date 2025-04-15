@@ -1,0 +1,141 @@
+/* Project Details Page Stylesheet */
+
+:root {
+    --primary-green: #2ecc71;
+    --secondary-green: #27ae60;
+    --light-background: #f0f4f0;
+    --text-color: #333;
+    --card-background: #ffffff;
+    --border-color: #e0e0e0;
+}
+
+/* Main container styling */
+.details-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: var(--card-background);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Image section styling */
+.image-section {
+    margin-bottom: 30px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.image-section img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Content section styling */
+.content-section {
+    padding: 20px;
+}
+
+/* Title styling */
+.content-section h2 {
+    color: var(--primary-green);
+    font-size: 2.2rem;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--secondary-green);
+}
+
+/* Section headings */
+.content-section h3 {
+    color: var(--secondary-green);
+    font-size: 1.4rem;
+    margin: 25px 0 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Description section styling */
+.description-section {
+    background-color: var(--light-background);
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.description-section p {
+    margin: 10px 0;
+    line-height: 1.6;
+}
+
+.description-section strong {
+    color: var(--secondary-green);
+    font-weight: 600;
+}
+
+/* Regular paragraphs */
+.content-section p {
+    color: var(--text-color);
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+/* Back button styling */
+.back-button {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.back-button a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--secondary-green);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.back-button a:hover {
+    background-color: var(--primary-green);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .details-container {
+        padding: 20px;
+        margin: 15px;
+    }
+
+    .content-section h2 {
+        font-size: 1.8rem;
+    }
+
+    .content-section h3 {
+        font-size: 1.2rem;
+    }
+
+    .image-section img {
+        max-height: 300px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .details-container {
+        padding: 15px;
+        margin: 10px;
+    }
+
+    .description-section {
+        padding: 15px;
+    }
+
+    .content-section h2 {
+        font-size: 1.6rem;
+    }
+}

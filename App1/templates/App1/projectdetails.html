@@ -1,18 +1,21 @@
 {% extends 'App1/base.html' %}
 
 {% block content %}
-<div>
-    <div>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/projectdetails.css' %}">
+
+<div class="details-container">
+    <div class="image-section">
         {% if project.image_url %}
-        <img src="/{{ project.image_url }}" alt="{{ project.name }}" style="max-width: 100%; height: auto; border-radius: 5px;">
+        <img src="/{{ project.image_url }}" alt="{{ project.name }}">
         {% endif %}
     </div>
     
-    <div>
+    <div class="content-section">
         <h2>{{ project.name }}</h2>
         
         <h3>Description</h3>
-        <div>
+        <div class="description-section">
             {% if project.description.eggs %}
             <p><strong>Eggs:</strong> {{ project.description.eggs }}</p>
             {% endif %}
@@ -50,7 +53,7 @@
         <p>{{ project.other_comments }}</p>
         {% endif %}
         
-        <div>
+        <div class="back-button">
             <a href="{% url 'App1:projectlist' %}">Back to List</a>
         </div>
     </div>
