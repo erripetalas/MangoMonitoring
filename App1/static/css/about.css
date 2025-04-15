@@ -1,119 +1,165 @@
-/* About Page Stylesheet */
-
+/* Consistent Green Theme */
 :root {
-    --primary-green: #2ecc71;
-    --secondary-green: #27ae60;
-    --light-background: #f0f4f0;
-    --text-color: #333;
-    --card-background: #ffffff;
+    --primary-green: #2E7D32;       /* Deep green */
+    --secondary-green: #6FBF73;     /* Medium green */
+    --accent-green: #A2C523;        /* Lime accent */
+    --light-bg: #F0F7E6;            /* Very light green */
+    --card-bg: #FFFFFF;
+    --text-color: #2C3E50;          /* Dark gray */
+    --text-light: #5D6D7E;
 }
 
 .about-page {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 2rem auto;
     padding: 20px;
-    background-color: var(--light-background);
-    font-family: Arial, sans-serif;
-    color: var(--text-color);
+    background-color: var(--light-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.08);
 }
 
 .about-page h2 {
     color: var(--primary-green);
     text-align: center;
-    border-bottom: 2px solid var(--secondary-green);
     padding-bottom: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    font-size: 2.2rem;
+    position: relative;
+}
+
+.about-page h2:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: var(--accent-green);
+    border-radius: 3px;
 }
 
 .team-introduction {
     text-align: center;
     margin-bottom: 30px;
-    font-style: italic;
-    color: var(--secondary-green);
+    color: var(--text-light);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    padding: 0 1rem;
 }
 
+/* Team Members Section */
 .team-members-container {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .team-members-container h3 {
     color: var(--primary-green);
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    font-size: 1.6rem;
 }
 
 .team-members-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    justify-content: center;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
 }
 
 .team-member-card {
-    background-color: var(--card-background);
+    background: var(--card-bg);
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(46, 125, 50, 0.1);
+    padding: 25px;
+    transition: all 0.3s ease;
+    border-top: 3px solid var(--secondary-green);
     display: flex;
     align-items: center;
-    padding: 20px;
-    transition: transform 0.3s ease;
 }
 
 .team-member-card:hover {
-    transform: scale(1.05);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(46, 125, 50, 0.15);
 }
 
 .member-icon {
     width: 70px;
     height: 70px;
-    background-color: var(--primary-green);
+    background: var(--primary-green);
     color: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 30px;
+    font-size: 1.8rem;
     font-weight: bold;
     margin-right: 20px;
+    flex-shrink: 0;
 }
 
 .member-details h4 {
-    margin: 0 0 10px 0;
-    color: var(--secondary-green);
+    color: var(--primary-green);
+    margin: 0 0 8px 0;
+    font-size: 1.2rem;
 }
 
 .member-details p {
-    margin: 0;
     color: var(--text-color);
+    margin: 0;
+    font-size: 0.95rem;
 }
 
+/* Project Description */
 .project-description {
-    background-color: var(--card-background);
+    background: var(--card-bg);
     border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(46, 125, 50, 0.1);
+    border-top: 3px solid var(--accent-green);
 }
 
 .project-description h3 {
     color: var(--primary-green);
-    border-bottom: 1px solid var(--secondary-green);
+    margin-bottom: 20px;
     padding-bottom: 10px;
+    border-bottom: 1px dashed var(--secondary-green);
+    font-size: 1.5rem;
+}
+
+.project-description p {
+    color: var(--text-color);
+    line-height: 1.7;
     margin-bottom: 15px;
 }
 
-/* Responsive adjustments */
-@media screen and (max-width: 768px) {
+/* Responsive Design */
+@media (max-width: 768px) {
     .team-members-grid {
         grid-template-columns: 1fr;
     }
-
+    
     .team-member-card {
         flex-direction: column;
         text-align: center;
+        padding: 20px;
     }
-
+    
     .member-icon {
         margin-right: 0;
         margin-bottom: 15px;
+    }
+    
+    .about-page h2 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-page {
+        padding: 15px;
+    }
+    
+    .project-description {
+        padding: 20px;
     }
 }

@@ -5,10 +5,10 @@ class PestDisease:
     """
     Class to define structure for mango pests and diseases
     """
-    def __init__(self, id, name, description, life_cycle, similar_to, damage, critical_control_period, monitoring, other_comments=None, image_url=None):
+    def __init__(self, id, name,scientific_name, description, life_cycle, similar_to, damage, critical_control_period, monitoring, other_comments=None, image_url=None):
         self.id = id
         self.name = name 
-        self.description = description
+        self.scientific_name = scientific_name 
         self.life_cycle = life_cycle
         self.similar_to = similar_to
         self.damage = damage
@@ -26,7 +26,8 @@ def get_pests_diseases(): # This function returns a list of the information of a
     pests_diseases = [ 
         PestDisease(
             id=1,
-            name="Longicorn beetle (Acalolepta mixtus, Family Cerambycidae)",
+            name="Longicorn beetle",
+            scientific_name=" (Acalolepta mixtus, Family Cerambycidae)",
             description={
                 "eggs": "Ovoid, white or light cream in colour.",
                 "immatures": "Larvae are white or light cream with a brown head and constrictions along the length of the body. Size: Up to 40mm in length.",
@@ -41,7 +42,8 @@ def get_pests_diseases(): # This function returns a list of the information of a
         ),
         PestDisease(
             id=2,
-            name="Mango seed weevil (Sternochetus mangiferae, Family Curculionidae)",
+            name="Mango seed weevil",
+            scientific_name="(Sternochetus mangiferae, Family Curculionidae)",
             description={
                 "eggs": "Creamy white in colour and elongate. Size: 2mm in length.",
                 "immatures": "White legless larva with a brown head.",
@@ -57,7 +59,8 @@ def get_pests_diseases(): # This function returns a list of the information of a
         ),
         PestDisease(
             id=3,
-            name="Red shouldered leaf beetle (Monolepta australis, Family Chrysomelidae)",
+            name="Red shouldered leaf beetle",
+            scientific_name=" (Monolepta australis, Family Chrysomelidae)",
             description={
                 "eggs": "Unknown (not normally seen as laid in soil).",
                 "immatures": "White/cream in colour. Size: Up to 12mm in length (not normally seen).",
@@ -73,7 +76,8 @@ def get_pests_diseases(): # This function returns a list of the information of a
         ),
         PestDisease(
             id=4,
-            name="Swarming leaf beetles (Rhyparida spp., Geloptera aequalis, Family Chrysomelidae)",
+            name="Swarming leaf beetles",
+            scientific_name=" (Rhyparida spp., Geloptera aequalis, Family Chrysomelidae)",
             description={
                 "eggs": "Unknown (not normally seen as laid in soil).",
                 "immatures": "Larvae feed on grass roots and pupate in the soil (the larvae are not usually seen).",
@@ -92,7 +96,8 @@ def get_pests_diseases(): # This function returns a list of the information of a
         ),
         PestDisease(
             id=5,
-            name="Dimpling bug (Campylomma austrina, Family Miridae)",
+            name="Dimpling bug",
+            scientific_name=" (Campylomma austrina, Family Miridae)",
             description={
                 "eggs": "Unknown (not normally seen).",
                 "immatures": "Nymphs are pale yellow and similar to adults but without wings.",
@@ -108,7 +113,8 @@ def get_pests_diseases(): # This function returns a list of the information of a
         ),
         PestDisease(
             id=6,
-            name="Fruitspotting bugs (Bananaspotting bug and Fruitspotting bug)",
+            name="Fruitspotting bugs",
+            scientific_name=" (Bananaspotting bug and Fruitspotting bug)",
             description={
                 "scientific": "Amblypelta lutescens lutescens (Bananaspotting bug) and A. nitida (Fruitspotting bug) QLD only (Family Coreidae)",
                 "eggs": "Pale green when first laid turning brown with a slight opalescence as they mature and oval in shape. Size: 2mm in length.",
@@ -124,7 +130,8 @@ def get_pests_diseases(): # This function returns a list of the information of a
         ),
         PestDisease(
             id=7,
-            name="Graptostethus bugs (Graptostethus spp., Family Lygaeidae)",
+            name="Graptostethus bugs",
+            scientific_name=" (Graptostethus spp., Family Lygaeidae)",
             description={
                 "eggs": "Unknown (not normally seen).",
                 "immatures": "Similar to adult but smaller and without wings (not normally seen).",

@@ -3,24 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
-
+    <meta name="description" content="Mango Monitoring System for pest and disease management">
+    <title>{% block title %}Mango Monitoring System{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <body>
     <header>
-        <div>
-            <h1>Mango Monitoring System</h1>
+        <div class="header-container">
+            <h1 class="site-title">Mango Monitoring System</h1>
         </div>
     </header>
     
-    <nav>
-        <div>
+    <nav aria-label="Main navigation">
+        <div class="nav-container">
             <ul>
-                <li><a href="{% url 'App1:index' %}">Home</a></li>
-                <li><a href="{% url 'App1:projectlist' %}">Pests & Diseases</a></li>
-                <li><a href="{% url 'App1:about' %}">About</a></li>
+                <li><a href="{% url 'App1:index' %}" 
+                       class="{% if request.resolver_match.url_name == 'index' %}active{% endif %}"
+                       aria-current="{% if request.resolver_match.url_name == 'index' %}page{% endif %}">
+                       Home
+                </a></li>
+                <li><a href="{% url 'App1:projectlist' %}"
+                       class="{% if request.resolver_match.url_name == 'projectlist' %}active{% endif %}"
+                       aria-current="{% if request.resolver_match.url_name == 'projectlist' %}page{% endif %}">
+                       Pests & Diseases
+                </a></li>
+                <li><a href="{% url 'App1:about' %}"
+                       class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}"
+                       aria-current="{% if request.resolver_match.url_name == 'about' %}page{% endif %}">
+                       About
+                </a></li>
             </ul>
         </div>
     </nav>
@@ -40,15 +52,16 @@
         </button>
     </div>
     
-    <div>
+    <main id="main-content">
         {% block content %}
+        <!-- Content will be inserted here -->
         {% endblock %}
-    </div>
+    </main>
     
 
     <footer>
         <div>
-            <p>2024 Mango Monitoring System | HIT237 Building Interactive Software</p>
+            <p>&copy; 2025 Mango Monitoring System | HIT237 Building Interactive Software</p>
         </div>
     </footer>
     

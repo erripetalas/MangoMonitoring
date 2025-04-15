@@ -1,124 +1,139 @@
-/* Project List Page Stylesheet */
-
+/* Enhanced Green Theme */
 :root {
-    --primary-green: #2ecc71;
-    --secondary-green: #27ae60;
-    --light-background: #f0f4f0;
-    --text-color: #333;
-    --card-background: #ffffff;
+    --primary-green: #2E7D32;       /* Deep green */
+    --secondary-green: #6FBF73;     /* Medium green */
+    --accent-green: #A2C523;        /* Lime accent */
+    --light-bg: #F0F7E6;            /* Very light green */
+    --card-bg: #FFFFFF;
+    --text-color: #2C3E50;          /* Dark gray */
+    --text-light: #5D6D7E;
 }
 
-/* Main container styling */
 .pest-disease-container {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 2rem auto;
     padding: 20px;
+    background-color: var(--light-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.08);
 }
 
-/* Page title styling */
 .pest-disease-container h2 {
     color: var(--primary-green);
     text-align: center;
-    border-bottom: 2px solid var(--secondary-green);
     padding-bottom: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    font-size: 2.2rem;
+    position: relative;
+}
+
+.pest-disease-container h2:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: var(--accent-green);
+    border-radius: 3px;
 }
 
 .pest-disease-container > p {
     text-align: center;
-    color: var(--text-color);
+    color: var(--text-light);
     margin-bottom: 30px;
-    font-style: italic;
+    font-size: 1.1rem;
 }
 
-/* Grid layout for pest/disease cards */
+/* Enhanced Card Design */
 .pest-disease-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
+    gap: 30px;
     padding: 20px 0;
 }
 
-/* Individual card styling */
 .pest-disease-card {
-    background-color: var(--card-background);
+    background: var(--card-bg);
     border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(46, 125, 50, 0.1);
+    transition: all 0.3s ease;
+    border-top: 4px solid var(--secondary-green);
 }
 
 .pest-disease-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(46, 125, 50, 0.15);
 }
 
-/* Card title styling */
 .pest-disease-card h3 {
     color: var(--primary-green);
-    padding: 15px;
+    padding: 18px 15px;
     margin: 0;
-    border-bottom: 1px solid #eee;
     font-size: 1.4rem;
+    background-color: rgba(111, 191, 115, 0.1);
+    border-bottom: 1px solid rgba(162, 197, 35, 0.2);
 }
 
-/* Image styling */
 .pest-disease-card img {
     width: 100%;
     height: 200px;
     object-fit: cover;
-    border-bottom: 1px solid #eee;
+    transition: transform 0.5s ease;
 }
 
-/* Card content styling */
+.pest-disease-card:hover img {
+    transform: scale(1.03);
+}
+
 .card-content {
-    padding: 15px;
+    padding: 18px;
 }
 
-.card-content p {
+.card-content p:first-of-type {
     color: var(--text-color);
-    margin-bottom: 15px;
     line-height: 1.6;
+    margin-bottom: 20px;
+    min-height: 60px;
 }
 
-/* Link styling */
 .card-content a {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     color: var(--secondary-green);
     text-decoration: none;
-    padding: 8px 15px;
+    padding: 8px 16px;
     border: 2px solid var(--secondary-green);
-    border-radius: 5px;
+    border-radius: 6px;
+    font-weight: 500;
     transition: all 0.3s ease;
 }
 
 .card-content a:hover {
-    background-color: var(--secondary-green);
+    background: var(--secondary-green);
     color: white;
+    transform: translateY(-2px);
 }
 
-/* Responsive adjustments */
-@media screen and (max-width: 768px) {
+/* Responsive Adjustments */
+@media (max-width: 768px) {
     .pest-disease-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         gap: 20px;
     }
     
     .pest-disease-card h3 {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
     }
 }
 
-@media screen and (max-width: 480px) {
+@media (max-width: 480px) {
     .pest-disease-container {
-        padding: 10px;
+        padding: 15px;
     }
     
     .pest-disease-grid {
         grid-template-columns: 1fr;
-    }
-    
-    .pest-disease-card img {
-        height: 180px;
     }
 }
