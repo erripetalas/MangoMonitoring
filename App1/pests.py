@@ -5,10 +5,10 @@ class PestDisease:
     """
     Class to define structure for mango pests and diseases
     """
-    def __init__(self, id, name, description, life_cycle, similar_to, damage, critical_control_period, monitoring, other_comments=None, image_url=None):
+    def __init__(self, id, name,scientific_name, description, life_cycle, similar_to, damage, critical_control_period, monitoring, other_comments=None, image_url=None):
         self.id = id
         self.name = name 
-        self.description = description
+        self.scientific_name = scientific_name 
         self.life_cycle = life_cycle
         self.similar_to = similar_to
         self.damage = damage
