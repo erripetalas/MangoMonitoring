@@ -12,6 +12,9 @@
         {% for item in pests_diseases %}
         <div class="pest-disease-card">
             <h3>{{ item.name }}</h3>
+            {% if item.scientific_name %}
+            <p class="sci-name"><em>{{ item.scientific_name }}</em></p>
+            {% endif %}
             
             {% if item.image_url %}
             <img src="/{{ item.image_url }}" alt="{{ item.name }}">

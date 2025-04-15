@@ -88,6 +88,16 @@
     transform: scale(1.03);
 }
 
+.sci-name {
+    font-size: 0.95rem;
+    color: #5D6D7E;
+    font-style: italic;;
+    display: block;
+    margin-top: 4px;
+    line-height: 1.4;
+}
+
+
 .card-content {
     padding: 18px;
 }
