@@ -24,16 +24,34 @@
             </ul>
         </div>
     </nav>
+
+    <!-- Add Text-to-Speech Button -->
+    <!-- Add TTS Button and Language Selector -->
+    <div id="tts-container" style="margin-top: 10px;">
+        <select id="language-selector">
+            <option value="en-US" selected>English</option>
+            <option value="fil-PH">Filipino (Philippines)</option>
+            <option value="th-TH">Thai</option>
+            <option value="km-KH">Khmer (Cambodian)</option>
+            <option value="vi-VN">Vietnamese</option>
+        </select>
+        <button id="tts-button">
+            🔊 Read Aloud
+        </button>
+    </div>
     
     <div>
         {% block content %}
         {% endblock %}
     </div>
     
+
     <footer>
         <div>
             <p>2024 Mango Monitoring System | HIT237 Building Interactive Software</p>
         </div>
     </footer>
+    
+    <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
