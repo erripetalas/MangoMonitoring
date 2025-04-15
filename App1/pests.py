@@ -9,6 +9,7 @@ class PestDisease:
         self.id = id
         self.name = name 
         self.scientific_name = scientific_name 
+        self.description = description
         self.life_cycle = life_cycle
         self.similar_to = similar_to
         self.damage = damage

@@ -1,72 +1,70 @@
-from django.shortcuts import render
-from App1.pests import get_pests_diseases  # Updated import to use pests.py instead of models.py
+from django.shortcuts import render, redirect
+from django.http import Http404
+from App1.pests import get_pests_diseases
+from django import template
 
 def home(request):
-    """view for the home/landing page"""
-    context = {
+    """View for the home/landing page"""
+    return render(request, "App1/index.html", {
         "title": "Home - Mango Monitoring",
-        
-    }
-    return render(request, "App1/index.html", context)
+    })
+
 
 def project_list(request): 
     """View for the project list page showing all pests/diseases"""
-    pests_diseases = get_pests_diseases()  
-    context = {
-        "title": "Pests & Diseases - Mango Monitoring",
-        "pests_diseases": pests_diseases
-    }
-    return render(request, "App1/projectlist.html", context)
+    try:
+        pests_diseases = get_pests_diseases()
+        return render(request, "App1/projectlist.html", {
+            "title": "Pests & Diseases - Mango Monitoring",
+            "pests_diseases": pests_diseases
+        })
+    except Exception as e:
+        # Log error in production: logger.error(f"Error fetching pests: {e}")
+        return render(request, "App1/error.html", {
+            "message": "Could not load pest data. Please try again later."
+        })
 
 def project_details(request, project_id):
     """View for the project details page showing specific pest/disease info"""
-    pests_diseases = get_pests_diseases()
+    try:
+        pests_diseases = get_pests_diseases()
+        project = next((p for p in pests_diseases if p.id == int(project_id)), None)
+        
+        if not project:
+            raise Http404(f"Pest/Disease with ID {project_id} not found")
+            
+        # Prepare description if it's not already a dictionary
+        if not isinstance(project.description, dict):
+            project.description = {
+                "general": project.description,
+            }
     
-    # Find the pest/disease with the matching ID
-    project = None
-    for pest_disease in pests_diseases:
-        if pest_disease.id == int(project_id):
-            project = pest_disease
-            break
-    
-    # If no matching pest/disease is found, redirect to the list page
-    if project is None:
-        return project_list(request)
-    else:
-        # Define context only when a valid project is found
-        context = {
+        excluded_keys = ['general', 'eggs', 'immatures', 'adults']
+        return render(request, "App1/projectdetails.html", {
             "title": f"{project.name} - Mango Monitoring",
-            "project": project
-        }
-        return render(request, "App1/projectdetails.html", context)
+            "project": project,
+            "excluded_keys": ["excluded_keys"]  # Add this for template filtering
+        })
+
+    except ValueError:
+        return redirect('App1:projectlist')
+    except Exception as e:
+        # Log error in production
+        return render(request, "App1/error.html", {
+            "message": "An error occurred while loading this page."
+        })
 
 def about(request):
-    """
-    View for the about page with team information
-    Update the student ID with your own
-    
-    """
+    """View for the about page with team information"""
     team_members = [
-        {
-            "name": "Erri Petalas",  
-            "student_id": "S320775"
-        },
-        {
-            "name": "Surendra Phuyal",
-            "student_id": "S372088"
-        },
-          {
-            "name": "Rekha Khadka",
-            "student_id": "S372366"
-        },
-            {
-            "name": "Dylan Tomlinson",
-            "student_id": "S372936" 
-        },
+        {"name": "Erri Petalas", "student_id": "S320775"},
+        {"name": "Surendra Phuyal", "student_id": "S372088"},
+        {"name": "Rekha Khadka", "student_id": "S372366"},
+        {"name": "Dylan Tomlinson", "student_id": "S372936"}, 
     ]
     
-    context = {
+    return render(request, "App1/about.html", {
         "title": "About - Mango Monitoring",
         "team_members": team_members
-    }
-    return render(request, "App1/about.html", context)
+    })
+

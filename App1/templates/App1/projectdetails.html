@@ -4,35 +4,67 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/projectdetails.css' %}">
 
+<!-- Debugging help (remove in production) -->
+<!-- {{ project|pprint }} -->
+
 <div class="details-container">
     <div class="image-section">
         {% if project.image_url %}
-        <img src="/{{ project.image_url }}" alt="{{ project.name }}">
-        {% endif %}
-    </div>
+        {% with image_path=project.image_url|cut:"static/" %}
+        {# Improved image URL handling - works with both relative and absolute paths #}
+        <img src= "{% if image_path|slice:':4' == 'http' %}{{ image_path }}{% else %}{% static image_path %}{% endif %}"
+             alt="{{ project.name }}"
+             class="pest-image">
+        {% endwith %}
+    {% else %}
+        <div class="no-image">No image available</div>
+    {% endif %}
+</div>
     
     <div class="content-section">
         <h2>{{ project.name }}</h2>
-        
+          
+        {% if project.scientific_name %}
+        <h3>Scientific Classification</h3>
+        <p>{{ project.scientific_name }}</p>
+        {% endif %}
+
+        <hr class="section-divider">
+
         <h3>Description</h3>
         <div class="description-section">
-            {% if project.description.eggs %}
-            <p><strong>Eggs:</strong> {{ project.description.eggs }}</p>
-            {% endif %}
-            
-            {% if project.description.immatures %}
-            <p><strong>Immatures:</strong> {{ project.description.immatures }}</p>
-            {% endif %}
-            
-            {% if project.description.adults %}
-            <p><strong>Adults:</strong> {{ project.description.adults }}</p>
-            {% endif %}
-            
-            {% if project.description.scientific %}
-            <p><strong>Scientific name:</strong> {{ project.description.scientific }}</p>
+            {% if project.description %}
+               {# Show general description if it exists #}
+                {% if project.description.general %}
+                    <p>{{ project.description.general }}</p>
+                {% endif %}
+        
+                {# Show specific fields if they exist #}
+                {% if project.description.eggs %}
+                    <p><strong>Eggs:</strong> {{ project.description.eggs }}</p>
+                {% endif %}
+        
+                {% if project.description.immatures %}
+                    <p><strong>Immatures:</strong> {{ project.description.immatures }}</p>
+                {% endif %}
+        
+                {% if project.description.adults %}
+                    <p><strong>Adults:</strong> {{ project.description.adults }}</p>
+                {% endif %}
+        
+                {# Show any other fields that aren't in excluded_keys #}
+                {% for key, value in project.description.items %}
+                    {% if key not in excluded_keys and key not in "general eggs immatures adults" %}
+                        <p><strong>{{ key|title }}:</strong> {{ value }}</p>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>No description available.</p>
             {% endif %}
         </div>
+            
         
+        {# Main content sections #}
         <h3>Life Cycle</h3>
         <p>{{ project.life_cycle }}</p>
         
@@ -58,4 +90,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}

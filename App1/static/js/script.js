@@ -2,6 +2,14 @@
 document.addEventListener("DOMContentLoaded", () => {
     const ttsButton = document.getElementById("tts-button");
     const languageSelector = document.getElementById("language-selector");
+    const menuButton = document.querySelector(' .mobile-menu-btn');
+    const menu = document.querySelector('nav');
+
+
+menuButton.addEventListener('click', () => {
+    nav.classList.toggle('active');
+});
+
 
     // Create the Stop Reading button
     const stopButton = document.createElement("button");
