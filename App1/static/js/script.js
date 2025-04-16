@@ -1,15 +1,16 @@
-// Text-to-Speech Functionality
+// Text-to-Speech Functions
 document.addEventListener("DOMContentLoaded", () => {
     const ttsButton = document.getElementById("tts-button");
     const languageSelector = document.getElementById("language-selector");
 
-    // Create the Stop Reading button
+    // Create the Stop Reading button and initially hide it
     const stopButton = document.createElement("button");
     stopButton.id = "stop-button";
     stopButton.textContent = "⏹ Stop Reading";
     stopButton.style.display = "none"; // Initially hidden
     document.getElementById("tts-container").appendChild(stopButton); // Append to the TTS container
 
+    // Initialize speech settings
     let utterance = null;
 
 
@@ -25,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
         utterance = new SpeechSynthesisUtterance(content);
 
         // Set voice and speech properties
-        utterance.lang = languageSelector.value; // Use selected language
+        utterance.lang = languageSelector.value; // Use selected language in base.html
         utterance.rate = 1; // Set speed (1 is normal)
         utterance.pitch = 1; // Set pitch (1 is normal)
 
