@@ -45,23 +45,40 @@
     align-items: center;
     flex-wrap: wrap;
   }
-  
-  .site-title {
-    color: white;
-    font-size: 1.8rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-  }
-  
-  .logo {
-    height: 50px;
-    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
-    transition: transform 0.3s ease;
-  }
-  
-  .logo:hover {
-    transform: rotate(10deg);
-  }
+
+ /* Logo Container */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Logo Styles */
+.site-logo {
+  height: 110px;
+  width: auto;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.site-logo:hover {
+  transform: scale(1.08) rotate(2deg);
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+}
+/* Header adjustments */
+.header-container {
+  display: flex;
+  align-items: center;
+  padding: 15px 0;
+}
+
+.site-title {
+  font-size: 1.8rem;
+  background: linear-gradient(white);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-left: 10px;
+}
   
   nav {
     background-color: #1B4332; /* Darker green */
@@ -185,6 +202,16 @@
       width: 100%;
       text-align: center;
     }
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .site-logo {
+      height: 50px;
+  }
+  .site-title {
+      font-size: 1.4rem;
+  }
+}
 <<<<<<< HEAD
 }
 
