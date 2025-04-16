@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     stopButton.style.display = "none"; // Initially hidden
     document.getElementById("tts-container").appendChild(stopButton); // Append to the TTS container
 
+    // Initialize speech settings
     let utterance = null;
 
 
