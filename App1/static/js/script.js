@@ -2,14 +2,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const ttsButton = document.getElementById("tts-button");
     const languageSelector = document.getElementById("language-selector");
-    const menuButton = document.querySelector(' .mobile-menu-btn');
-    const menu = document.querySelector('nav');
-
-
-menuButton.addEventListener('click', () => {
-    nav.classList.toggle('active');
-});
-
 
     // Create the Stop Reading button
     const stopButton = document.createElement("button");
@@ -20,11 +12,13 @@ menuButton.addEventListener('click', () => {
 
     let utterance = null;
 
+
     ttsButton.addEventListener("click", () => {
         const selectedText = window.getSelection().toString().trim();
+        const mainContent = document.getElementById("main-content");
         const content = selectedText || document.body.innerText; // Use selected text or fallback to full page text
 
-        if (utterance) {
+        if (window.speechSynthesis.speaking) {
             window.speechSynthesis.cancel(); // Cancel any ongoing speech
         }
 
@@ -36,26 +30,24 @@ menuButton.addEventListener('click', () => {
         utterance.pitch = 1; // Set pitch (1 is normal)
 
         // Show stop button while speaking
-        stopButton.style.display = "inline-block";
+        ttsButton.disabled = true;
+        stopButton.style.display = "inline-block";;
+
+        // Event handlers
+        utterance.onend = utterance.onerror = () => {
+            ttsButton.disabled = false;
+            stopButton.style.display = "none";
+
+        };
 
         // Speak the text
         window.speechSynthesis.speak(utterance);
-
-        // Hide stop button when speech ends
-        utterance.onend = () => {
-            stopButton.style.display = "none";
-            utterance = null;
-        };
-
-        utterance.onerror = (e) => {
-            console.error("Speech synthesis error:", e);
-            stopButton.style.display = "none"; // Hide stop button on error
-        };
     });
 
-    // ✅ Fixed: Simplified stopButton logic
+
     stopButton.addEventListener("click", () => {
-        window.speechSynthesis.cancel(); // Stop all speech immediately
-        stopButton.style.display = "none"; // Hide stop button
+        window.speechSynthesis.cancel();
+        ttsButton.disabled = false;
+        stopButton.style.display = "none";
     });
 });

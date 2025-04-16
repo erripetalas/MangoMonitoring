@@ -95,7 +95,11 @@
     display: inline-block;
   }
   
-  nav a:hover,
+  nav a:hover {
+    background-color: var(--secondary-green);
+    transform: translateY(-2px);
+  }
+
   nav a.active {
     background-color: var(--secondary-green);
     transform: translateY(-2px);
@@ -145,6 +149,7 @@
     border-color: var(--accent-green);
   }
   
+
   /* ===== FOOTER ===== */
   footer {
     background-color: #1B4332;
@@ -173,7 +178,7 @@
       align-items: center;
       flex-wrap:row;
       justify-content: center;
-      
+
     }
   
     nav a {
