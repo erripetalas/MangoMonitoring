@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from App1.pests import get_pests_diseases
 from django import template
+from .models import Farm, Pest, Surveillance
+from .forms import FarmForm, PestForm, SurveillanceForm
 
 def home(request):
     """View for the home/landing page"""
@@ -67,4 +69,85 @@ def about(request):
         "title": "About - Mango Monitoring",
         "team_members": team_members
     })
+
+def farm_list(request):
+    farms = Farm.objects.all()
+    return render(request, 'App1/farm_list.html', {'farms': farms})
+
+def farm_create(request):
+    form = FarmForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('farm_list')
+    return render(request, 'App1/form.html', {'form': form})
+
+def farm_update(request, pk):
+    farm = get_object_or_404(Farm, pk=pk)
+    form = FarmForm(request.POST or None, instance=farm)
+    if form.is_valid():
+        form.save()
+        return redirect('farm_list')
+    return render(request, 'App1/form.html', {'form': form})
+
+def farm_delete(request, pk):
+    farm = get_object_or_404(Farm, pk=pk)
+    if request.method == 'POST':
+        farm.delete()
+        return redirect('farm_list')
+    return render(request, 'App1/confirm_delete.html', {'object': farm})
+
+# PEST VIEWS
+def pest_list(request):
+    pests = Pest.objects.all()
+    return render(request, 'App1/pest_list.html', {'pests': pests})
+
+def pest_create(request):
+    form = PestForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('pest_list')
+    return render(request, 'App1/form.html', {'form': form})
+
+def pest_update(request, pk):
+    pest = get_object_or_404(Pest, pk=pk)
+    form = PestForm(request.POST or None, instance=pest)
+    if form.is_valid():
+        form.save()
+        return redirect('pest_list')
+    return render(request, 'App1/form.html', {'form': form})
+
+def pest_delete(request, pk):
+    pest = get_object_or_404(Pest, pk=pk)
+    if request.method == 'POST':
+        pest.delete()
+        return redirect('pest_list')
+    return render(request, 'App1/confirm_delete.html', {'object': pest})
+
+# SURVEILLANCE VIEWS
+def surveillance_list(request):
+    records = Surveillance.objects.select_related('farm', 'pest')
+    return render(request, 'App1/surveillance_list.html', {'records': records})
+
+def surveillance_create(request):
+    form = SurveillanceForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('surveillance_list')
+    return render(request, 'App1/form.html', {'form': form})
+
+def surveillance_update(request, pk):
+    record = get_object_or_404(Surveillance, pk=pk)
+    form = SurveillanceForm(request.POST or None, instance=record)
+    if form.is_valid():
+        form.save()
+        return redirect('surveillance_list')
+    return render(request, 'App1/form.html', {'form': form})
+
+def surveillance_delete(request, pk):
+    record = get_object_or_404(Surveillance, pk=pk)
+    if request.method == 'POST':
+        record.delete()
+        return redirect('surveillance_list')
+    return render(request, 'App1/confirm_delete.html', {'object': record})
+
 
