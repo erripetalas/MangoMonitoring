@@ -1,13 +1,25 @@
 {% extends 'App2/base.html' %}
-{% block title %}Sign Up | My Farms{% endblock %}
+{% block title %}Register | My Farms{% endblock %}
 {% block content %}
 <div class="auth-container">
     <h2>Create an Account</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Sign Up</button>
+        {{ form.non_field_errors }}
+        <div class="form-group">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+        </div>
+        <div class="form-group">
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+        </div>
+        <button type="submit" class="btn">Sign Up</button>
     </form>
-    <p>Already have an account? <a href="{% url 'App2:login' %}">Log in</a></p>
+    <a href="{% url 'App2:login' %}" class="auth-link">Already have an account? Log in</a>
 </div>
 {% endblock %}

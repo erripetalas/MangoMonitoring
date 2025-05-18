@@ -17,8 +17,8 @@
                 <img src="{% static 'images/mango-logo.svg' %}" alt="Mango Monitoring Logo" class="site-logo">
             </a>
             <h1 class="site-title">Mango Monitoring System</h1>
-        </div>
-    </header>
+        </div>    </header>
+    {% block navigation %}{% endblock %}
     <main id="main-content">
         {% block content %}{% endblock %}
     </main>
