@@ -1,0 +1,65 @@
+/* App2 base CSS: import App1 styles for consistency, override as needed */
+@import url('/static/css/base.css');
+
+/* Add App2-specific styles below */
+
+body {
+    background-color: var(--light-bg);
+}
+
+.auth-container {
+    max-width: 400px;
+    margin: 3rem auto;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    padding: 2rem;
+}
+
+.auth-container h2 {
+    color: var(--primary-green);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.auth-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.auth-container input[type="text"],
+.auth-container input[type="password"],
+.auth-container input[type="email"] {
+    padding: 0.7rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.auth-container button {
+    background: var(--secondary-green);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.8rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.auth-container button:hover {
+    background: var(--primary-green);
+}
+
+.auth-link {
+    display: block;
+    text-align: center;
+    margin-top: 1rem;
+    color: var(--secondary-green);
+    text-decoration: none;
+}
+.auth-link:hover {
+    text-decoration: underline;
+}
