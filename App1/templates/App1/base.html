@@ -39,6 +39,11 @@
                        aria-current="{% if request.resolver_match.url_name == 'about' %}page{% endif %}">
                        About
                 </a></li>
+                <li><a href="{% url 'App2:login' %}"
+                       class="{% if request.resolver_match.url_name == 'login' %}active{% endif %}"
+                       aria-current="{% if request.resolver_match.url_name == 'login' %}page{% endif %}">
+                       My Farms
+                </a></li>
             </ul>
         </div>
     </nav>
