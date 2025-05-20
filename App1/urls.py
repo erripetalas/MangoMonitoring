@@ -7,37 +7,34 @@ urlpatterns = [
     # Homepage URL
     path('', views.home, name="index"),
     
-    #project list page URL
+    # Project list page URL
     path("projects", views.project_list, name="projectlist"),
     
-    # Commented out URLs for future use
-    #  path('', views.surveillance_list, name='surveillance_list'),
-
-    # path('farms/', views.farm_list, name='farm_list'),
-    # path('farms/create/', views.farm_create, name='farm_create'),
-    # path('farms/<int:pk>/update/', views.farm_update, name='farm_update'),
-    # path('farms/<int:pk>/delete/', views.farm_delete, name='farm_delete'),
-
-    # path('pests/', views.pest_list, name='pest_list'),
-    # path('pests/create/', views.pest_create, name='pest_create'),
-    # path('pests/<int:pk>/update/', views.pest_update, name='pest_update'),
-    # path('pests/<int:pk>/delete/', views.pest_delete, name='pest_delete'),
-
-    # path('surveillance/create/', views.surveillance_create, name='surveillance_create'),
-    # path('surveillance/<int:pk>/update/', views.surveillance_update, name='surveillance_update'),
-    # path('surveillance/<int:pk>/delete/', views.surveillance_delete, name='surveillance_delete'),
-    
-    
-    
-    
-    
-    
-    # Project details page - uses regex to capture a project_id parameter
-    # The regex (?P<project_id>\d+) captures one or more digits and names it "project_id"
-    # This will match URLs like "/project/1/", "/project/2/", etc.
-    
+    # Project details page - 
     re_path(r'^project/(?P<project_id>\d+)/$', views.project_details, name="projectdetails"),
     
     # About page - matches "/about/"
     path("about/", views.about, name="about"),
+    
+    # Farm CRUD URLs
+    path('farms/', views.FarmListView.as_view(), name='farm_list'),
+    path('farms/<int:pk>/', views.FarmDetailView.as_view(), name='farm_detail'),  # <int:pk> captures the primary key (ID) of the farm as an integer  
+    path('farms/create/', views.FarmCreateView.as_view(), name='farm_create'),
+    path('farms/<int:pk>/update/', views.FarmUpdateView.as_view(), name='farm_update'),
+    path('farms/<int:pk>/delete/', views.FarmDeleteView.as_view(), name='farm_delete'),
+    
+    # Pest CRUD URLs
+    path('pests/', views.PestListView.as_view(), name='pest_list'),
+    path('pests/<int:pk>/', views.PestDetailView.as_view(), name='pest_detail'),
+    path('pests/create/', views.PestCreateView.as_view(), name='pest_create'),
+    path('pests/<int:pk>/update/', views.PestUpdateView.as_view(), name='pest_update'),
+    path('pests/<int:pk>/delete/', views.PestDeleteView.as_view(), name='pest_delete'),
+    
+    # Surveillance CRUD URLs
+    path('surveillance/', views.SurveillanceListView.as_view(), name='surveillance_list'),
+    path('surveillance/<int:pk>/', views.SurveillanceDetailView.as_view(), name='surveillance_detail'),
+    path('surveillance/create/', views.SurveillanceCreateView.as_view(), name='surveillance_create'),
+    path('surveillance/<int:pk>/update/', views.SurveillanceUpdateView.as_view(), name='surveillance_update'),
+    path('surveillance/<int:pk>/delete/', views.SurveillanceDeleteView.as_view(), name='surveillance_delete'),
 ]
+

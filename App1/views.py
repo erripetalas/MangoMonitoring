@@ -1,9 +1,14 @@
-from django.shortcuts import render, redirect#, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
+from django.contrib import messages
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from App1.pests import get_pests_diseases
 from django import template
-# from .models import Farm, Pest, Surveillance
-# from .forms import FarmForm, PestForm, SurveillanceForm
+from .models import Farm, Pest, Surveillance
+from .forms import FarmForm, PestForm, SurveillanceForm
 
 def home(request):
     """View for the home/landing page"""
@@ -70,86 +75,187 @@ def about(request):
         "team_members": team_members
     })
 
+# Farm CRUD Views (Class-based)
+class FarmListView(LoginRequiredMixin, ListView):
+    model = Farm
+    template_name = 'App1/farm_list.html'
+    context_object_name = 'farms'
+    
+    def get_queryset(self):
+        # Only show farms owned by the current user
+        return Farm.objects.filter(owner=self.request.user)
 
+class FarmDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = Farm
+    template_name = 'App1/farm_detail.html'
+    context_object_name = 'farm'
+    
+    def test_func(self):
+        # Check if the user owns this farm
+        farm = self.get_object()
+        return farm.owner == self.request.user
 
-# def farm_list(request):
-#     farms = Farm.objects.all()
-#     return render(request, 'App1/farm_list.html', {'farms': farms})
+class FarmCreateView(LoginRequiredMixin, CreateView):
+    model = Farm
+    form_class = FarmForm
+    template_name = 'App1/farm_form.html'
+    success_url = reverse_lazy('App1:farm_list')
+    
+    def form_valid(self, form):
+        # Set the owner to the current user before saving
+        form.instance.owner = self.request.user
+        messages.success(self.request, 'Farm created successfully!')
+        return super().form_valid(form)
 
-# def farm_create(request):
-#     form = FarmForm(request.POST or None)
-#     if form.is_valid():
-#         form.save()
-#         return redirect('farm_list')
-#     return render(request, 'App1/form.html', {'form': form})
+class FarmUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Farm
+    form_class = FarmForm
+    template_name = 'App1/farm_form.html'
+    success_url = reverse_lazy('App1:farm_list')
+    
+    def test_func(self):
+        # Check if the user owns this farm
+        farm = self.get_object()
+        return farm.owner == self.request.user
+    
+    def form_valid(self, form):
+        messages.success(self.request, 'Farm updated successfully!')
+        return super().form_valid(form)
 
-# def farm_update(request, pk):
-#     farm = get_object_or_404(Farm, pk=pk)
-#     form = FarmForm(request.POST or None, instance=farm)
-#     if form.is_valid():
-#         form.save()
-#         return redirect('farm_list')
-#     return render(request, 'App1/form.html', {'form': form})
+class FarmDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Farm
+    template_name = 'App1/confirm_delete.html'
+    success_url = reverse_lazy('App1:farm_list')
+    context_object_name = 'object'
+    
+    def test_func(self):
+        # Check if the user owns this farm
+        farm = self.get_object()
+        return farm.owner == self.request.user
+    
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Farm deleted successfully!')
+        return super().delete(request, *args, **kwargs)
 
-# def farm_delete(request, pk):
-#     farm = get_object_or_404(Farm, pk=pk)
-#     if request.method == 'POST':
-#         farm.delete()
-#         return redirect('farm_list')
-#     return render(request, 'App1/confirm_delete.html', {'object': farm})
+# Pest CRUD Views (Class-based)
+class PestListView(LoginRequiredMixin, ListView):
+    model = Pest
+    template_name = 'App1/pest_list.html'
+    context_object_name = 'pests'
 
-# # PEST VIEWS
-# def pest_list(request):
-#     pests = Pest.objects.all()
-#     return render(request, 'App1/pest_list.html', {'pests': pests})
+class PestDetailView(LoginRequiredMixin, DetailView):
+    model = Pest
+    template_name = 'App1/pest_detail.html'
+    context_object_name = 'pest'
 
-# def pest_create(request):
-#     form = PestForm(request.POST or None)
-#     if form.is_valid():
-#         form.save()
-#         return redirect('pest_list')
-#     return render(request, 'App1/form.html', {'form': form})
+class PestCreateView(LoginRequiredMixin, CreateView):
+    model = Pest
+    form_class = PestForm
+    template_name = 'App1/pest_form.html'
+    success_url = reverse_lazy('App1:pest_list')
+    
+    def form_valid(self, form):
+        messages.success(self.request, 'Pest created successfully!')
+        return super().form_valid(form)
 
-# def pest_update(request, pk):
-#     pest = get_object_or_404(Pest, pk=pk)
-#     form = PestForm(request.POST or None, instance=pest)
-#     if form.is_valid():
-#         form.save()
-#         return redirect('pest_list')
-#     return render(request, 'App1/form.html', {'form': form})
+class PestUpdateView(LoginRequiredMixin, UpdateView):
+    model = Pest
+    form_class = PestForm
+    template_name = 'App1/pest_form.html'
+    success_url = reverse_lazy('App1:pest_list')
+    
+    def form_valid(self, form):
+        messages.success(self.request, 'Pest updated successfully!')
+        return super().form_valid(form)
 
-# def pest_delete(request, pk):
-#     pest = get_object_or_404(Pest, pk=pk)
-#     if request.method == 'POST':
-#         pest.delete()
-#         return redirect('pest_list')
-#     return render(request, 'App1/confirm_delete.html', {'object': pest})
+class PestDeleteView(LoginRequiredMixin, DeleteView):
+    model = Pest
+    template_name = 'App1/confirm_delete.html'
+    success_url = reverse_lazy('App1:pest_list')
+    context_object_name = 'object'
+    
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Pest deleted successfully!')
+        return super().delete(request, *args, **kwargs)
 
-# # SURVEILLANCE VIEWS
-# def surveillance_list(request):
-#     records = Surveillance.objects.select_related('farm', 'pest')
-#     return render(request, 'App1/surveillance_list.html', {'records': records})
+# Surveillance CRUD Views (Class-based)
+class SurveillanceListView(LoginRequiredMixin, ListView):
+    model = Surveillance
+    template_name = 'App1/surveillance_list.html'
+    context_object_name = 'records'
+    
+    def get_queryset(self):
+        # Only show surveillance records for farms owned by the current user
+        return Surveillance.objects.select_related('farm', 'pest').filter(farm__owner=self.request.user)
 
-# def surveillance_create(request):
-#     form = SurveillanceForm(request.POST or None)
-#     if form.is_valid():
-#         form.save()
-#         return redirect('surveillance_list')
-#     return render(request, 'App1/form.html', {'form': form})
+class SurveillanceDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = Surveillance
+    template_name = 'App1/surveillance_detail.html'
+    context_object_name = 'record'
+    
+    def test_func(self):
+        # Check if the user owns the farm associated with this record
+        record = self.get_object()
+        return record.farm.owner == self.request.user
 
-# def surveillance_update(request, pk):
-#     record = get_object_or_404(Surveillance, pk=pk)
-#     form = SurveillanceForm(request.POST or None, instance=record)
-#     if form.is_valid():
-#         form.save()
-#         return redirect('surveillance_list')
-#     return render(request, 'App1/form.html', {'form': form})
+class SurveillanceCreateView(LoginRequiredMixin, CreateView):
+    model = Surveillance
+    form_class = SurveillanceForm
+    template_name = 'App1/surveillance_form.html'
+    success_url = reverse_lazy('App1:surveillance_list')
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+    
+    def form_valid(self, form):
+        messages.success(self.request, 'Surveillance record created successfully!')
+        return super().form_valid(form)
 
-# def surveillance_delete(request, pk):
-#     record = get_object_or_404(Surveillance, pk=pk)
-#     if request.method == 'POST':
-#         record.delete()
-#         return redirect('surveillance_list')
-#     return render(request, 'App1/confirm_delete.html', {'object': record})
+class SurveillanceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Surveillance
+    form_class = SurveillanceForm
+    template_name = 'App1/surveillance_form.html'
+    success_url = reverse_lazy('App1:surveillance_list')
+    
+    def test_func(self):
+        # Check if the user owns the farm associated with this record
+        record = self.get_object()
+        return record.farm.owner == self.request.user
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+    
+    def form_valid(self, form):
+        messages.success(self.request, 'Surveillance record updated successfully!')
+        return super().form_valid(form)
 
+class SurveillanceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Surveillance
+    template_name = 'App1/confirm_delete.html'
+    success_url = reverse_lazy('App1:surveillance_list')
+    context_object_name = 'object'
+    
+    def test_func(self):
+        # Check if the user owns the farm associated with this record
+        record = self.get_object()
+        return record.farm.owner == self.request.user
+    
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Surveillance record deleted successfully!')
+        return super().delete(request, *args, **kwargs)
 
+"""
+Key changes:
+
+Added LoginRequiredMixin to ensure users must be logged in to access CRUD functionality
+Added UserPassesTestMixin to ensure users can only view/modify their own data
+Used test_func() methods to verify ownership of resources
+Filtered querysets to only show data belonging to the current user
+Added success messages after CRUD operations
+For SurveillanceForm, passed the current user to filter farms in the form
+
+"""
