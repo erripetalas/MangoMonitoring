@@ -1,0 +1,152 @@
+/* App2 base CSS: import App1 styles for consistency, override as needed */
+@import url('/static/css/base.css');
+
+body {
+    background-color: var(--light-bg);
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.auth-container {
+    max-width: 400px;
+    margin: 3rem auto;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    padding: 2rem 2.5rem;
+}
+
+.auth-container h2 {
+    color: var(--primary-green);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.auth-container label {
+    color: var(--text-dark);
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+}
+
+.auth-container input[type="text"],
+.auth-container input[type="password"],
+.auth-container input[type="email"] {
+    padding: 0.7rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+}
+
+.auth-container .btn {
+    background: var(--secondary-green);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.8rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.auth-container .btn:hover {
+    background: var(--primary-green);
+}
+
+.auth-link {
+    display: block;
+    text-align: center;
+    margin-top: 1.2rem;
+    color: var(--secondary-green);
+    text-decoration: none;
+    font-size: 1rem;
+}
+.auth-link:hover {
+    text-decoration: underline;
+}
+
+.auth-container ul {
+    margin: 0.5rem 0 0.5rem 1.2rem;
+    padding: 0;
+    color: var(--text-light);
+    font-size: 0.97rem;
+}
+
+/* Main navigation bar for App2 profile/dashboard */
+.main-navbar {
+    background-color: #184C36;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+    box-sizing: border-box;
+    display: block;
+}
+.main-navbar .nav-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.8rem 0;
+    display: flex;
+    justify-content: center;
+}
+.main-navbar ul {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+.main-navbar a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+.main-navbar a.active,
+.main-navbar a:hover {
+    background-color: var(--secondary-green);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* Profile content styling */
+#main-content {
+    margin-top: 20px;
+}
+
+.profile-content {
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.profile-content h2 {
+    color: var(--primary-green);
+    font-weight: 600;
+    margin-bottom: 2.5rem;
+    margin-top: 2.5rem;
+}
+
+.profile-content .btn {
+    margin-top: 2rem;
+}

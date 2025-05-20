@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'App1.apps.MangosurveillanceConfig', # app name refrencing from App1/apps.py file
+    'App2.apps.App2Config', # app name referencing from App2/apps.py file
 ]
 
 MIDDLEWARE = [
@@ -119,6 +120,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'App1/static'),
+    os.path.join(BASE_DIR, 'App2/static'),
 ]
 
 # Default primary key field type
