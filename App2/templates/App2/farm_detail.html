@@ -1,0 +1,36 @@
+{% extends 'app2/base.html' %}
+{% block title %}Farm Details{% endblock %}
+{% block content %}
+<h2>{{ farm.name }}</h2>
+<p><strong>Location:</strong> {{ farm.location }}</p>
+<p><strong>Total Plants:</strong> {{ farm.total_plants }}</p>
+<p><strong>Stocking Rate:</strong> {{ farm.stocking_rate }}</p>
+
+<h3>Plant Locations</h3>
+
+<ul>
+    {% for location in farm.locations.all %}
+        <li>
+            {{ location.name }} – {{ location.number_of_plants }} plants
+        </li>
+    {% empty %}
+        <li>No plant locations added yet.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'App2:location-create' farm.pk %}" class="btn btn-sm btn-primary">+ Add Location</a>
+
+
+<h3>Surveillance Records</h3>
+<ul>
+    {% for record in farm.surveillance_set.all %}
+        <li>{{ record.date_observed }} - {{ record.pest.name }} ({{ record.severity }})</li>
+    {% empty %}
+        <li>No surveillance data yet.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'App2:farm-update' farm.pk %}">Edit Farm</a> |
+<a href="{% url 'App2:farm-delete' farm.pk %}">Delete</a> |
+<a href="{% url 'App2:farm-list' %}">Back to List</a>
+{% endblock %}

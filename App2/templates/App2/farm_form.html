@@ -1,0 +1,11 @@
+{% extends 'app2/base.html' %}
+{% block title %}{{ view.object|default:'Create' }} Farm{% endblock %}
+{% block content %}
+<h2>{{ view.object|default:'Create' }} Farm</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+<a href="{% url 'App2:farm-list' %}">← Back to Farms</a>
+{% endblock %}

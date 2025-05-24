@@ -1,0 +1,11 @@
+{% extends 'app2/base.html' %}
+{% block title %}Delete Farm{% endblock %}
+{% block content %}
+<h2>Confirm Deletion</h2>
+<p>Are you sure you want to delete the farm "<strong>{{ farm.name }}</strong>"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, delete</button>
+    <a href="{% url 'App2:farm-detail' farm.pk %}">Cancel</a>
+</form>
+{% endblock %}

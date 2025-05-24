@@ -100,6 +100,10 @@ class LocationCreateView(LoginRequiredMixin, CreateView):
     def dispatch(self, request, *args, **kwargs):
         self.farm = get_object_or_404(Farm, pk=kwargs['farm_pk'], owner=request.user)
         return super().dispatch(request, *args, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['farm'] = self.farm  #  This makes farm.pk available in the template
+        return context
     
     def form_valid(self, form):
         form.instance.farm = self.farm
@@ -126,6 +130,14 @@ class PestCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
+class PestDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Pest
+    template_name = 'app2/pest_confirm_delete.html'
+    success_url = reverse_lazy('App2:pest-list')
+
+    def test_func(self):
+        pest = self.get_object()
+        return pest.created_by == self.request.user
 
 #SURVEILLANCE VIEWS
 class SurveillanceListView(LoginRequiredMixin, ListView):

@@ -1,0 +1,16 @@
+{% extends 'app2/base.html' %}
+{% block title %}My Pests{% endblock %}
+{% block content %}
+<h2>My Pest Records</h2>
+<a href="{% url 'App2:pest-create' %}" class="btn btn-primary mb-3">+ Add Pest</a>
+<ul>
+    {% for pest in pests %}
+        <li>
+            <strong>{{ pest.name }}</strong> – {{ pest.description|truncatewords:10 }}
+            <a href="{% url 'App2:pest-delete' pest.id %}" class="text-danger">Delete</a>
+        </li>
+    {% empty %}
+        <li>No pest records found.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
