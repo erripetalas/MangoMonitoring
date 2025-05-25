@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {% extends 'app2/base.html' %}
 {% block title %}Surveillance Records{% endblock %}
 
@@ -24,80 +23,26 @@
 <ul>
     {% for record in surveillance_records %}
         <li>
-    {{ record.date_observed }} –
-    <strong>{{ record.pest.name }}</strong>
-    <span 
-        {% if record.severity == 1 %}
-            style="color:green;"
-        {% elif record.severity == 2 %}
-            style="color:orange;"
-        {% elif record.severity == 3 %}
-            style="color:orangered;"
-        {% else %}
-            style="color:red;"
-        {% endif %}
-    >
-        ({{ record.get_severity_display }})
-    </span>
-    –
-    <a href="{% url 'App2:surveillance-detail' record.pk %}">View</a>
-</li>
-
+            {{ record.date_observed }} –
+            <strong>{{ record.pest.name }}</strong>
+            <span 
+                {% if record.severity == 1 %}
+                    style="color:green;"
+                {% elif record.severity == 2 %}
+                    style="color:orange;"
+                {% elif record.severity == 3 %}
+                    style="color:orangered;"
+                {% else %}
+                    style="color:red;"
+                {% endif %}
+            >
+                ({{ record.get_severity_display }})
+            </span>
+            –
+            <a href="{% url 'App2:surveillance-detail' record.pk %}">View</a>
+        </li>
     {% empty %}
         <li>No surveillance records found for the selected filter.</li>
     {% endfor %}
 </ul>
-=======
-{% extends 'App2/base.html' %}
-{% block title %}Surveillance Records{% endblock %}
-{% block content %}
-<div class="form-card">
-  <h2>Surveillance Records</h2>
-
-  <form method="get" class="row g-3 mb-4">
-    <div class="col-md-3">{{ form.farm.label_tag }}{{ form.farm }}</div>
-    <div class="col-md-3">{{ form.pest.label_tag }}{{ form.pest }}</div>
-    <div class="col-md-2">{{ form.severity.label_tag }}{{ form.severity }}</div>
-    <div class="col-md-2">{{ form.start_date.label_tag }}{{ form.start_date }}</div>
-    <div class="col-md-2">{{ form.end_date.label_tag }}{{ form.end_date }}</div>
-    <div class="col-md-12">
-      <button type="submit" class="btn btn-primary">Apply Filters</button>
-      <a href="{% url 'App2:surveillance-create' %}" class="btn btn-success float-end">+ Add Record</a>
-    </div>
-  </form>
-
-  {% if surveillance_records %}
-  <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>Farm</th>
-        <th>Pest</th>
-        <th>Severity</th>
-        <th>Count</th>
-        <th>Date</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for record in surveillance_records %}
-      <tr>
-        <td>{{ record.farm.name }}</td>
-        <td>{{ record.pest.name }}</td>
-        <td>{{ record.severity }}</td>
-        <td>{{ record.pest_count }}</td>
-        <td>{{ record.date_observed }}</td>
-        <td>
-          <a href="{% url 'App2:surveillance-detail' record.pk %}" class="btn btn-sm btn-outline-primary">View</a>
-          <a href="{% url 'App2:surveillance-update' record.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
-          <a href="{% url 'App2:surveillance-delete' record.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% else %}
-    <p>No records found for your filter criteria.</p>
-  {% endif %}
-</div>
->>>>>>> 6ec3f6c96812ae1dc9e3de544f2d821ccef509d9
 {% endblock %}

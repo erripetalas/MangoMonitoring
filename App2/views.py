@@ -5,12 +5,10 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy, reverse
-from django.contrib import messages
 from .models import Farm, PlantLocation, Surveillance, Pest
 from .forms import FarmForm, PlantLocationForm, SurveillanceForm, PestForm, SurveillanceFilterForm
 
-# ========== AUTHENTICATION VIEWS ==========
-
+# AUTHENTICATION VIEWS
 def logout_view(request):
     logout(request)
     return redirect('App2:login')
@@ -39,15 +37,13 @@ def register_view(request):
 
 @login_required
 def profile_view(request):
-    """Simple dashboard showing user's farms"""
     context = {
         'farms': request.user.farms.all()[:5],
         'farms_count': request.user.farms.count(),
     }
     return render(request, 'App2/profile.html', context)
 
-#OWNERSHIP CHECK MIXIN 
-
+# OWNER Mixin
 class OwnerMixin(UserPassesTestMixin):
     def test_func(self):
         obj = self.get_object()
@@ -57,12 +53,12 @@ class OwnerMixin(UserPassesTestMixin):
             return obj.farm.owner == self.request.user
         return False
 
-#FARM VIEWS 
+# FARM VIEWS
 class FarmListView(LoginRequiredMixin, ListView):
     model = Farm
     template_name = 'app2/farm_list.html'
     context_object_name = 'farms'
-    
+
     def get_queryset(self):
         return Farm.objects.filter(owner=self.request.user)
 
@@ -71,7 +67,7 @@ class FarmCreateView(LoginRequiredMixin, CreateView):
     form_class = FarmForm
     template_name = 'app2/farm_form.html'
     success_url = reverse_lazy('App2:farm-list')
-    
+
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
@@ -91,33 +87,34 @@ class FarmDeleteView(LoginRequiredMixin, OwnerMixin, DeleteView):
     template_name = 'app2/farm_confirm_delete.html'
     success_url = reverse_lazy('App2:farm-list')
 
-#PLANT LOCATION VIEWS
+# LOCATION VIEWS
 class LocationCreateView(LoginRequiredMixin, CreateView):
     model = PlantLocation
     form_class = PlantLocationForm
     template_name = 'app2/location_form.html'
-    
+
     def dispatch(self, request, *args, **kwargs):
         self.farm = get_object_or_404(Farm, pk=kwargs['farm_pk'], owner=request.user)
         return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['farm'] = self.farm  #  This makes farm.pk available in the template
+        context['farm'] = self.farm
         return context
-    
+
     def form_valid(self, form):
         form.instance.farm = self.farm
         return super().form_valid(form)
-    
+
     def get_success_url(self):
         return reverse('App2:farm-detail', kwargs={'pk': self.farm.pk})
 
-#PEST VIEWS 
+# PEST VIEWS
 class PestListView(LoginRequiredMixin, ListView):
     model = Pest
     template_name = 'app2/pest_list.html'
     context_object_name = 'pests'
-    
+
     def get_queryset(self):
         return Pest.objects.filter(created_by=self.request.user)
 
@@ -126,10 +123,11 @@ class PestCreateView(LoginRequiredMixin, CreateView):
     form_class = PestForm
     template_name = 'app2/pest_form.html'
     success_url = reverse_lazy('App2:pest-list')
-    
+
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
+
 class PestDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Pest
     template_name = 'app2/pest_confirm_delete.html'
@@ -139,58 +137,45 @@ class PestDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         pest = self.get_object()
         return pest.created_by == self.request.user
 
-#SURVEILLANCE VIEWS
+# SURVEILLANCE VIEWS
 class SurveillanceListView(LoginRequiredMixin, ListView):
     model = Surveillance
     template_name = 'app2/surveillance_list.html'
     context_object_name = 'surveillance_records'
-    
+
     def get_queryset(self):
-<<<<<<< HEAD
-        qs = Surveillance.objects.filter(farm__owner=self.request.user)
-        severity = self.request.GET.get('severity')
-        if severity:
-            qs = qs.filter(severity=severity)
-=======
         qs = Surveillance.objects.filter(farm__owner=self.request.user).select_related('farm', 'pest')
         self.filter_form = SurveillanceFilterForm(self.request.GET, user=self.request.user)
         if self.filter_form.is_valid():
             cd = self.filter_form.cleaned_data
-            if cd['pest']:
+            if cd.get('pest'):
                 qs = qs.filter(pest=cd['pest'])
-            if cd['farm']:
+            if cd.get('farm'):
                 qs = qs.filter(farm=cd['farm'])
-            if cd['severity']:
+            if cd.get('severity'):
                 qs = qs.filter(severity=cd['severity'])
-            if cd['start_date']:
+            if cd.get('start_date'):
                 qs = qs.filter(date_observed__gte=cd['start_date'])
-            if cd['end_date']:
+            if cd.get('end_date'):
                 qs = qs.filter(date_observed__lte=cd['end_date'])
->>>>>>> 6ec3f6c96812ae1dc9e3de544f2d821ccef509d9
         return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-<<<<<<< HEAD
-        context['severity_filter'] = self.request.GET.get('severity')
-        return context
-=======
         context['form'] = self.filter_form
         return context
-        
->>>>>>> 6ec3f6c96812ae1dc9e3de544f2d821ccef509d9
 
 class SurveillanceCreateView(LoginRequiredMixin, CreateView):
     model = Surveillance
     form_class = SurveillanceForm
     template_name = 'app2/surveillance_form.html'
     success_url = reverse_lazy('App2:surveillance-list')
-    
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
-    
+
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
@@ -198,21 +183,19 @@ class SurveillanceCreateView(LoginRequiredMixin, CreateView):
 class SurveillanceDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Surveillance
     template_name = 'app2/surveillance_detail.html'
-    
+
     def test_func(self):
-        surveillance = self.get_object()
-        return surveillance.farm.owner == self.request.user
+        return self.get_object().farm.owner == self.request.user
 
 class SurveillanceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Surveillance
     form_class = SurveillanceForm
     template_name = 'app2/surveillance_form.html'
     success_url = reverse_lazy('App2:surveillance-list')
-    
+
     def test_func(self):
-        surveillance = self.get_object()
-        return surveillance.farm.owner == self.request.user
-    
+        return self.get_object().farm.owner == self.request.user
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['user'] = self.request.user
@@ -222,7 +205,6 @@ class SurveillanceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView
     model = Surveillance
     template_name = 'app2/surveillance_confirm_delete.html'
     success_url = reverse_lazy('App2:surveillance-list')
-    
+
     def test_func(self):
-        surveillance = self.get_object()
-        return surveillance.farm.owner == self.request.user
+        return self.get_object().farm.owner == self.request.user
