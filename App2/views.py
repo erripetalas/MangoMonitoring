@@ -146,7 +146,27 @@ class SurveillanceListView(LoginRequiredMixin, ListView):
     context_object_name = 'surveillance_records'
     
     def get_queryset(self):
-        return Surveillance.objects.filter(farm__owner=self.request.user)
+        qs = Surveillance.objects.filter(farm__owner=self.request.user).select_related('farm', 'pest')
+        self.filter_form = SurveillanceFilterForm(self.request.GET, user=self.request.user)
+        if self.filter_form.is_valid():
+            cd = self.filter_form.cleaned_data
+            if cd['pest']:
+                qs = qs.filter(pest=cd['pest'])
+            if cd['farm']:
+                qs = qs.filter(farm=cd['farm'])
+            if cd['severity']:
+                qs = qs.filter(severity=cd['severity'])
+            if cd['start_date']:
+                qs = qs.filter(date_observed__gte=cd['start_date'])
+            if cd['end_date']:
+                qs = qs.filter(date_observed__lte=cd['end_date'])
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.filter_form
+        return context
+        
 
 class SurveillanceCreateView(LoginRequiredMixin, CreateView):
     model = Surveillance
