@@ -1,14 +1,14 @@
 {% extends 'app2/base.html' %}
 {% block title %}Delete Plant Location{% endblock %}
 {% block content %}
-<div class="container mt-4">
+<div class="form-card">
     <h2>Confirm Deletion</h2>
     <p>Are you sure you want to delete plant location "<strong>{{ plantlocation.name }}</strong>" from farm "{{ plantlocation.farm.name }}"?</p>
-
+    
     <form method="post">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Yes, delete</button>
-        <a href="{% url 'App2:farm-detail' plantlocation.farm.pk %}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn-primary">Yes, delete</button>
+        <a href="{% url 'App2:farm-detail' plantlocation.farm.pk %}" class="btn">Cancel</a>
     </form>
 </div>
 {% endblock %}
