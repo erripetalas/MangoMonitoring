@@ -91,4 +91,4 @@ class SurveillanceFilterForm(forms.Form):
         if user:
             self.fields['farm'].queryset = Farm.objects.filter(owner=user)
             self.fields['pest'].queryset = Pest.objects.filter(reference_pest_id__in=[1, 2, 3, 4, 5, 6, 7])
-            self.fields['pest'].label = mark_safe('Pest <a href="/myfarms/pests/" target="_blank">(see details)</a>')
+            self.fields['pest'].label = mark_safe('Pest <a href="http://127.0.0.1:8000/projects" target="_blank">(see details)</a>')
