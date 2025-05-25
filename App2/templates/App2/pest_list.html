@@ -1,6 +1,8 @@
 {% extends 'app2/base.html' %}
 {% block title %}My Pests{% endblock %}
 {% block content %}
+<a href="{% url 'App2:profile' %}" class="btn btn-secondary mb-3">← Back to Dashboard</a>
+
 <h2>My Pest Records</h2>
 <a href="{% url 'App2:pest-create' %}" class="btn btn-primary mb-3">+ Add Pest</a>
 <ul>

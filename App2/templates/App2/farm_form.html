@@ -1,6 +1,7 @@
 {% extends 'app2/base.html' %}
 {% block title %}{{ view.object|default:'Create' }} Farm{% endblock %}
 {% block content %}
+<a href="{% url 'App2:profile' %}" class="btn btn-secondary mb-3">← Back to Dashboard</a>
 <div class="form-card">
 <h2>{{ view.object|default:'Create' }} Farm</h2>
 <form method="post">
