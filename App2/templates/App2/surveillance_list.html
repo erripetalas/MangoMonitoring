@@ -2,6 +2,8 @@
 {% block title %}Surveillance Records{% endblock %}
 
 {% block content %}
+<a href="{% url 'App2:profile' %}" class="btn btn-secondary mb-3">← Back to Dashboard</a>
+
 <h2>Surveillance Records</h2>
 
 <!-- Filter Form -->
@@ -23,25 +25,24 @@
 <ul>
     {% for record in surveillance_records %}
         <li>
-    {{ record.date_observed }} –
-    <strong>{{ record.pest.name }}</strong>
-    <span 
-        {% if record.severity == 1 %}
-            style="color:green;"
-        {% elif record.severity == 2 %}
-            style="color:orange;"
-        {% elif record.severity == 3 %}
-            style="color:orangered;"
-        {% else %}
-            style="color:red;"
-        {% endif %}
-    >
-        ({{ record.get_severity_display }})
-    </span>
-    –
-    <a href="{% url 'App2:surveillance-detail' record.pk %}">View</a>
-</li>
-
+            {{ record.date_observed }} –
+            <strong>{{ record.pest.name }}</strong>
+            <span 
+                {% if record.severity == 1 %}
+                    style="color:green;"
+                {% elif record.severity == 2 %}
+                    style="color:orange;"
+                {% elif record.severity == 3 %}
+                    style="color:orangered;"
+                {% else %}
+                    style="color:red;"
+                {% endif %}
+            >
+                ({{ record.get_severity_display }})
+            </span>
+            –
+            <a href="{% url 'App2:surveillance-detail' record.pk %}">View</a>
+        </li>
     {% empty %}
         <li>No surveillance records found for the selected filter.</li>
     {% endfor %}

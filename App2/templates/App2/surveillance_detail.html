@@ -1,6 +1,8 @@
 {% extends 'app2/base.html' %}
 {% block title %}Surveillance Details{% endblock %}
 {% block content %}
+<a href="{% url 'App2:profile' %}" class="btn btn-secondary mb-3">← Back to Dashboard</a>
+
 <h2>Surveillance on {{ surveillance.date_observed }}</h2>
 
 <p><strong>Farm:</strong> {{ surveillance.farm.name }}</p>
