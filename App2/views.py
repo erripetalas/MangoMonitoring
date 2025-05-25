@@ -5,7 +5,6 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy, reverse
-from django.contrib import messages
 from .models import Farm, PlantLocation, Surveillance, Pest
 from .forms import FarmForm, PlantLocationForm, SurveillanceForm, PestForm, SurveillanceFilterForm
 
@@ -146,39 +145,16 @@ class SurveillanceListView(LoginRequiredMixin, ListView):
     context_object_name = 'surveillance_records'
     
     def get_queryset(self):
-<<<<<<< HEAD
         qs = Surveillance.objects.filter(farm__owner=self.request.user)
         severity = self.request.GET.get('severity')
         if severity:
             qs = qs.filter(severity=severity)
-=======
-        qs = Surveillance.objects.filter(farm__owner=self.request.user).select_related('farm', 'pest')
-        self.filter_form = SurveillanceFilterForm(self.request.GET, user=self.request.user)
-        if self.filter_form.is_valid():
-            cd = self.filter_form.cleaned_data
-            if cd['pest']:
-                qs = qs.filter(pest=cd['pest'])
-            if cd['farm']:
-                qs = qs.filter(farm=cd['farm'])
-            if cd['severity']:
-                qs = qs.filter(severity=cd['severity'])
-            if cd['start_date']:
-                qs = qs.filter(date_observed__gte=cd['start_date'])
-            if cd['end_date']:
-                qs = qs.filter(date_observed__lte=cd['end_date'])
->>>>>>> 6ec3f6c96812ae1dc9e3de544f2d821ccef509d9
         return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-<<<<<<< HEAD
         context['severity_filter'] = self.request.GET.get('severity')
         return context
-=======
-        context['form'] = self.filter_form
-        return context
-        
->>>>>>> 6ec3f6c96812ae1dc9e3de544f2d821ccef509d9
 
 class SurveillanceCreateView(LoginRequiredMixin, CreateView):
     model = Surveillance
