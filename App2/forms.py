@@ -1,5 +1,6 @@
 from django import forms
 from .models import Farm, PlantLocation, Surveillance, Pest
+from django.utils.safestring import mark_safe
 
 class FarmForm(forms.ModelForm):
     class Meta:
@@ -89,4 +90,5 @@ class SurveillanceFilterForm(forms.Form):
         super().__init__(*args, **kwargs)
         if user:
             self.fields['farm'].queryset = Farm.objects.filter(owner=user)
-            self.fields['pest'].queryset = Pest.objects.filter(created_by=user)
+            self.fields['pest'].queryset = Pest.objects.filter(reference_pest_id__in=[1, 2, 3, 4, 5, 6, 7])
+            self.fields['pest'].label = mark_safe('Pest <a href="/myfarms/pests/" target="_blank">(see details)</a>')
