@@ -146,7 +146,16 @@ class SurveillanceListView(LoginRequiredMixin, ListView):
     context_object_name = 'surveillance_records'
     
     def get_queryset(self):
-        return Surveillance.objects.filter(farm__owner=self.request.user)
+        qs = Surveillance.objects.filter(farm__owner=self.request.user)
+        severity = self.request.GET.get('severity')
+        if severity:
+            qs = qs.filter(severity=severity)
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['severity_filter'] = self.request.GET.get('severity')
+        return context
 
 class SurveillanceCreateView(LoginRequiredMixin, CreateView):
     model = Surveillance

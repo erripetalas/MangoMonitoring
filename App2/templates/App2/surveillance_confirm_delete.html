@@ -1,0 +1,12 @@
+{% extends 'app2/base.html' %}
+{% block title %}Delete Surveillance Record{% endblock %}
+{% block content %}
+<h2>Confirm Deletion</h2>
+<p>Are you sure you want to delete this surveillance record from <strong>{{ object.date_observed }}</strong> for <strong>{{ object.pest.name }}</strong>?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a href="{% url 'App2:surveillance-detail' object.pk %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

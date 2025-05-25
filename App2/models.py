@@ -64,8 +64,7 @@ class Surveillance(models.Model):
         ('stem', 'Stem/Branches'),
         ('roots', 'Roots'),
         ('whole', 'Whole Plant'),
-    ]
-    
+    ] 
     # Core fields
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE, related_name='surveillance_records')
     location = models.ForeignKey(PlantLocation, on_delete=models.SET_NULL, null=True,related_name='surveillance_records')

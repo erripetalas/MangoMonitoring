@@ -1,0 +1,20 @@
+{% extends 'app2/base.html' %}
+{% block title %}Surveillance Details{% endblock %}
+{% block content %}
+<h2>Surveillance on {{ surveillance.date_observed }}</h2>
+
+<p><strong>Farm:</strong> {{ surveillance.farm.name }}</p>
+<p><strong>Location:</strong> {{ surveillance.location.name }}</p>
+<p><strong>Time:</strong> {{ surveillance.time_observed }}</p>
+<p><strong>Pest:</strong> {{ surveillance.pest.name }}</p>
+<p><strong>Severity:</strong> {{ surveillance.get_severity_display }}</p>
+<p><strong>Pest Count:</strong> {{ surveillance.pest_count }}</p>
+<p><strong>Plants Inspected:</strong> {{ surveillance.plants_inspected }}</p>
+<p><strong>Plant Part:</strong> {{ surveillance.get_plant_part_display }}</p>
+<p><strong>Weather:</strong> {{ surveillance.weather_conditions }}</p>
+<p><strong>Notes:</strong> {{ surveillance.notes }}</p>
+
+<a href="{% url 'App2:surveillance-update' surveillance.pk %}" class="btn btn-primary">Edit</a>
+<a href="{% url 'App2:surveillance-delete' surveillance.pk %}" class="btn btn-danger">Delete</a>
+<a href="{% url 'App2:surveillance-list' %}" class="btn btn-secondary">Back to List</a>
+{% endblock %}
