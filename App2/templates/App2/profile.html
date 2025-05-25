@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-</head>
-<body>
 {% extends 'App2/base.html' %}
 {% block title %}Profile | My Farms{% endblock %}
+
 {% block navigation %}
 <nav aria-label="Main navigation" class="main-navbar">
     <div class="nav-container">
@@ -20,11 +13,71 @@
     </div>
 </nav>
 {% endblock %}
+
 {% block content %}
 <div class="main-content profile-content">
-    <h2>Welcome, {{ user.username }}!</h2>
-    <a href="{% url 'App2:logout' %}" class="btn">Logout</a>
+    <div class="dashboard-header">
+        <h2>Welcome, {{ user.username }}!</h2>
+        <a href="{% url 'App2:logout' %}" class="btn btn-secondary">Logout</a>
+    </div>
+    
+    <div class="dashboard-stats">
+        <div class="stat-card">
+            <h3>{{ farms_count }}</h3>
+            <p>Total Farms</p>
+        </div>
+    </div>
+
+    <div class="dashboard-section">
+        <div class="section-header">
+            <h3>My Farms</h3>
+            <div class="action-buttons">
+                <a href="{% url 'App2:farm-create' %}" class="btn btn-primary">Add New Farm</a>
+                <a href="{% url 'App2:farm-list' %}" class="btn btn-outline">View All Farms</a>
+            </div>
+        </div>
+        
+        {% if farms %}
+            <div class="farms-grid">
+                {% for farm in farms %}
+                    <div class="farm-card">
+                        <h4>{{ farm.name }}</h4>
+                        <p><strong>Location:</strong> {{ farm.location }}</p>
+                        <p><strong>Plants:</strong> {{ farm.total_plants }}</p>
+                        <p><strong>Size:</strong> {{ farm.farm_size }} hectares</p>
+                        <div class="farm-actions">
+                            <a href="{% url 'App2:farm-detail' farm.pk %}" class="btn btn-sm">View</a>
+                            <a href="{% url 'App2:farm-update' farm.pk %}" class="btn btn-sm">Edit</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if farms_count > 5 %}
+                <p class="text-center">
+                    <a href="{% url 'App2:farm-list' %}">View all {{ farms_count }} farms →</a>
+                </p>
+            {% endif %}
+        {% else %}
+            <div class="empty-state">
+                <p>You haven't created any farms yet.</p>
+                <a href="{% url 'App2:farm-create' %}" class="btn btn-primary">Create Your First Farm</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Quick Actions Section -->
+    <div class="dashboard-section">
+        <h3>Quick Actions</h3>
+        <div class="quick-actions">
+            <a href="{% url 'App2:surveillance-list' %}" class="action-card">
+                <h4>Surveillance Records</h4>
+                <p>View and manage pest surveillance</p>
+            </a>
+            <a href="{% url 'App2:pest-list' %}" class="action-card">
+                <h4>Pest Management</h4>
+                <p>Manage identified pests</p>
+            </a>
+        </div>
+    </div>
 </div>
 {% endblock %}
-</body>
-</html>

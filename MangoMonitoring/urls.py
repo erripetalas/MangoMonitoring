@@ -25,5 +25,5 @@ urlpatterns = [
     path('about', views.about, name='about'), # about page
     # All URLs defined in App1.urls will be accessible from the root URL
     path('', include('App1.urls')),
-    path('myfarms/', include(('App2.urls', 'App2'), namespace='App2')),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('myfarms/', include('App2.urls', namespace='App2')),
+]
