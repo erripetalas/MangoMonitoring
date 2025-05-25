@@ -42,12 +42,12 @@ class SurveillanceForm(forms.ModelForm):
             'pest_count', 'notes'
         ]
         widgets = {
-            'farm': forms.Select(attrs={'class': 'form-control'}),
-            'location': forms.Select(attrs={'class': 'form-control'}),
+            'farm': forms.TextInput(attrs={'class': 'form-control'}),
+            'location': forms.TextInput(attrs={'class': 'form-control'}),
             'date_observed': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'time_observed': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
             'plants_inspected': forms.NumberInput(attrs={'class': 'form-control', 'min': '1'}),
-            'plant_part': forms.Select(attrs={'class': 'form-control'}),
+            'plant_part': forms.TextInput(attrs={'class': 'form-control'}),
             'pest': forms.Select(attrs={'class': 'form-control'}),
             'severity': forms.Select(attrs={'class': 'form-control'}),
             'pest_count': forms.NumberInput(attrs={'class': 'form-control', 'min': '0'}),
