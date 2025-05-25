@@ -1,19 +1,23 @@
 {% extends 'App2/base.html' %}
 {% block title %}My Farms{% endblock %}
 {% block content %}
-<h2>My Farms</h2>
-<a href="{% url 'App2:farm-create' %}" class="btn">Add New Farm</a>
-<ul>
-    {% for farm in farms %}
-        <li>
-            <strong>{{ farm.name }}</strong> – {{ farm.location }}
-            <br>
-            <a href="{% url 'App2:farm-detail' farm.pk %}">View</a> |
-            <a href="{% url 'App2:farm-update' farm.pk %}">Edit</a> |
-            <a href="{% url 'App2:farm-delete' farm.pk %}">Delete</a>
-        </li>
-    {% empty %}
-        <li>No farms yet. <a href="{% url 'App2:farm-create' %}">Create one now</a>.</li>
-    {% endfor %}
-</ul>
+<div class="form-card">
+    <h2>My Farms</h2>
+    <a href="{% url 'App2:farm-create' %}" class="btn-primary">+ Add New Farm</a>
+    <div class="farm-list">
+        {% for farm in farms %}
+            <div class="card">
+                <h3>{{ farm.name }}</h3>
+                <p><strong>Location:</strong> {{ farm.location }}</p>
+                <div class="btn-group">
+                    <a href="{% url 'App2:farm-detail' farm.pk %}" class="btn">View</a>
+                    <a href="{% url 'App2:farm-update' farm.pk %}" class="btn">Edit</a>
+                    <a href="{% url 'App2:farm-delete' farm.pk %}" class="btn">Delete</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>No farms yet. <a href="{% url 'App2:farm-create' %}">Create one now</a>.</p>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

@@ -1,14 +1,14 @@
 {% extends 'app2/base.html' %}
 {% block title %}{{ view.object|default:'Add' }} Plant Location{% endblock %}
 {% block content %}
-<div class="container mt-4">
+<div class="form-card">
     <h2>{{ view.object|default:'Add' }} Plant Location for "{{ farm.name }}"</h2>
-
+    
     <form method="post" novalidate>
         {% csrf_token %}
         {% for field in form %}
-            <div class="mb-3">
-                <label class="form-label">{{ field.label_tag }}</label>
+            <div class="form-group">
+                <label>{{ field.label_tag }}</label>
                 {{ field }}
                 {% if field.help_text %}
                     <div class="form-text">{{ field.help_text }}</div>
@@ -18,8 +18,8 @@
                 {% endif %}
             </div>
         {% endfor %}
-        <button type="submit" class="btn btn-success">Save</button>
-        <a href="{% url 'App2:farm-detail' farm.pk %}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn-primary">Save</button>
+        <a href="{% url 'App2:farm-detail' farm.pk %}" class="btn">Cancel</a>
     </form>
 </div>
 {% endblock %}
