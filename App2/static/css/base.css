@@ -77,19 +77,63 @@ header {
     outline: none;
 }
 
-.btn-primary {
-    background-color: var(--secondary-green);
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border: none;
+form.row.g-3 .form-control {
     border-radius: 6px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
+    box-shadow: none;
 }
 
-.btn-primary:hover {
+.btn {
+    border-radius: 6px;
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.btn-primary {
     background-color: var(--primary-green);
+    border: none;
+    color: white;
+}
+
+.btn-success {
+    background-color: var(--secondary-green);
+    border: none;
+    color: white;
+}
+
+.btn-outline-primary,
+.btn-outline-secondary,
+.btn-outline-danger {
+    border: 1px solid;
+    background: transparent;
+    padding: 0.4rem 0.9rem;
+}
+
+.btn-outline-primary {
+    color: var(--primary-green);
+    border-color: var(--primary-green);
+}
+
+.btn-outline-secondary {
+    color: var(--text-medium);
+    border-color: var(--text-medium);
+}
+
+.btn-outline-danger {
+    color: #e74c3c;
+    border-color: #e74c3c;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-secondary:hover,
+.btn-outline-danger:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+}
+
+.float-end {
+    float: right;
 }
 
 .auth-container label {
@@ -144,6 +188,29 @@ header {
     color: var(--text-light);
     font-size: 0.97rem;
 }
+
+table.table {
+    border-collapse: collapse;
+    width: 100%;
+    background: white;
+}
+
+.table thead {
+    background-color: var(--primary-green);
+    color: white;
+}
+
+.table th,
+.table td {
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+    border: 1px solid var(--border-color);
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: var(--light-bg);
+}
+
 
 /* Main navigation bar for App2 profile/dashboard */
 .main-navbar {

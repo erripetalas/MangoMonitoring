@@ -73,3 +73,21 @@ class SurveillanceForm(forms.ModelForm):
                 self.fields['location'].queryset = self.instance.farm.locations.all()
             else:
                 self.fields['location'].queryset = PlantLocation.objects.none()
+
+class SurveillanceFilterForm(forms.Form):
+    pest = forms.ModelChoiceField(queryset=Pest.objects.none(), required=False, widget=forms.Select(attrs={'class': 'form-control'}))
+    farm = forms.ModelChoiceField(queryset=Farm.objects.none(), required=False, widget=forms.Select(attrs={'class': 'form-control'}))
+    severity = forms.ChoiceField(
+        choices=[('', 'All'), ('Low', 'Low'), ('Medium', 'Medium'), ('High', 'High')],
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    start_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
+    end_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['farm'].queryset = Farm.objects.filter(owner=user)
+            self.fields['pest'].queryset = Pest.objects.filter(created_by=user)
