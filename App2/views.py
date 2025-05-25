@@ -7,7 +7,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, D
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from .models import Farm, PlantLocation, Surveillance, Pest
-from .forms import FarmForm, PlantLocationForm, SurveillanceForm, PestForm
+from .forms import FarmForm, PlantLocationForm, SurveillanceForm, PestForm, SurveillanceFilterForm
 
 # ========== AUTHENTICATION VIEWS ==========
 
