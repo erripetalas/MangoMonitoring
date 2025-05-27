@@ -34,32 +34,29 @@
       <p class="lead">Track your mango crops and pest monitoring efforts easily.</p>
     </div>
 
-    <!-- Responsive Card Grid -->
-    <div class="dashboard-grid">
+    <div class="dashboard-card-grid">
 
-      <!-- 🧑‍🌾 Farm Management -->
-      <div class="dashboard-card hover-box">
-        <h5 class="mb-2">🧑‍🌾 Manage Your Farm</h5>
-        <p class="mb-3">Record and manage farm locations, plant counts, and other information with ease.</p>
-        <a href="{% url 'App2:farm-list' %}" class="btn btn-outline-primary">Manage your Farm</a>
-      </div>
+  <div class="dashboard-card">
+    <h5>🧑‍🌾 Manage Your Farm</h5>
+    <p>Record and manage farm locations, plant counts, and other information with ease.</p>
+    <a href="{% url 'App2:farm-list' %}" class="btn">Go to Farm Manager</a>
+  </div>
 
-      <!-- 📋 Surveillance Records -->
-      <div class="dashboard-card hover-box">
-        <h5 class="mb-2">📋 Surveillance Records</h5>
-        <p class="mb-3">Monitor pest activity and record plant inspections across your farms.</p>
-        <a href="{% url 'App2:surveillance-list' %}" class="btn btn-outline-primary">Manage Records</a>
-      </div>
+  <div class="dashboard-card">
+    <h5>📋 Surveillance Records</h5>
+    <p>Monitor pest activity and record plant inspections across your farms.</p>
+    <a href="{% url 'App2:surveillance-list' %}" class="btn">View Surveillance</a>
+  </div>
 
-      <!-- 🐛 Pest Management -->
-      <div class="dashboard-card hover-box">
-        <h5 class="mb-2">🐛 Pest Management</h5>
-        <p class="mb-3">Log pests identified on your properties and cross-reference with known species.</p>
-        <a href="{% url 'App2:pest-list' %}" class="btn btn-outline-primary">Manage Pests</a>
-      </div>
-
-    </div>
-
+  <div class="dashboard-card">
+    <h5>🐛 Pest Management</h5>
+    <p>Log pests identified on your properties and cross-reference with known species.</p>
+    <a href="{% url 'App2:pest-list' %}" class="btn">Manage Pests</a>
+  </div>
+</div>
   </div>
 </div>
 {% endblock %}
+
+
+
