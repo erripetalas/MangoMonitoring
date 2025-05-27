@@ -319,6 +319,15 @@ form.row.g-3 .form-control {
   margin-bottom: 2rem;
 }
 
+.content-card {
+  background-color: #ffffff;
+  border: 1px solid var(--primary-green, #2e7d32);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 100, 0, 0.05);
+  text-align: center;
+}
 
 
 /* Main navigation bar for App2 profile/dashboard */

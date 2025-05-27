@@ -16,12 +16,15 @@
 
 {% block content %}
 <div class="profile-wrapper">
-  <div class="profile-card-box">
-    <h2 class="mb-3">Welcome, {{ user.username }}!</h2>
-    <p class="lead">Track your mango crops and pest monitoring efforts easily.</p>
+<div class="profile-card-box">
 
-    <hr class="my-4" />
-    <div class="profile-content-box">
+    <div class="content-card mb-4">
+    <h2 class="mb-2">Welcome, {{ user.username }}!</h2>
+    <p class="lead">Track your mango crops and pest monitoring efforts easily.</p>
+</div>
+
+ <!-- Farm Summary -->
+    <div class="content-card mb-4">
     <h4 class="mb-3">🌿 My Farm Summary</h4>
 
     {% if farms %}
@@ -54,7 +57,7 @@
     </div>
 
     <!-- Action Buttons -->
-    <div class="d-flex justify-content-center gap-3 mb-4">
+    <div class="d-flex justify-content-center gap-3 mt-3">
       {% for farm in farms %}
         <a href="{% url 'App2:farm-detail' farm.pk %}" class="btn btn-outline-success">View</a>
         <a href="{% url 'App2:farm-update' farm.pk %}" class="btn btn-outline-secondary">Edit</a>
@@ -98,21 +101,22 @@
     {% endif %}
 
     <!-- Quick Links -->
-    <div class="row mt-4 justify-content-center">
-      <div class="col-md-6">
-        <div class="form-card text-center">
-          <h4 class="mb-3">📋 Surveillance Records</h4>
-          <p class="mb-2">Monitor pest activity and record plant inspections across your farms.</p>
-          <a href="{% url 'App2:surveillance-list' %}" class="btn btn-outline-primary">Manage Records</a>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-card text-center">
-          <h4 class="mb-3">🐛 Pest Management</h4>
-          <p class="mb-2">Log pests identified on your properties and cross-reference with known species.</p>
-          <a href="{% url 'App2:pest-list' %}" class="btn btn-outline-primary">Manage Pests</a>
-        </div>
-        </div>
+    <!-- Surveillance -->
+    <div class="content-card mb-4">
+      <h5 class="mb-2">📋 Surveillance Records</h5>
+      <p class="mb-3">Monitor pest activity and record plant inspections across your farms.</p>
+      <a href="{% url 'App2:surveillance-list' %}" class="btn btn-outline-primary">Manage Records</a>
+    </div>
+
+    <!-- Pest Management -->
+    <div class="content-card">
+      <h5 class="mb-2">🐛 Pest Management</h5>
+      <p class="mb-3">Log pests identified on your properties and cross-reference with known species.</p>
+      <a href="{% url 'App2:pest-list' %}" class="btn btn-outline-primary">Manage Pests</a>
+    </div>
+
+  </div>
+
       </div>
     </div>
   </div>
