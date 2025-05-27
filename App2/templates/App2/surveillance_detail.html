@@ -1,22 +1,59 @@
 {% extends 'app2/base.html' %}
 {% block title %}Surveillance Details{% endblock %}
+
 {% block content %}
-<a href="{% url 'App2:profile' %}" class="btn btn-secondary mb-3">← Back to Dashboard</a>
+<div class="container mt-4">
+  <a href="{% url 'App2:surveillance-list' %}" class="btn btn-outline-secondary mb-3">← Back to List</a>
 
-<h2>Surveillance on {{ surveillance.date_observed }}</h2>
+  <div class="card">
+    <div class="card-header bg-light">
+      <h4 class="mb-0">📅 Surveillance on {{ surveillance.date_observed }}</h4>
+    </div>
+    <div class="card-body">
+      <dl class="row">
+        <dt class="col-sm-3">Farm</dt>
+        <dd class="col-sm-9">{{ surveillance.farm.name }}</dd>
 
-<p><strong>Farm:</strong> {{ surveillance.farm.name }}</p>
-<p><strong>Location:</strong> {{ surveillance.location.name }}</p>
-<p><strong>Time:</strong> {{ surveillance.time_observed }}</p>
-<p><strong>Pest:</strong> {{ surveillance.pest.name }}</p>
-<p><strong>Severity:</strong> {{ surveillance.get_severity_display }}</p>
-<p><strong>Pest Count:</strong> {{ surveillance.pest_count }}</p>
-<p><strong>Plants Inspected:</strong> {{ surveillance.plants_inspected }}</p>
-<p><strong>Plant Part:</strong> {{ surveillance.get_plant_part_display }}</p>
-<p><strong>Weather:</strong> {{ surveillance.weather_conditions }}</p>
-<p><strong>Notes:</strong> {{ surveillance.notes }}</p>
+        <dt class="col-sm-3">Location</dt>
+        <dd class="col-sm-9">{{ surveillance.location.name }}</dd>
 
-<a href="{% url 'App2:surveillance-update' surveillance.pk %}" class="btn btn-primary">Edit</a>
-<a href="{% url 'App2:surveillance-delete' surveillance.pk %}" class="btn btn-danger">Delete</a>
-<a href="{% url 'App2:surveillance-list' %}" class="btn btn-secondary">Back to List</a>
+        <dt class="col-sm-3">Time</dt>
+        <dd class="col-sm-9">{{ surveillance.time_observed }}</dd>
+
+        <dt class="col-sm-3">Pest</dt>
+        <dd class="col-sm-9">
+          <img src="{{ surveillance.pest.image_url }}" alt="" width="24" height="24" class="me-2">
+          {{ surveillance.pest.name }}
+        </dd>
+
+        <dt class="col-sm-3">Severity</dt>
+        <dd class="col-sm-9">
+          <span class="badge bg-{% if surveillance.severity == 1 %}success{% elif surveillance.severity == 2 %}info{% elif surveillance.severity == 3 %}warning{% else %}danger{% endif %}">
+            {{ surveillance.get_severity_display }}
+          </span>
+        </dd>
+
+        <dt class="col-sm-3">Pest Count</dt>
+        <dd class="col-sm-9">{{ surveillance.pest_count }}</dd>
+
+        <dt class="col-sm-3">Plants Inspected</dt>
+        <dd class="col-sm-9">{{ surveillance.plants_inspected }}</dd>
+
+        <dt class="col-sm-3">Plant Part</dt>
+        <dd class="col-sm-9">{{ surveillance.get_plant_part_display }}</dd>
+
+        <dt class="col-sm-3">Weather Conditions</dt>
+        <dd class="col-sm-9">{{ surveillance.weather_conditions }}</dd>
+
+        <dt class="col-sm-3">Notes</dt>
+        <dd class="col-sm-9">{{ surveillance.notes|linebreaks }}</dd>
+      </dl>
+
+      <div class="mt-4">
+        <a href="{% url 'App2:surveillance-update' surveillance.pk %}" class="btn btn-primary">✏️ Edit</a>
+        <a href="{% url 'App2:surveillance-delete' surveillance.pk %}" class="btn btn-danger">🗑️ Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
