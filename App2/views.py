@@ -93,19 +93,11 @@ class OwnerMixin(UserPassesTestMixin):
         return False
 
 # FARM VIEWS
-class FarmListView(LoginRequiredMixin, ListView):
-    model = Farm
-    template_name = 'app2/farm_list.html'
-    context_object_name = 'farms'
-
-    def get_queryset(self):
-        return Farm.objects.filter(owner=self.request.user)
-
 class FarmCreateView(LoginRequiredMixin, CreateView):
     model = Farm
     form_class = FarmForm
     template_name = 'app2/farm_form.html'
-    success_url = reverse_lazy('App2:farm-list')
+    success_url = reverse_lazy('App2:profile')
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
@@ -119,12 +111,12 @@ class FarmUpdateView(LoginRequiredMixin, OwnerMixin, UpdateView):
     model = Farm
     form_class = FarmForm
     template_name = 'app2/farm_form.html'
-    success_url = reverse_lazy('App2:farm-list')
+    success_url = reverse_lazy('App2:profile')
 
 class FarmDeleteView(LoginRequiredMixin, OwnerMixin, DeleteView):
     model = Farm
     template_name = 'app2/farm_confirm_delete.html'
-    success_url = reverse_lazy('App2:farm-list')
+    success_url = reverse_lazy('App2:profile')
 
 # PEST VIEWS
 class PestListView(LoginRequiredMixin, ListView):

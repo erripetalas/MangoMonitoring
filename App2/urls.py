@@ -12,7 +12,6 @@ urlpatterns = [
     # Add signup and other farm management URLs here
     
     # Farm CRUD URLs
-    path('farms/', views.FarmListView.as_view(), name='farm-list'),
     path('farms/create/', views.FarmCreateView.as_view(), name='farm-create'),
     path('farms/<int:pk>/', views.FarmDetailView.as_view(), name='farm-detail'),
     path('farms/<int:pk>/update/', views.FarmUpdateView.as_view(), name='farm-update'),
