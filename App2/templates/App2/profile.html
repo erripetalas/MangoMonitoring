@@ -10,15 +10,15 @@
             <li><a href="/about" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a></li>
             <li><a href="{% url 'App2:profile' %}" class="{% if request.resolver_match.url_name == 'profile' %}active{% endif %}">My Farms</a></li>
             <li class="tts-nav-item">
-        <select id="language-selector">
-            <option value="en-US" selected>English</option>
-            <option value="th-TH">Thai</option>
-            <option value="vi-VN">Vietnamese</option>
-        </select>
-    </li>
-    <li class="tts-nav-item">
-        <button id="tts-button" class="btn btn-sm btn-outline-light">🔊 Read Aloud</button>
-    </li>
+                <select id="language-selector">
+                    <option value="en-US" selected>English</option>
+                    <option value="th-TH">Thai</option>
+                    <option value="vi-VN">Vietnamese</option>
+                </select>
+            </li>
+            <li class="tts-nav-item">
+                <button id="tts-button" class="btn btn-sm btn-outline-light">🔊 Read Aloud</button>
+            </li>
         </ul>
     </div>
 </nav>
@@ -26,69 +26,40 @@
 
 {% block content %}
 <div class="profile-wrapper">
-<div class="profile-card-box">
+  <div class="profile-card-box">
 
+    <!-- Welcome Message -->
     <div class="content-card mb-4">
-    <h2 class="mb-2">Welcome, {{ user.username }}!</h2>
-    <p class="lead">Track your mango crops and pest monitoring efforts easily.</p>
-</div>
-
-<!-- 🧑‍🌾 Farm Management -->
-<div class="content-card mb-4 hover-box">
-  <h5 class="mb-2">🧑‍🌾 Manage Your Farm</h5>
-  <p class="mb-3">Record and manage farm locations, plant counts, and other information with ease.</p>
-  <a href="{% url 'App2:farm-list' %}" class="btn btn-outline-primary">Manage your Farm</a>
-</div>
-
-    <!-- CI Summary Table -->
-    {% if ci_results %}
-    <div class="ci-card mt-5">
-      <h4 class="mb-3">📊 Confidence Interval Summary</h4>
-      <table class="table ci-table text-center">
-        <thead>
-          <tr>
-            <th style="border: 1px solid green;">Farm</th>
-            <th style="border: 1px solid green;">Mean Count</th>
-            <th style="border: 1px solid green;">95% CI (Lower)</th>
-            <th style="border: 1px solid green;">95% CI (Upper)</th>
-            <th style="border: 1px solid green;">Margin of Error</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for ci in ci_results %}
-          <tr>
-            <td style="border: 1px solid green;">{{ ci.farm_name }}</td>
-            <td style="border: 1px solid green;">{{ ci.mean }}</td>
-            <td style="border: 1px solid green;">{{ ci.lower }}</td>
-            <td style="border: 1px solid green;">{{ ci.upper }}</td>
-            <td style="border: 1px solid green;">{{ ci.margin_of_error }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-    {% endif %}
-
-    <!-- Quick Links -->
-    <!-- Surveillance -->
-    <div class="content-card mb-4 surveillance-section">
-      <h5 class="mb-2">📋 Surveillance Records</h5>
-      <p class="mb-3">Monitor pest activity and record plant inspections across your farms.</p>
-      <a href="{% url 'App2:surveillance-list' %}" class="btn btn-outline-primary">Manage Records</a>
+      <h2 class="mb-2">Welcome, {{ user.username }}!</h2>
+      <p class="lead">Track your mango crops and pest monitoring efforts easily.</p>
     </div>
 
-    <!-- Pest Management -->
-    <div class="content-card mb-4 hover-box">
+    <!-- Responsive Card Grid -->
+    <div class="dashboard-grid">
 
-      <h5 class="mb-2">🐛 Pest Management</h5>
-      <p class="mb-3">Log pests identified on your properties and cross-reference with known species.</p>
-      <a href="{% url 'App2:pest-list' %}" class="btn btn-outline-primary">Manage Pests</a>
-    </div>
-
-  </div>
-
+      <!-- 🧑‍🌾 Farm Management -->
+      <div class="dashboard-card hover-box">
+        <h5 class="mb-2">🧑‍🌾 Manage Your Farm</h5>
+        <p class="mb-3">Record and manage farm locations, plant counts, and other information with ease.</p>
+        <a href="{% url 'App2:farm-list' %}" class="btn btn-outline-primary">Manage your Farm</a>
       </div>
+
+      <!-- 📋 Surveillance Records -->
+      <div class="dashboard-card hover-box">
+        <h5 class="mb-2">📋 Surveillance Records</h5>
+        <p class="mb-3">Monitor pest activity and record plant inspections across your farms.</p>
+        <a href="{% url 'App2:surveillance-list' %}" class="btn btn-outline-primary">Manage Records</a>
+      </div>
+
+      <!-- 🐛 Pest Management -->
+      <div class="dashboard-card hover-box">
+        <h5 class="mb-2">🐛 Pest Management</h5>
+        <p class="mb-3">Log pests identified on your properties and cross-reference with known species.</p>
+        <a href="{% url 'App2:pest-list' %}" class="btn btn-outline-primary">Manage Pests</a>
+      </div>
+
     </div>
+
   </div>
 </div>
 {% endblock %}

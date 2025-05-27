@@ -127,6 +127,49 @@ header {
     text-align: center;
 }
 
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1rem;
+}
+
+.dashboard-card a {
+    margin-top: auto;
+}
+
+.dashboard-card {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #d4e7d1;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-card h5 {
+  font-weight: bold;
+  color: #2e7d32;
+}
+
+.dashboard-card p {
+  color: #333;
+  margin: 10px 0 20px;
+}
+
 /* Interactive hover sections */
 .surveillance-section,
 .hover-box {
@@ -143,6 +186,14 @@ header {
     box-shadow: 0 4px 20px rgba(0, 100, 0, 0.1);
     transform: scale(1.01);
 }
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #198754; /* Bootstrap green */
+  vertical-align: middle;
+  padding: 0.75rem;
+}
+
 
 /* Form styles */
 .form-card {
@@ -308,17 +359,7 @@ form.row.g-3 .form-control {
     transform: translateY(-2px);
 }
 
-/* Confidence Interval card styles */
-.ci-card {
-    background: #f9fff9;
-    border: 1px solid var(--primary-green, #2e7d32);
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 2px 10px rgba(0, 100, 0, 0.05);
-    max-width: 900px;
-    margin: 0 auto 2rem auto;
-    text-align: center;
-}
+
 
 /* Utility classes */
 .farm-detail-wrapper {
@@ -348,5 +389,12 @@ form.row.g-3 .form-control {
     .main-navbar a {
         padding: 0.5rem 1rem;
         font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .dashboard-card a {
+        display: block;
+        width: 100%;
     }
 }
