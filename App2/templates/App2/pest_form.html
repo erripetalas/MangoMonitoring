@@ -2,8 +2,8 @@
 {% block title %}{{ form.instance.pk|yesno:"Edit Pest,Add Pest" }}{% endblock %}
 
 {% block content %}
+<div class="card shadow-sm p-3">
 <div class="container mt-4">
-  <a href="{% url 'App2:pest-list' %}" class="btn btn-outline-secondary mb-3">← Back to Pest Records</a>
   <h2>{{ form.instance.pk|yesno:"Edit Pest,Add New Pest" }}</h2>
 
   <form method="post" class="row g-3">
@@ -22,5 +22,6 @@
       <a href="{% url 'App2:pest-list' %}" class="btn btn-outline-secondary">Cancel</a>
     </div>
   </form>
+</div>
 </div>
 {% endblock %}

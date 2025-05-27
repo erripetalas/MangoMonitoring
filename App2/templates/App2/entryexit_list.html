@@ -2,12 +2,16 @@
 {% block title %}Entry & Exit Logs{% endblock %}
 
 {% block content %}
+<div class="card shadow-sm p-3">
 <div class="container mt-5">
-<a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
+
   <div class="content-card mb-4 shadow-sm text-start">
     <h2 class="mb-3">📋 Entry & Exit Records</h2>
     <p class="text-muted">This section logs all movement of people and goods on your farm. Keep track of repairs, deliveries, visits, and other interactions.</p>
+
+    <a href="{% url 'App2:entry-exit-create' %}" class="btn btn-outline-success btn-sm mt-2">➕ Add New Record</a>
   </div>
+</div>
 
   {% if logs %}
   
@@ -16,14 +20,14 @@
     <table class="table table-bordered table-hover align-middle text-center surveillance-table">
       <thead class="table-success">
         <tr>
-         <th scope="col">🏡 Farm</th>
-          <th scope="col">🏢 Company</th>
-          <th scope="col">👤 Person</th>
-          <th scope="col">📝 Purpose</th>
-          <th scope="col">📅 Date</th>
-          <th scope="col">⏰ Time</th>
-          <th scope="col">🗒️ Remarks</th>
-          <th scope="col">⚙️ Actions</th>
+         <th scope="col", style="width: 7%;">🏡 Farm</th>
+          <th scope="col", style="width: 10%;">🏢 Company</th>
+          <th scope="col", style="width: 10%;">👤 Person</th>
+          <th scope="col", style="width: 12%;">📝 Purpose</th>
+          <th scope="col", style="width: 10%;">📅 Date</th>
+          <th scope="col", style="width: 8%;">⏰ Time</th>
+          <th scope="col", style="width: 10%;">🗒️ Remarks</th>
+          <th scope="col", style="width: 20%;">⚙️ Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -47,7 +51,7 @@
       </tbody>
     </table>
   </div>
-  <a href="{% url 'App2:entry-exit-create' %}" class="btn btn-outline-success btn-sm mt-2">➕ Add New Record</a>
+  <a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
   {% else %}
   <div class="alert alert-warning text-center mt-4" role="alert">
     🚫 No entry or exit records found yet.

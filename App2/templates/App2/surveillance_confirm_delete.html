@@ -2,8 +2,9 @@
 {% block title %}Delete Surveillance Record{% endblock %}
 
 {% block content %}
+<div class="card shadow-sm p-3">
 <div class="container mt-4">
-  <a href="{% url 'App2:surveillance-detail' object.pk %}" class="btn btn-outline-secondary mb-3">← Back to Details</a>
+
 
   <div class="alert alert-danger">
     <h4 class="alert-heading">⚠️ Confirm Deletion</h4>
@@ -15,5 +16,6 @@
       <a href="{% url 'App2:surveillance-detail' object.pk %}" class="btn btn-outline-secondary">Cancel</a>
     </form>
   </div>
+</div>
 </div>
 {% endblock %}

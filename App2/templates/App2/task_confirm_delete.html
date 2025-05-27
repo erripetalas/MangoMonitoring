@@ -1,6 +1,8 @@
 {% extends 'App2/base.html' %}
 {% block title %}Delete Task{% endblock %}
 {% block content %}
+
+<div class="card shadow-sm p-3">
 <div class="container mt-4">
   <h2 class="text-danger">⚠️ Confirm Delete</h2>
   <p>Are you sure you want to delete the task <strong>{{ object.title }}</strong> scheduled on <strong>{{ object.scheduled_date }}</strong>?</p>
@@ -9,5 +11,6 @@
     <button type="submit" class="btn btn-danger">Yes, Delete</button>
     <a href="{% url 'App2:task-list' %}" class="btn btn-secondary">Cancel</a>
   </form>
+</div>
 </div>
 {% endblock %}

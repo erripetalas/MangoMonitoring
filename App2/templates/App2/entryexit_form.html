@@ -2,7 +2,7 @@
 {% block title %}Add Entry/Exit Record{% endblock %}
 
 {% block content %}
-<a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
+<div class="card shadow-sm p-3">
 <div class="form-card">
   <h2 class="mb-4">➕ Add Entry/Exit Log</h2>
   <form method="post">
@@ -11,5 +11,6 @@
     <button type="submit" class="btn btn-success">Save Record</button>
     <a href="{% url 'App2:entry-exit-list' %}" class="btn btn-outline-secondary ms-2">Cancel</a>
   </form>
+</div>
 </div>
 {% endblock %}

@@ -2,8 +2,9 @@
 {% block title %}Surveillance Details{% endblock %}
 
 {% block content %}
+
 <div class="container mt-4">
-  <a href="{% url 'App2:surveillance-list' %}" class="btn btn-outline-secondary mb-3">← Back to List</a>
+  <div class="card shadow-sm p-3">
 
   <div class="card">
     <div class="card-header bg-light">
@@ -53,7 +54,10 @@
         <a href="{% url 'App2:surveillance-update' surveillance.pk %}" class="btn btn-primary">✏️ Edit</a>
         <a href="{% url 'App2:surveillance-delete' surveillance.pk %}" class="btn btn-danger">🗑️ Delete</a>
       </div>
+      <a href="{% url 'App2:surveillance-list' %}" class="btn btn-outline-secondary mb-3">← Back to List</a>
     </div>
   </div>
 </div>
+</div>
+
 {% endblock %}

@@ -2,6 +2,7 @@
 {% block title %}Farm Details{% endblock %}
 
 {% block content %}
+<div class="card shadow-sm p-3">
 <div class="farm-detail-wrapper">
   <div class="mb-3">
     <label for="farm-selector" class="form-label">Switch to another farm:</label>
@@ -43,7 +44,7 @@
       <a href="{% url 'App2:farm-delete' farm.pk %}" class="btn btn-success">Delete</a>
       <a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
     </div>
-
+</div>
   </div>
 </div>
 {% endblock %}

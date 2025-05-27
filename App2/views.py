@@ -180,6 +180,19 @@ class PestCreateView(LoginRequiredMixin, CreateView):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
 
+class PestUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Pest
+    form_class = PestForm
+    template_name = 'App2/pest_form.html'
+    success_url = reverse_lazy('App2:pest-list')
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        return self.get_object().created_by == self.request.user
+
 class PestDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Pest
     template_name = 'app2/pest_confirm_delete.html'

@@ -2,10 +2,12 @@
 {% block title %}My Farms{% endblock %}
 
 {% block content %}
+<div class="card shadow-sm p-3">
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2 class="mb-0">🌾 My Farms</h2>
-    <a href="{% url 'App2:profile' %}" class="btn btn-outline-secondary">← Back to Dashboard</a>
+    <a href="{% url 'App2:farm-create' %}" class="btn btn-success">+ Add New Farm</a>
+ </div>
   </div>
 
   <div class="card shadow-sm p-3">
@@ -15,9 +17,9 @@
           <tr>
             <th style="width: 3%;">S.N.</th>
             <th style="width: 13%;">Name</th>
-            <th style="width: 15%;">Location</th>
-            <th style="width: 15%;">Total Plants</th>
-            <th style="width: 15%;">Size</th>
+            <th style="width: 13%;">Location</th>
+            <th style="width: 13%;">Total Plants</th>
+            <th style="width: 13%;">Size</th>
             <th style="width: 20%;">Actions</th>
           </tr>
         </thead>
@@ -44,7 +46,7 @@
   </div>
 
   <div class="text-end mt-3">
-    <a href="{% url 'App2:farm-create' %}" class="btn btn-success">+ Add New Farm</a>
+    <a href="{% url 'App2:profile' %}" class="btn btn-outline-secondary">← Back to Dashboard</a>
   </div>
 </div>
 {% endblock %}

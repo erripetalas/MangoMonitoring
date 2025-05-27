@@ -2,11 +2,13 @@
 {% block title %}Surveillance Records{% endblock %}
 
 {% block content %}
+<div class="card shadow-sm p-3">
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>📋 Surveillance Records</h2>
-    <a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
+    <a href="{% url 'App2:farm-create' %}" class="btn btn-success">+ Add New Record</a>
   </div>
+</div>
 
   {% if surveillance_records %}
   <div class="card shadow-sm p-3">
@@ -48,7 +50,7 @@
   </div>
   
   <div class="text-end mt-3">
-    <a href="{% url 'App2:farm-create' %}" class="btn btn-success">+ Add New Record</a>
+    <a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
   </div>
   {% else %}
   <div class="alert alert-warning" role="alert">

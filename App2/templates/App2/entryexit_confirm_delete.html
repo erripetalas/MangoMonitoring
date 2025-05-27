@@ -2,6 +2,7 @@
 {% block title %}Delete Entry/Exit Log{% endblock %}
 
 {% block content %}
+<div class="card shadow-sm p-3">
 <div class="container mt-5">
   <div class="form-card">
     <h2 class="mb-4 text-danger">⚠️ Confirm Deletion</h2>
@@ -23,5 +24,6 @@
       <a href="{% url 'App2:entry-exit-list' %}" class="btn btn-outline-secondary">Cancel</a>
     </form>
   </div>
+</div>
 </div>
 {% endblock %}

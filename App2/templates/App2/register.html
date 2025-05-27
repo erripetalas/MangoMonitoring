@@ -1,6 +1,7 @@
 {% extends 'App2/base.html' %}
 {% block title %}Register | My Farms{% endblock %}
 {% block content %}
+<div class="card shadow-sm p-3">
 <div class="auth-container">
     <h2>Create an Account</h2>
     <form method="post" action="{% url 'App2:register' %}">
@@ -21,5 +22,6 @@
         <button type="submit" class="btn">Sign Up</button>
     </form>
     <a href="{% url 'App2:login' %}" class="auth-link">Already have an account? Log in</a>
+</div>
 </div>
 {% endblock %}

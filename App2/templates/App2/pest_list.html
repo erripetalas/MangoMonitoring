@@ -2,12 +2,13 @@
 {% block title %}My Pest Records{% endblock %}
 
 {% block content %}
+<div class="card shadow-sm p-3">
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>🐞 Pest Records</h2>
     <a href="{% url 'App2:pest-create' %}" class="btn btn-success">+ Add New Pest</a>
-    <a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
   </div>
+</div>
 
   {% if pests %}
   <div class="summary-table-container mb-4">
@@ -35,6 +36,7 @@
             {% endif %}
           </td>
           <td style="border: 1px solid green;">
+            <a href="{% url 'App2:pest-update' pest.id %}" class="btn btn-success btn-sm">Edit</a>
             <a href="{% url 'App2:pest-delete' pest.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
           </td>
         </tr>
@@ -42,6 +44,7 @@
       </tbody>
     </table>
   </div>
+  <a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
   {% else %}
   <div class="alert alert-warning" role="alert">
     No pest records found.

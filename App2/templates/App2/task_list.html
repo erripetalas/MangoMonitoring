@@ -2,10 +2,11 @@
 {% block title %}Farm Task Calendar{% endblock %}
 
 {% block content %}
-<a href="{% url 'App2:profile' %}" class="btn btn-outline-secondary">← Back to Dashboard</a>
+<div class="card shadow-sm p-3">
 <div class="container mt-4">
   <h2>📅 Scheduled Farm Tasks</h2>
-
+<a href="{% url 'App2:task-create' %}" class="btn btn-success mb-3">+ Add New Task</a>
+</div>
   {% if tasks %}
   <div class="card shadow-sm p-3">
     <div class="table-responsive">
@@ -38,7 +39,7 @@
   {% endfor %}
 </tbody>
       </table>
-<a href="{% url 'App2:task-create' %}" class="btn btn-success mb-3">+ Add New Task</a>
+<a href="{% url 'App2:profile' %}" class="btn btn-outline-secondary">← Back to Dashboard</a>
     </div>
   {% else %}
     <div class="alert alert-warning">No tasks scheduled yet.</div>

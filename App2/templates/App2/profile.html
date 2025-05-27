@@ -29,39 +29,40 @@
   <div class="profile-card-box">
 
     <!-- Welcome Message -->
-    <div class="content-card mb-4">
+    <div class="card shadow-sm p-3">
       <h2 class="mb-2">Welcome, {{ user.username }}!</h2>
       <p class="lead">Track your mango crops and pest monitoring efforts easily.</p>
     </div>
 
+    <div class="card shadow-sm p-3">
     <div class="dashboard-card-grid">
 
   <div class="dashboard-card">
-    <h5>🧑‍🌾 Manage Your Farm</h5>
+    <h3 class="fw-bold mb-2">🧑‍🌾 Manage Your Farm</h3>
     <p>Record and manage farm locations, plant counts, and other information with ease.</p>
     <a href="{% url 'App2:farm-list' %}" class="btn">Go to Farm Manager</a>
   </div>
 
   <div class="dashboard-card">
-  <h5>🚪 Entry & Exit Records</h5>
+  <h3 class="fw-bold mb-2">🚪 Entry & Exit Records</h3>
   <p>Track deliveries, maintenance work, and other visits to your farm with company names and purposes.</p>
   <a href="{% url 'App2:entry-exit-list' %}" class="btn">View Logs</a>
 </div>
 
   <div class="dashboard-card">
-    <h5>📋 Surveillance Records</h5>
+    <h3 class="fw-bold mb-2">📋 Surveillance Records</h3>
     <p>Monitor pest activity and record plant inspections across your farms.</p>
     <a href="{% url 'App2:surveillance-list' %}" class="btn">View Surveillance</a>
   </div>
 
   <div class="dashboard-card">
-    <h5>🐛 Pest Management</h5>
+    <h3 class="fw-bold mb-2">🐛 Pest Management</h3>
     <p>Log pests identified on your properties and cross-reference with known species.</p>
     <a href="{% url 'App2:pest-list' %}" class="btn">Manage Pests</a>
   </div>
 
   <div class="dashboard-card">
-        <h5>📆 Farm Task Calendar</h5>
+        <h3 class="fw-bold mb-2">📆 Farm Task Calendar</h3>
         <p>Schedule farm inspections, pesticide applications, and other important tasks.</p>
         <a href="{% url 'App2:task-list' %}" class="btn">Manage Tasks</a>
       </div>
