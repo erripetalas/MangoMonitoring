@@ -40,41 +40,43 @@ def register_view(request):
         form = UserCreationForm()
     return render(request, 'App2/register.html', {'form': form})
 
-from statistics import mean, stdev
-from math import sqrt
-from scipy.stats import t
+# PROFILE VIEW
 
 @login_required
 def profile_view(request):
-    farms = request.user.farms.all()[:5]
+    farms = request.user.farms.all()
+    farms_count = farms.count()
+
     ci_results = []
 
     for farm in farms:
-        inspections = farm.surveillance_records.all().values_list('pest_count', flat=True)
-        if len(inspections) >= 2:
-            sample = list(inspections)
-            n = len(sample)
-            mean_val = mean(sample)
-            std_dev = stdev(sample)
-            stderr = std_dev / sqrt(n)
-            t_score = t.ppf(0.975, df=n - 1)
-            margin = t_score * stderr
-            lower = round(mean_val - margin, 2)
-            upper = round(mean_val + margin, 2)
+        # Get all pest counts from Surveillance entries related to this farm
+        pest_counts = Surveillance.objects.filter(farm=farm).values_list('pest_count', flat=True)
+
+        # Convert to list of integers
+        pest_counts = [count for count in pest_counts if count is not None]
+
+        if len(pest_counts) >= 2:
+            n = len(pest_counts)
+            mean_val = mean(pest_counts)
+            std_err = stdev(pest_counts) / sqrt(n)
+            t_value = t.ppf(0.975, df=n - 1)  # 95% CI
+            margin_of_error = round(t_value * std_err, 2)
 
             ci_results.append({
                 'farm_name': farm.name,
                 'mean': round(mean_val, 2),
-                'lower': lower,
-                'upper': upper,
-                'margin_of_error': round(margin, 2)
+                'lower': round(mean_val - margin_of_error, 2),
+                'upper': round(mean_val + margin_of_error, 2),
+                'margin_of_error': margin_of_error
             })
 
     context = {
         'farms': farms,
-        'farms_count': request.user.farms.count(),
+        'farms_count': farms_count,
         'ci_results': ci_results
     }
+
     return render(request, 'App2/profile.html', context)
 
 
