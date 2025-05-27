@@ -209,13 +209,28 @@ form.row.g-3 .form-control {
 .summary-table {
   margin-top: 1rem;
   text-align: center;
+  border: 2px solid var(--primary-green, #2e7d32);
+  border-radius: 8px;
+  overflow: hidden;
+
+  
 }
 
 .summary-table th,
 .summary-table td {
   text-align: center;
   vertical-align: middle;
+  border: 1px solid var(--primary-green, #2e7d32); /* green border for each cell */
+  padding: 0.75rem 1rem;
 }
+
+.summary-table thead {
+  background-color: var(--primary-green, #2e7d32);
+  color: white;
+  font-weight: 600;
+}
+
+
 
 .form-card {
   background-color: #fff;
