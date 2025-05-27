@@ -206,12 +206,24 @@ form.row.g-3 .form-control {
   margin-top: 1rem;
 }
 
+.summary-table {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.summary-table th,
+.summary-table td {
+  text-align: center;
+  vertical-align: middle;
+}
 
 .form-card {
+  background-color: #fff;
   padding: 2rem;
-  background-color: var(--card-bg, #fff);
-  border-radius: 10px;
-  box-shadow: var(--shadow-md, 0 2px 8px rgba(0,0,0,0.1));
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-top: 5px solid var(--secondary-green);
+  margin-bottom: 2rem;
 }
 
 
