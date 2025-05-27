@@ -5,47 +5,50 @@
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>📋 Surveillance Records</h2>
-    <a href="{% url 'App2:surveillance-create' %}" class="btn btn-success">+ Add New Record</a>
     <a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
-
   </div>
 
   {% if surveillance_records %}
-   <div class="card shadow-sm">
+  <div class="card shadow-sm p-3">
     <div class="table-responsive">
-      <table class="table table-bordered table-hover text-center align-middle w-100">
-      <thead style="background-color: #d4edda; color: #155724;">
-        <tr>
-          <th style="border: 1px solid green;", style="width: 13%;">Farm</th>
-          <th style="border: 1px solid green;", style="width: 13%;">Pest</th>
-          <th style="border: 1px solid green;", style="width: 20%;">Severity</th>
-          <th style="border: 1px solid green;", style="width: 15%;">Count</th>
-          <th style="border: 1px solid green;", style="width: 15%;">Date</th>
-          <th style="border: 1px solid green;", style="width: 20%;">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for record in surveillance_records %}
-        <tr>
-          <td style="border: 1px solid green;">{{ record.farm.name }}</td>
-          <td style="border: 1px solid green;">{{ record.pest.name }}</td>
-          <td style="border: 1px solid green;">
-            <span class="badge bg-{% if record.severity == 1 %}success{% elif record.severity == 2 %}info{% elif record.severity == 3 %}warning{% else %}danger{% endif %}">
-              {{ record.get_severity_display }}
-            </span>
-          </td>
-          <td style="border: 1px solid green;">{{ record.pest_count }}</td>
-          <td style="border: 1px solid green;">{{ record.date_observed }}</td>
-          <td style="border: 1px solid green;">
-            <div class="btn-group">
-              <a href="{% url 'App2:surveillance-update' record.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
-              <a href="{% url 'App2:surveillance-delete' record.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
-            </div>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+      <table class="table table-bordered table-hover text-center align-middle surveillance-table">
+        <thead class="table-success">
+          <tr>
+            <th style="width: 13%;">Farm</th>
+            <th style="width: 13%;">Pest</th>
+            <th style="width: 20%;">Severity</th>
+            <th style="width: 15%;">Count</th>
+            <th style="width: 15%;">Date</th>
+            <th style="width: 20%;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in surveillance_records %}
+          <tr>
+            <td>{{ record.farm.name }}</td>
+            <td>{{ record.pest.name }}</td>
+            <td>
+              <span class="badge bg-{% if record.severity == 1 %}success{% elif record.severity == 2 %}info{% elif record.severity == 3 %}warning{% else %}danger{% endif %}">
+                {{ record.get_severity_display }}
+              </span>
+            </td>
+            <td>{{ record.pest_count }}</td>
+            <td>{{ record.date_observed }}</td>
+            <td>
+              <div class="btn-group">
+                <a href="{% url 'App2:surveillance-update' record.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                <a href="{% url 'App2:surveillance-delete' record.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <div class="text-end mt-3">
+    <a href="{% url 'App2:farm-create' %}" class="btn btn-success">+ Add New Record</a>
   </div>
   {% else %}
   <div class="alert alert-warning" role="alert">
