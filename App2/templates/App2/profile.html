@@ -23,6 +23,7 @@
     </div>
 
    <!-- Summary Table -->
+   {% if farms %}
     <div class="d-flex justify-content-center mb-4">
       <table class="table w-auto text-center">
         <thead class="table-success">
@@ -57,7 +58,7 @@
         <a href="{% url 'App2:farm-update' farm.pk %}" class="btn btn-outline-secondary">Edit</a>
       {% endfor %}
     </div>
-    
+
     <!-- Farm Cards -->
    
     {% else %}
