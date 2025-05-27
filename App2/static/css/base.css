@@ -3,6 +3,8 @@
 
 body {
     background-color: var(--light-bg);
+    color: var(--text-dark);
+    font-family: 'Segoe UI', sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -13,7 +15,7 @@ header {
 }
 
 .auth-container {
-    max-width: 400px;
+    max-width: 420px;
     margin: 3rem auto;
     background: var(--card-bg);
     border-radius: 12px;
@@ -28,19 +30,20 @@ header {
 }
 
 .form-card {
-    max-width: 600px;
+    max-width: 700px;
     margin: 2rem auto;
     padding: 2rem;
     background: var(--card-bg);
-    border-radius: 10px;
+    border-radius: 12px;
     box-shadow: var(--shadow-md);
-    border-top: 4px solid var(--secondary-green);
+    border-top: 5px solid var(--secondary-green);
 }
  
 .form-card h2 {
     text-align: center;
     color: var(--primary-green);
     margin-bottom: 1.5rem;
+    font-weight: 600;
 }
 
 .form-group {
@@ -63,7 +66,7 @@ header {
 .form-group textarea {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     font-size: 1rem;
     box-shadow: var(--shadow-sm);
@@ -88,6 +91,7 @@ form.row.g-3 .form-control {
     padding: 0.5rem 1rem;
     font-weight: 500;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .btn-primary {
@@ -107,7 +111,8 @@ form.row.g-3 .form-control {
 .btn-outline-danger {
     border: 1px solid;
     background: transparent;
-    padding: 0.4rem 0.9rem;
+    padding: 0.45rem 1rem;
+    transition: all 0.3s ease;
 }
 
 .btn-outline-primary {
@@ -132,67 +137,11 @@ form.row.g-3 .form-control {
     opacity: 0.9;
 }
 
-.float-end {
-    float: right;
-}
-
-.auth-container label {
-    color: var(--text-dark);
-    font-weight: 500;
-    margin-bottom: 0.2rem;
-}
-
-.auth-container input[type="text"],
-.auth-container input[type="password"],
-.auth-container input[type="email"] {
-    padding: 0.7rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
-    margin-bottom: 0.2rem;
-}
-
-.auth-container .btn {
-    background: var(--secondary-green);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 0.8rem;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.3s;
-    width: 100%;
-    margin-top: 0.5rem;
-}
-
-.auth-container .btn:hover {
-    background: var(--primary-green);
-}
-
-.auth-link {
-    display: block;
-    text-align: center;
-    margin-top: 1.2rem;
-    color: var(--secondary-green);
-    text-decoration: none;
-    font-size: 1rem;
-}
-.auth-link:hover {
-    text-decoration: underline;
-}
-
-.auth-container ul {
-    margin: 0.5rem 0 0.5rem 1.2rem;
-    padding: 0;
-    color: var(--text-light);
-    font-size: 0.97rem;
-}
-
 table.table {
     border-collapse: collapse;
     width: 100%;
-    background: white;
+    background: var(--card-bg);
+    margin-top: 1.5rem;
 }
 
 .table thead {
@@ -205,12 +154,12 @@ table.table {
     padding: 0.75rem 1rem;
     vertical-align: middle;
     border: 1px solid var(--border-color);
+    text-align: left;
 }
 
 .table-striped tbody tr:nth-child(odd) {
     background-color: var(--light-bg);
 }
-
 
 /* Main navigation bar for App2 profile/dashboard */
 .main-navbar {
@@ -260,7 +209,7 @@ table.table {
 }
 
 .profile-content {
-    max-width: 500px;
+    max-width: 600px;
     margin: 0 auto;
     text-align: center;
 }
@@ -268,10 +217,23 @@ table.table {
 .profile-content h2 {
     color: var(--primary-green);
     font-weight: 600;
-    margin-bottom: 2.5rem;
-    margin-top: 2.5rem;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
 }
 
 .profile-content .btn {
-    margin-top: 2rem;
+    margin-top: 1.2rem;
 }
+
+.float-end {
+    float: right;
+}
+
+.text-danger {
+    color: #e74c3c;
+}
+
+.text-center {
+    text-align: center;
+}
+

@@ -2,35 +2,29 @@
 {% block title %}My Pest Records{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-  <a href="{% url 'App2:profile' %}" class="btn btn-outline-secondary mb-3">← Back to Dashboard</a>
-
+<div class="card shadow p-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2>🪲 Pest Records</h2>
-    <a href="{% url 'App2:pest-create' %}" class="btn btn-success">+ Add New Pest</a>
+    <h2 class="mb-0">🐞 Pest Records</h2>
+    <a href="{% url 'App2:pest-create' %}" class="btn btn-success">➕ Add New Pest</a>
   </div>
 
   {% if pests %}
-  <div class="row">
-    {% for pest in pests %}
-    <div class="col-md-6 col-lg-4 mb-4">
-      <div class="card h-100">
-        {% if pest.image_url %}
-        <img src="/{{ pest.image_url }}" class="card-img-top" alt="{{ pest.name }}">
-        {% endif %}
-        <div class="card-body">
-          <h5 class="card-title">{{ pest.name }}</h5>
-          <p class="card-text small text-muted">{{ pest.description|truncatewords:20 }}</p>
+    <ul class="list-group">
+      {% for pest in pests %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <strong>{{ pest.name }}</strong><br>
+          <small class="text-muted">{{ pest.description|truncatewords:12 }}</small>
         </div>
-        <div class="card-footer d-flex justify-content-between">
-          <a href="{% url 'App2:pest-delete' pest.id %}" class="btn btn-sm btn-outline-danger">🗑️ Delete</a>
+        <div>
+          <a href="{% url 'App2:pest-delete' pest.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
         </div>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
+      </li>
+      {% endfor %}
+    </ul>
   {% else %}
-    <div class="alert alert-info">No pest records found.</div>
+    <p>No pest records found.</p>
   {% endif %}
+</div>
 </div>
 {% endblock %}
