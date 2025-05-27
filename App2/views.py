@@ -46,40 +46,37 @@ from scipy.stats import t
 
 @login_required
 def profile_view(request):
-    farms = request.user.farms.all()
+    farms = request.user.farms.all()[:5]
     ci_results = []
 
     for farm in farms:
-        plant_counts = list(
-            Surveillance.objects.filter(farm=farm).values_list('plant_count', flat=True)
-        )
-
-        if len(plant_counts) >= 2:  # Need at least 2 to compute stdev
-            n = len(plant_counts)
-            avg = mean(plant_counts)
-            std = stdev(plant_counts)
-            margin_error = t.ppf(0.975, n - 1) * (std / sqrt(n))
-            lower = round(avg - margin_error, 2)
-            upper = round(avg + margin_error, 2)
+        inspections = farm.surveillance_set.all().values_list('pest_count', flat=True)
+        if len(inspections) >= 2:
+            sample = list(inspections)
+            n = len(sample)
+            mean_val = mean(sample)
+            std_dev = stdev(sample)
+            stderr = std_dev / sqrt(n)
+            t_score = t.ppf(0.975, df=n - 1)
+            margin = t_score * stderr
+            lower = round(mean_val - margin, 2)
+            upper = round(mean_val + margin, 2)
 
             ci_results.append({
                 'farm_name': farm.name,
-                'mean': round(avg, 2),
+                'mean': round(mean_val, 2),
                 'lower': lower,
                 'upper': upper,
-                'margin_of_error': round(margin_error, 2)
+                'margin_of_error': round(margin, 2)
             })
 
-        context = {
-    'farms': request.user.farms.all()[:5],
-    'farms_count': request.user.farms.count(),
-    'ci_results': []  # ✅ valid syntax
-}
-
-
-    
-
+    context = {
+        'farms': farms,
+        'farms_count': request.user.farms.count(),
+        'ci_results': ci_results
+    }
     return render(request, 'App2/profile.html', context)
+
 
 
 
