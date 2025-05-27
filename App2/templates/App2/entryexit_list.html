@@ -1,0 +1,58 @@
+{% extends 'App2/base.html' %}
+{% block title %}Entry & Exit Logs{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+<a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
+  <div class="content-card mb-4 shadow-sm text-start">
+    <h2 class="mb-3">📋 Entry & Exit Records</h2>
+    <p class="text-muted">This section logs all movement of people and goods on your farm. Keep track of repairs, deliveries, visits, and other interactions.</p>
+  </div>
+
+  {% if logs %}
+  
+  <div class="card shadow-sm p-3">
+  <div class="table-responsive mt-4">
+    <table class="table table-bordered table-hover align-middle text-center surveillance-table">
+      <thead class="table-success">
+        <tr>
+         <th scope="col">🏡 Farm</th>
+          <th scope="col">🏢 Company</th>
+          <th scope="col">👤 Person</th>
+          <th scope="col">📝 Purpose</th>
+          <th scope="col">📅 Date</th>
+          <th scope="col">⏰ Time</th>
+          <th scope="col">🗒️ Remarks</th>
+          <th scope="col">⚙️ Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for log in logs %}
+        <tr>
+          <td>{{ log.farm.name }}</td>
+          <td>{{ log.company_name }}</td>
+          <td>{{ log.person_name }}</td>
+          <td>{{ log.purpose }}</td>
+          <td>{{ log.date|date:"M d, Y" }}</td>
+          <td>{{ log.time|time:"H:i" }}</td>
+          <td>{{ log.remarks|default:"—" }}</td>
+          <td>
+              <div class="d-flex justify-content-center gap-2 flex-wrap">
+                <a href="{% url 'App2:entryexit-edit' log.pk %}" class="btn btn-sm btn-outline-warning">Edit</a>
+                <a href="{% url 'App2:entryexit-delete' log.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+              </div>
+            </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <a href="{% url 'App2:entry-exit-create' %}" class="btn btn-outline-success btn-sm mt-2">➕ Add New Record</a>
+  {% else %}
+  <div class="alert alert-warning text-center mt-4" role="alert">
+    🚫 No entry or exit records found yet.
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

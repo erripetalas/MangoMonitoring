@@ -3,10 +3,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, CreateView
 from django.urls import reverse_lazy, reverse
-from .models import Farm, Surveillance, Pest  
-from .forms import FarmForm, SurveillanceForm, PestForm, SurveillanceFilterForm  
+from .models import Farm, Surveillance, Pest, EntryExitLog  
+from .forms import FarmForm, SurveillanceForm, PestForm, SurveillanceFilterForm, EntryExitLogForm  
 from statistics import mean, stdev
 from math import sqrt
 from scipy.stats import t
@@ -83,6 +83,41 @@ def profile_view(request):
 def farm_list(request):
     farms = Farm.objects.filter(owner=request.user)
     return render(request, 'App2/farm_list.html', {'farms': farms})
+
+class EntryExitListView(LoginRequiredMixin, ListView):
+    model = EntryExitLog
+    template_name = 'App2/entryexit_list.html'
+    context_object_name = 'logs'
+
+    def get_queryset(self):
+        return EntryExitLog.objects.filter(farm__owner=self.request.user)
+
+class EntryExitCreateView(LoginRequiredMixin, CreateView):
+    model = EntryExitLog
+    form_class = EntryExitLogForm
+    template_name = 'App2/entryexit_form.html'
+    success_url = reverse_lazy('App2:entry-exit-list')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+class EntryExitUpdateView(LoginRequiredMixin, UpdateView):
+    model = EntryExitLog
+    form_class = EntryExitLogForm
+    template_name = 'App2/entryexit_form.html'
+    success_url = reverse_lazy('App2:entry-exit-list')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+class EntryExitDeleteView(LoginRequiredMixin, DeleteView):
+    model = EntryExitLog
+    template_name = 'App2/entryexit_confirm_delete.html'
+    success_url = reverse_lazy('App2:entry-exit-list')
 
 
 # OWNER Mixin

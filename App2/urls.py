@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from .views import EntryExitCreateView
+
 
 app_name = 'App2'
 
@@ -18,6 +20,15 @@ urlpatterns = [
     path('farms/<int:pk>/delete/', views.FarmDeleteView.as_view(), name='farm-delete'),
     path('manage-farms/', views.farm_list, name='farm-list'),
     
+    # Entry/Exit Log URLs
+    path('entryexit/', views.EntryExitListView.as_view(), name='entry-exit-list'),
+    path('entryexit/create/', EntryExitCreateView.as_view(), name='entry-exit-create'),
+    path('entryexit/<int:pk>/edit/', views.EntryExitUpdateView.as_view(), name='entryexit-edit'),
+    path('entryexit/<int:pk>/delete/', views.EntryExitDeleteView.as_view(), name='entryexit-delete'),
+
+
+
+ 
     # Pest CRUD URLs
     path('pests/', views.PestListView.as_view(), name='pest-list'),
     path('pests/create/', views.PestCreateView.as_view(), name='pest-create'),

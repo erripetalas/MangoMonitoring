@@ -1,0 +1,27 @@
+{% extends 'App2/base.html' %}
+{% block title %}Delete Entry/Exit Log{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="form-card">
+    <h2 class="mb-4 text-danger">⚠️ Confirm Deletion</h2>
+    <p class="lead">Are you sure you want to delete the following entry?</p>
+
+    <ul class="list-group mb-4 text-start">
+      <li class="list-group-item"><strong>Farm:</strong> {{ object.farm.name }}</li>
+      <li class="list-group-item"><strong>Company:</strong> {{ object.company_name }}</li>
+      <li class="list-group-item"><strong>Person:</strong> {{ object.person_name }}</li>
+      <li class="list-group-item"><strong>Purpose:</strong> {{ object.purpose }}</li>
+      <li class="list-group-item"><strong>Date:</strong> {{ object.date }}</li>
+      <li class="list-group-item"><strong>Time:</strong> {{ object.time }}</li>
+      <li class="list-group-item"><strong>Remarks:</strong> {{ object.remarks|default:"—" }}</li>
+    </ul>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Yes, Delete</button>
+      <a href="{% url 'App2:entry-exit-list' %}" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -33,6 +33,18 @@ class Pest(models.Model):
     def __str__(self):
         return self.name
 
+class EntryExitLog(models.Model):
+    farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
+    company_name = models.CharField(max_length=100)
+    person_name = models.CharField(max_length=100)
+    purpose = models.CharField(max_length=255)
+    date = models.DateField()
+    time = models.TimeField()
+    remarks = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.company_name} - {self.purpose} on {self.date}"
+
 
 class Surveillance(models.Model):
     SEVERITY_CHOICES = [

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Farm, Surveillance, Pest
+from .models import Farm, Surveillance, Pest, EntryExitLog
 from django.utils.safestring import mark_safe
 from django.db.models import Q
 
@@ -90,3 +90,23 @@ class SurveillanceFilterForm(forms.Form):
             self.fields['farm'].queryset = Farm.objects.filter(owner=user)
             self.fields['pest'].queryset = Pest.objects.filter(reference_pest_id__in=[1, 2, 3, 4, 5, 6, 7])
             self.fields['pest'].label = mark_safe('Pest <a href="/pests/info/" target="_blank" class="ms-2">(More Info)</a>')
+
+class EntryExitLogForm(forms.ModelForm):
+    class Meta:
+        model = EntryExitLog
+        fields = ['farm', 'company_name', 'person_name', 'purpose', 'date', 'time', 'remarks']
+        widgets = {
+            'farm': forms.Select(attrs={'class': 'form-control'}),
+            'company_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'person_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'purpose': forms.TextInput(attrs={'class': 'form-control'}),
+            'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+            'remarks': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['farm'].queryset = Farm.objects.filter(owner=user)
