@@ -1,6 +1,7 @@
 {% extends 'app2/base.html' %}
 {% block title %}Delete Farm{% endblock %}
 {% block content %}
+<a href="{% url 'App2:profile' %}" class="btn btn-secondary mb-3">← Back to Dashboard</a>
 <h2>Confirm Deletion</h2>
 <p>Are you sure you want to delete the farm "<strong>{{ farm.name }}</strong>"?</p>
 <form method="post">

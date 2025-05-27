@@ -1,20 +1,22 @@
-{% extends 'App2/base.html' %}
+{% extends 'app2/base.html' %}
 {% block title %}Surveillance Records{% endblock %}
-{% block content %}
-<div class="form-card">
-  <h2>Surveillance Records</h2>
 
-  <form method="get" class="row g-3 mb-4">
-    <div class="col-md-3">{{ form.farm.label_tag }}{{ form.farm }}</div>
-    <div class="col-md-3">{{ form.pest.label_tag }}{{ form.pest }}</div>
-    <div class="col-md-2">{{ form.severity.label_tag }}{{ form.severity }}</div>
-    <div class="col-md-2">{{ form.start_date.label_tag }}{{ form.start_date }}</div>
-    <div class="col-md-2">{{ form.end_date.label_tag }}{{ form.end_date }}</div>
-    <div class="col-md-12">
-      <button type="submit" class="btn btn-primary">Apply Filters</button>
-      <a href="{% url 'App2:surveillance-create' %}" class="btn btn-success float-end">+ Add Record</a>
-    </div>
-  </form>
+{% block content %}
+<a href="{% url 'App2:profile' %}" class="btn btn-secondary mb-3">← Back to Dashboard</a>
+
+<h2>Surveillance Records</h2>
+
+<!-- Filter Form -->
+<form method="get" class="mb-3">
+    <label for="severity">Filter by Severity:</label>
+    <select name="severity" id="severity" onchange="this.form.submit()">
+        <option value="">All</option>
+        <option value="1" {% if severity_filter == '1' %}selected{% endif %}>Low</option>
+        <option value="2" {% if severity_filter == '2' %}selected{% endif %}>Medium</option>
+        <option value="3" {% if severity_filter == '3' %}selected{% endif %}>High</option>
+        <option value="4" {% if severity_filter == '4' %}selected{% endif %}>Critical</option>
+    </select>
+</form>
 
   {% if surveillance_records %}
   <table class="table table-bordered table-striped">

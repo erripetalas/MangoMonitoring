@@ -39,7 +39,7 @@ class SurveillanceForm(forms.ModelForm):
         fields = [
             'farm', 'location', 'date_observed', 'time_observed',
             'plants_inspected', 'plant_part', 'pest', 'severity',
-            'pest_count', 'notes'
+            'pest_count','weather_conditions','notes'
         ]
         widgets = {
             'farm': forms.TextInput(attrs={'class': 'form-control'}),
@@ -51,6 +51,7 @@ class SurveillanceForm(forms.ModelForm):
             'pest': forms.Select(attrs={'class': 'form-control'}),
             'severity': forms.Select(attrs={'class': 'form-control'}),
             'pest_count': forms.NumberInput(attrs={'class': 'form-control', 'min': '0'}),
+            'weather_conditions': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g., Sunny, Rainy, Humid'}),
             'notes': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
     
@@ -63,7 +64,7 @@ class SurveillanceForm(forms.ModelForm):
             # Only show pests created by the user
             self.fields['pest'].queryset = Pest.objects.filter(reference_pest_id__in=[1, 2, 3, 4, 5, 6, 7])
             # Update location choices based on selected farm
-            if 'farm' in self.data:
+            if self.is_bound and 'farm' in self.data:
                 try:
                     farm_id = int(self.data.get('farm'))
                     self.fields['location'].queryset = PlantLocation.objects.filter(farm_id=farm_id)
