@@ -9,6 +9,7 @@
     --text-light: #5D6D7E;
     --shadow-sm: 0 2px 8px rgba(46, 125, 50, 0.1);
     --shadow-md: 0 4px 12px rgba(46, 125, 50, 0.15);
+    --border-color: #dcdcdc;
   }
   
   * {
@@ -212,62 +213,19 @@
       font-size: 1.4rem;
   }
 }
-<<<<<<< HEAD
-}
-
-/* TTS Container Styling */
-#tts-container {
-    text-align: center;
-}
-
-/* Start TTS Button Styling */
-#tts-button {
-    background-color: #27ae60;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-}
-
-#tts-button:hover {
-    background-color: #2ecc71;
-}
-
-/* Language Selector Styling */
-#language-selector {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-right: 10px;
-}
-
-/* Stop TTS Button Styling */
-#stop-button {
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-left: 10px;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-}
-
-#stop-button:hover {
-    background-color: #c0392b;
-}
-=======
+  
+    .card {
+      padding: 1.5rem;
+    }
+  
+    .btn {
+      width: 100%;
+      text-align: center;
+    }
+  
+    footer p {
+      font-size: 0.9rem;
+    }
   }
   
   @media (max-width: 480px) {
@@ -283,4 +241,4 @@
       padding: 1.3rem;
     }
   }
->>>>>>> c96b02cfd022609536caded7ff07617447acc247
+  
