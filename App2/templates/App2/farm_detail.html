@@ -3,10 +3,16 @@
 
 {% block content %}
 <div class="farm-detail-wrapper">
-
-  <!-- Right-aligned Back Button -->
-  <div class="text-end mb-3">
-    <a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
+  <div class="mb-3">
+    <label for="farm-selector" class="form-label">Switch to another farm:</label>
+    <select id="farm-selector" class="form-select" onchange="if(this.value) window.location.href=this.value">
+      <option value="">Select a farm...</option>
+      {% for user_farm in user_farms %}
+        <option value="{% url 'App2:farm-detail' user_farm.pk %}" {% if user_farm.pk == farm.pk %}selected{% endif %}>
+          {{ user_farm.name }}
+        </option>
+      {% endfor %}
+    </select>
   </div>
 
   <!-- Detail Card -->
@@ -35,6 +41,7 @@
     <div class="mt-4 d-flex flex-wrap justify-content-center gap-2">
       <a href="{% url 'App2:farm-update' farm.pk %}" class="btn btn-success">Edit Farm</a>
       <a href="{% url 'App2:farm-delete' farm.pk %}" class="btn btn-success">Delete</a>
+      <a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
     </div>
 
   </div>

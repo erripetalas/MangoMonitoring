@@ -35,15 +35,16 @@
 
  <!-- Farm Summary -->
     <div class="content-card mb-4">
-    <h4 class="mb-3">🌿 My Farm Summary</h4>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4>🌿 My Farm Summary</h4>
+    </div>
 
     {% if farms %}
-    <!-- ✅ Original Farm Summary Table Style Preserved -->
     <div class="summary-table-container mb-4">
       <table class="table w-auto text-center" style="border: 2px solid green;">
         <thead style="background-color: #d4edda; color: #155724;">
           <tr>
-            <th style="border: 1px solid green;">Total Farms</th>
+            <th style="border: 1px solid green;">Farm #</th>
             <th style="border: 1px solid green;">Name</th>
             <th style="border: 1px solid green;">Location</th>
             <th style="border: 1px solid green;">Plants</th>
@@ -53,24 +54,24 @@
         <tbody>
           {% for farm in farms %}
           <tr>
-            <td style="border: 1px solid green;">{{ farms_count }}</td>
+            <td style="border: 1px solid green;">{{ forloop.counter }}</td>
             <td style="border: 1px solid green;">{{ farm.name }}</td>
             <td style="border: 1px solid green;">{{ farm.location }}</td>
             <td style="border: 1px solid green;">{{ farm.total_plants }}</td>
             <td style="border: 1px solid green;">{{ farm.farm_size }}</td>
-            
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
 
-    <!-- Action Buttons -->
-    <div class="d-flex justify-content-center gap-3 mt-3">
-      {% for farm in farms %}
-        <a href="{% url 'App2:farm-detail' farm.pk %}" class="btn btn-outline-success">View</a>
-        <a href="{% url 'App2:farm-update' farm.pk %}" class="btn btn-outline-secondary">Edit</a>
-      {% endfor %}
+    <!-- Action Buttons - Just 3 buttons total, no duplication -->
+    <div class="d-flex justify-content-center gap-2 mt-3">
+      <a href="{% url 'App2:farm-create' %}" class="btn btn-success">Add</a>
+      {% if farms %}
+        <a href="{% url 'App2:farm-detail' farms.0.pk %}" class="btn btn-outline-success">View</a>
+        <a href="{% url 'App2:farm-update' farms.0.pk %}" class="btn btn-outline-secondary">Edit</a>
+      {% endif %}
     </div>
 
     {% else %}

@@ -106,7 +106,12 @@ class FarmCreateView(LoginRequiredMixin, CreateView):
 class FarmDetailView(LoginRequiredMixin, OwnerMixin, DetailView):
     model = Farm
     template_name = 'app2/farm_detail.html'
-
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_farms'] = Farm.objects.filter(owner=self.request.user)
+        return context
+    
 class FarmUpdateView(LoginRequiredMixin, OwnerMixin, UpdateView):
     model = Farm
     form_class = FarmForm
