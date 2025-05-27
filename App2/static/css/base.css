@@ -258,6 +258,26 @@ form.row.g-3 .form-control {
     box-shadow: none;
 }
 
+.table-bordered-custom {
+  border-collapse: collapse;
+  width: 100%;
+  border: 2px solid #2e7d32;
+}
+
+.table-bordered-custom th,
+.table-bordered-custom td {
+  border: 1px solid #2e7d32;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.table-bordered-custom th {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+
+
 .btn {
     border-radius: 6px;
     font-size: 0.95rem;
