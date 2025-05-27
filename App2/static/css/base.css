@@ -133,6 +133,33 @@ html, body {
   box-shadow: 0 4px 12px rgba(0, 100, 0, 0.05);
 }
 
+.surveillance-section {
+  background-color: #f6fff6;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 2px solid #2e7d32;
+  border-radius: 12px;
+}
+
+.surveillance-section:hover {
+  background-color: #e0f7e9;
+  box-shadow: 0 4px 20px rgba(0, 100, 0, 0.1);
+  transform: scale(1.01);
+}
+
+.hover-box {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 2px solid #2e7d32;
+  background-color: #f6fff6;
+  border-radius: 12px;
+}
+
+.hover-box:hover {
+  background-color: #e0f7e9;
+  box-shadow: 0 4px 20px rgba(0, 100, 0, 0.1);
+  transform: scale(1.01);
+}
 
 .dashboard-card {
   background: #ffffff;
