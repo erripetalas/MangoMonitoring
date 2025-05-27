@@ -88,21 +88,21 @@
       <table class="table ci-table text-center">
         <thead>
           <tr>
-            <th>Farm</th>
-            <th>Mean Count</th>
-            <th>95% CI (Lower)</th>
-            <th>95% CI (Upper)</th>
-            <th>Margin of Error</th>
+            <th style="border: 1px solid green;">Farm</th>
+            <th style="border: 1px solid green;">Mean Count</th>
+            <th style="border: 1px solid green;">95% CI (Lower)</th>
+            <th style="border: 1px solid green;">95% CI (Upper)</th>
+            <th style="border: 1px solid green;">Margin of Error</th>
           </tr>
         </thead>
         <tbody>
           {% for ci in ci_results %}
           <tr>
-            <td>{{ ci.farm_name }}</td>
-            <td>{{ ci.mean }}</td>
-            <td>{{ ci.lower }}</td>
-            <td>{{ ci.upper }}</td>
-            <td>{{ ci.margin_of_error }}</td>
+            <td style="border: 1px solid green;">{{ ci.farm_name }}</td>
+            <td style="border: 1px solid green;">{{ ci.mean }}</td>
+            <td style="border: 1px solid green;">{{ ci.lower }}</td>
+            <td style="border: 1px solid green;">{{ ci.upper }}</td>
+            <td style="border: 1px solid green;">{{ ci.margin_of_error }}</td>
           </tr>
           {% endfor %}
         </tbody>
