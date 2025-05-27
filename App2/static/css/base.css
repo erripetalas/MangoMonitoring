@@ -125,7 +125,7 @@ html, body {
 }
 
 .profile-content-box {
-  background-color: #ffffff;
+  background-color: #0c5522;
   border: 2px solid var(--primary-green, #2e7d32);
   border-radius: 12px;
   padding: 2rem;
