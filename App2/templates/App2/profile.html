@@ -16,86 +16,75 @@
 
 {% block content %}
 <div class="container mt-5">
-<div class="dashboard-card p-4">
-  <div class="text-center mb-4">
-    <h2>Welcome, {{ user.username }}!</h2>
-    <p class="lead">Track your mango crops and pest monitoring efforts easily.</p>
-  </div>
- 
-
-  <!-- Stats Section -->
-  <div class="row justify-content-center mb-4">
-    <div class="col-md-4">
-      <div class="stat-card text-center">
-        <h3>{{ farms_count }}</h3>
-        <p>Total Farms</p>
-      </div>
-    </div>
-</div>
-
-  <!-- Farm Section -->
-  <div class="form-card mb-5">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h4 class="mb-0">🌿 My Farms</h4>
-      <div>
-        <a href="{% url 'App2:farm-create' %}" class="btn btn-success me-2">+ Add New Farm</a>
-        <a href="{% url 'App2:farm-list' %}" class="btn btn-outline-primary">View All Farms</a>
-      </div>
+  <div class="dashboard-card p-4">
+    <div class="text-center mb-4">
+      <h2>Welcome, {{ user.username }}!</h2>
+      <p class="lead">Track your mango crops and pest monitoring efforts easily.</p>
     </div>
 
-    {% if farms %}
-    <div class="table-responsive">
-      <table class="table custom-table">
+   <!-- Summary Table -->
+    <div class="d-flex justify-content-center mb-4">
+      <table class="table w-auto text-center">
         <thead class="table-success">
           <tr>
-            <th class="border">Name</th>
-            <th class="border">Location</th>
-            <th class="border">Plants</th>
-            <th class="border">Size</th>
-            <th class="border">Stocking Rate</th>
-            <th class="border">Actions</th>
+            <th>Total Farms</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Plants</th>
+            <th>Size (ha)</th>
+            <th>Stocking Rate</th>
           </tr>
         </thead>
         <tbody>
           {% for farm in farms %}
           <tr>
-            <td class="border">{{ farm.name }}</td>
-            <td class="border">{{ farm.location }}</td>
-            <td class="border">{{ farm.total_plants }}</td>
-            <td class="border">{{ farm.farm_size }}</td>
-            <td class="border">{{ farm.stocking_rate|floatformat:2 }}</td>
-            <td class="border">
-              <a href="{% url 'App2:farm-detail' farm.pk %}" class="btn btn-sm btn-outline-success">View</a>
-              <a href="{% url 'App2:farm-update' farm.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
-            </td>
+            <td>{{ farms_count }}</td>
+            <td>{{ farm.name }}</td>
+            <td>{{ farm.location }}</td>
+            <td>{{ farm.total_plants }}</td>
+            <td>{{ farm.farm_size }}</td>
+            <td>{{ farm.stocking_rate|floatformat:2 }}</td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
-    {% else %}
-    <p>No farms found. Start by adding a new farm above.</p>
-    {% endif %}
-  </div>
 
-  <!-- Quick Actions Section -->
-  <div class="row">
-    <div class="col-md-6">
-      <div class="form-card">
-        <h4 class="mb-3">📋 Surveillance Records</h4>
-        <p class="mb-2">Monitor pest activity and record plant inspections across your farms.</p>
-        <a href="{% url 'App2:surveillance-list' %}" class="btn btn-outline-primary">Manage Records</a>
-      </div>
+    <!-- Action Buttons -->
+    <div class="d-flex justify-content-center gap-3 mb-5">
+      {% for farm in farms %}
+        <a href="{% url 'App2:farm-detail' farm.pk %}" class="btn btn-outline-success">View</a>
+        <a href="{% url 'App2:farm-update' farm.pk %}" class="btn btn-outline-secondary">Edit</a>
+      {% endfor %}
     </div>
-    <div class="col-md-6">
-      <div class="form-card">
-        <h4 class="mb-3">🐛 Pest Management</h4>
-        <p class="mb-2">Log pests identified on your properties and cross-reference with known species.</p>
-        <a href="{% url 'App2:pest-list' %}" class="btn btn-outline-primary">Manage Pests</a>
+    
+    <!-- Farm Cards -->
+   
+    {% else %}
+    <div class="form-card text-center">
+      <p>No farms found. Start by adding a new farm.</p>
+      <a href="{% url 'App2:farm-create' %}" class="btn btn-success mt-2">+ Add New Farm</a>
+    </div>
+    {% endif %}
+
+
+    <!-- Quick Actions Section -->
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <div class="form-card text-center">
+          <h4 class="mb-3">📋 Surveillance Records</h4>
+          <p class="mb-2">Monitor pest activity and record plant inspections across your farms.</p>
+          <a href="{% url 'App2:surveillance-list' %}" class="btn btn-outline-primary">Manage Records</a>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-card text-center">
+          <h4 class="mb-3">🐛 Pest Management</h4>
+          <p class="mb-2">Log pests identified on your properties and cross-reference with known species.</p>
+          <a href="{% url 'App2:pest-list' %}" class="btn btn-outline-primary">Manage Pests</a>
+        </div>
       </div>
     </div>
   </div>
-</div>
-</div>
 </div>
 {% endblock %}
