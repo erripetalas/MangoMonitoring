@@ -23,21 +23,6 @@ class Farm(models.Model):
     class Meta:
         ordering = ['name']
 
-
-class PlantLocation(models.Model):
-    """Specific locations within a farm for surveillance"""
-    farm = models.ForeignKey(Farm, on_delete=models.CASCADE, related_name='locations')
-    name = models.CharField(max_length=100, help_text="e.g., North Block, Section A")
-    description = models.TextField(blank=True, help_text="Additional location details")
-    number_of_plants = models.IntegerField(validators=[MinValueValidator(1)])
-    
-    def __str__(self):
-        return f"{self.farm.name} - {self.name}"
-
-    class Meta:
-        unique_together = ['farm', 'name']
-
-
 class Pest(models.Model):
     """User-identified pests during surveillance"""
     name = models.CharField(max_length=100)
@@ -67,7 +52,7 @@ class Surveillance(models.Model):
     ] 
     # Core fields
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE, related_name='surveillance_records')
-    location = models.ForeignKey(PlantLocation, on_delete=models.SET_NULL, null=True,related_name='surveillance_records')
+    # location field removed - no longer needed
     date_observed = models.DateField()
     time_observed = models.TimeField()
     

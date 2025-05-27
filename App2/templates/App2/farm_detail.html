@@ -19,25 +19,12 @@
 
     <hr class="my-4" />
 
-    <!-- Plant Locations -->
-    <h4 class="mb-2">🌱 Plant Locations</h4>
-    {% if farm.locations.all %}
-      <ul class="text-start" style="max-width: 600px; margin: auto;">
-        {% for location in farm.locations.all %}
-          <li>{{ location.name }} – {{ location.number_of_plants }} plants</li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p>No plant locations added yet.</p>
-    {% endif %}
-    <a href="{% url 'App2:location-create' farm.pk %}" class="btn btn-success mt-2">+ Add Location</a>
-
     <!-- Surveillance -->
     <h4 class="mt-4 mb-2">📋 Surveillance Records</h4>
-    {% if farm.surveillance_set.all %}
+    {% if farm.surveillance_records.all %}
       <ul class="text-start" style="max-width: 600px; margin: auto;">
-        {% for record in farm.surveillance_set.all %}
-          <li>{{ record.date_observed }} - {{ record.pest.name }} ({{ record.severity }})</li>
+        {% for record in farm.surveillance_records.all %}
+          <li>{{ record.date_observed }} - {{ record.pest.name }} ({{ record.get_severity_display }})</li>
         {% endfor %}
       </ul>
     {% else %}

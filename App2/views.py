@@ -5,8 +5,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy, reverse
-from .models import Farm, PlantLocation, Surveillance, Pest
-from .forms import FarmForm, PlantLocationForm, SurveillanceForm, PestForm, SurveillanceFilterForm
+from .models import Farm, Surveillance, Pest  
+from .forms import FarmForm, SurveillanceForm, PestForm, SurveillanceFilterForm  
 from statistics import mean, stdev
 from math import sqrt
 from scipy.stats import t
@@ -125,28 +125,6 @@ class FarmDeleteView(LoginRequiredMixin, OwnerMixin, DeleteView):
     model = Farm
     template_name = 'app2/farm_confirm_delete.html'
     success_url = reverse_lazy('App2:farm-list')
-
-# LOCATION VIEWS
-class LocationCreateView(LoginRequiredMixin, CreateView):
-    model = PlantLocation
-    form_class = PlantLocationForm
-    template_name = 'app2/location_form.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        self.farm = get_object_or_404(Farm, pk=kwargs['farm_pk'], owner=request.user)
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['farm'] = self.farm
-        return context
-
-    def form_valid(self, form):
-        form.instance.farm = self.farm
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse('App2:farm-detail', kwargs={'pk': self.farm.pk})
 
 # PEST VIEWS
 class PestListView(LoginRequiredMixin, ListView):

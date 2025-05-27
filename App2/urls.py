@@ -18,9 +18,6 @@ urlpatterns = [
     path('farms/<int:pk>/update/', views.FarmUpdateView.as_view(), name='farm-update'),
     path('farms/<int:pk>/delete/', views.FarmDeleteView.as_view(), name='farm-delete'),
     
-    # Plant Location URLs
-    path('farms/<int:farm_pk>/locations/create/', views.LocationCreateView.as_view(), name='location-create'),
-    
     # Pest CRUD URLs
     path('pests/', views.PestListView.as_view(), name='pest-list'),
     path('pests/create/', views.PestCreateView.as_view(), name='pest-create'),
@@ -32,6 +29,4 @@ urlpatterns = [
     path('surveillance/<int:pk>/', views.SurveillanceDetailView.as_view(), name='surveillance-detail'),
     path('surveillance/<int:pk>/update/', views.SurveillanceUpdateView.as_view(), name='surveillance-update'),
     path('surveillance/<int:pk>/delete/', views.SurveillanceDeleteView.as_view(), name='surveillance-delete'),
-
-
 ]

@@ -1,17 +1,11 @@
 from django.contrib import admin
-from .models import Farm, Pest, PlantLocation, Surveillance
+from .models import Farm, Pest, Surveillance
 
 @admin.register(Farm)
 class FarmAdmin(admin.ModelAdmin):
     list_display = ['name', 'location', 'owner', 'total_plants', 'stocking_rate']
     list_filter = ['owner', 'created_at']
     search_fields = ['name', 'location']
-
-@admin.register(PlantLocation)
-class PlantLocationAdmin(admin.ModelAdmin):
-    list_display = ['name', 'farm', 'number_of_plants']
-    list_filter = ['farm']
-    search_fields = ['name', 'farm__name']
 
 @admin.register(Pest)
 class PestAdmin(admin.ModelAdmin):
