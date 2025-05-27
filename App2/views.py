@@ -7,6 +7,11 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, D
 from django.urls import reverse_lazy, reverse
 from .models import Farm, PlantLocation, Surveillance, Pest
 from .forms import FarmForm, PlantLocationForm, SurveillanceForm, PestForm, SurveillanceFilterForm
+from statistics import mean, stdev
+from math import sqrt
+from scipy.stats import t
+from django.db.models import Avg
+
 
 # AUTHENTICATION VIEWS
 def logout_view(request):
@@ -37,10 +42,35 @@ def register_view(request):
 
 @login_required
 def profile_view(request):
+    farms = request.user.farms.all()
+    ci_results = []
+
+    for farm in farms:
+        records = Surveillance.objects.filter(farm=farm)
+        pest_counts = [record.pest_count for record in records if record.pest_count is not None]
+
+        if len(pest_counts) >= 2:
+            sample_mean = mean(pest_counts)
+            sample_std = stdev(pest_counts)
+            n = len(pest_counts)
+            confidence = 0.95
+            t_score = t.ppf(1 - (1 - confidence)/2, df=n-1)
+            margin_error = t_score * (sample_std / sqrt(n))
+            ci = {
+                'farm_name': farm.name,
+                'mean': round(sample_mean, 2),
+                'lower': round(sample_mean - margin_error, 2),
+                'upper': round(sample_mean + margin_error, 2),
+                'margin_of_error': round(margin_error, 2)
+            }
+            ci_results.append(ci)
+
     context = {
-        'farms': request.user.farms.all()[:5],
-        'farms_count': request.user.farms.count(),
+        'farms': farms[:5],
+        'farms_count': farms.count(),
+        'ci_results': ci_results
     }
+
     return render(request, 'App2/profile.html', context)
 
 # OWNER Mixin

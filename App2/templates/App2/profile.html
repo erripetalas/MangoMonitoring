@@ -62,6 +62,35 @@
       {% endfor %}
     </div>
 
+    <!-- CI Results Section -->
+{% if ci_results %}
+<div class="form-card mt-4">
+  <h4 class="mb-3">📊 Confidence Interval Summary</h4>
+  <table class="table summary-table text-center">
+    <thead>
+      <tr>
+        <th>Farm</th>
+        <th>Mean Count</th>
+        <th>95% CI (Lower)</th>
+        <th>95% CI (Upper)</th>
+        <th>Margin of Error</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ci in ci_results %}
+      <tr>
+        <td>{{ ci.farm_name }}</td>
+        <td>{{ ci.mean }}</td>
+        <td>{{ ci.lower }}</td>
+        <td>{{ ci.upper }}</td>
+        <td>{{ ci.margin_of_error }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
 
     {% else %}
     <div class="text-center">
