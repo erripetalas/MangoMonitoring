@@ -3,47 +3,14 @@
 
 {% block content %}
 <div class="container mt-4">
-  <a href="{% url 'App2:profile' %}" class="btn btn-outline-secondary mb-3">← Back to Dashboard</a>
+
 
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>📋 Surveillance Records</h2>
     <a href="{% url 'App2:surveillance-create' %}" class="btn btn-success">+ Add New Record</a>
   </div>
 
-  <!-- Filter Form -->
-  <form method="get" class="row g-3 align-items-end mb-4">
-    <div class="col-md-3">
-      <label for="severity" class="form-label">Severity</label>
-      <select name="severity" id="severity" class="form-select">
-        <option value="">All</option>
-        <option value="1" {% if severity_filter == '1' %}selected{% endif %}>Low</option>
-        <option value="2" {% if severity_filter == '2' %}selected{% endif %}>Medium</option>
-        <option value="3" {% if severity_filter == '3' %}selected{% endif %}>High</option>
-        <option value="4" {% if severity_filter == '4' %}selected{% endif %}>Critical</option>
-      </select>
-    </div>
-    <div class="col-md-3">
-      <label for="pest" class="form-label">Pest Name</label>
-      <input type="text" name="pest" id="pest" class="form-control" placeholder="e.g. Mango seed weevil">
-    </div>
-    <div class="col-md-3">
-      <label for="farm" class="form-label">Farm</label>
-      <input type="text" name="farm" id="farm" class="form-control" placeholder="e.g. Farm A">
-    </div>
-    <div class="col-md-3">
-      <label class="form-label">Date Range</label>
-      <div class="input-group">
-        <input type="date" name="start_date" class="form-control">
-        <span class="input-group-text">to</span>
-        <input type="date" name="end_date" class="form-control">
-      </div>
-    </div>
-    <div class="col-md-12">
-      <button type="submit" class="btn btn-primary">Apply Filters</button>
-      <a href="{% url 'App2:surveillance-list' %}" class="btn btn-outline-secondary">Reset</a>
-      <button type="button" class="btn btn-outline-dark float-end">📥 Export CSV</button>
-    </div>
-  </form>
+  
 
   {% if surveillance_records %}
   <div class="table-responsive">
@@ -72,9 +39,9 @@
           <td>{{ record.date_observed }}</td>
           <td>
             <div class="btn-group">
-              <a href="{% url 'App2:surveillance-detail' record.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+
               <a href="{% url 'App2:surveillance-update' record.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
-              <a href="{% url 'App2:surveillance-delete' record.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+
             </div>
           </td>
         </tr>
@@ -84,7 +51,7 @@
   </div>
   {% else %}
   <div class="alert alert-warning" role="alert">
-    No records found for your filter criteria.
+    No surveillance records found.
   </div>
   {% endif %}
 </div>
