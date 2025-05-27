@@ -7,6 +7,7 @@ body {
     font-family: 'Segoe UI', sans-serif;
     margin: 0;
     padding: 0;
+    text-align: center;
 }
 
 header {
@@ -66,6 +67,7 @@ header {
     box-shadow: var(--shadow-md);
     border-top: 5px solid var(--secondary-green);
     background-color: var(--card-bg, #fff);
+    text-align: center;
 }
  
 .form-card h2 {
@@ -80,6 +82,7 @@ header {
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
+    text-align: left;
 }
 
 
