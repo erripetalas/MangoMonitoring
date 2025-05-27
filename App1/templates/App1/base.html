@@ -48,16 +48,18 @@
         </div>
     </nav>
 
-   <li class="tts-nav-item">
+    <!-- Add Text-to-Speech Button -->
+    <!-- Add TTS Button and Language Selector -->
+    <div id="tts-container" style="margin-top: 10px;">
         <select id="language-selector">
             <option value="en-US" selected>English</option>
             <option value="th-TH">Thai</option>
             <option value="vi-VN">Vietnamese</option>
         </select>
-    </li>
-    <li class="tts-nav-item">
-        <button id="tts-button" class="btn btn-sm btn-outline-light">🔊 Read Aloud</button>
-    </li>
+        <button id="tts-button">
+            🔊 Read Aloud
+        </button>
+    </div>
     
     <main id="main-content">
         {% block content %}
