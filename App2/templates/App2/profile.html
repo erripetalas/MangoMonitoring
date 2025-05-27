@@ -15,18 +15,16 @@
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5 ">
-  <div class="dashboard-card text-center mx-auto" style="max-width: 1000px;">
-    <div class="mb-4">
-      <h2>Welcome, {{ user.username }}!</h2>
-      <p class="lead">Track your mango crops and pest monitoring efforts easily.</p>
-    </div>
+<div class="profile-wrapper">
+  <div class="profile-card-box">
 
-    <h4 class="mb-3">🌿 My Farm Summary</h4>
+    <h2>Welcome, {{ user.username }}!</h2>
+    <p class="lead">Track your mango crops and pest monitoring efforts easily.</p>
+
+    <h4 class="mt-4">🌿 My Farm Summary</h4>
 
     {% if farms %}
-    <!-- Summary Table -->
-    <div class="d-flex justify-content-center mb-4">
+    <div class="summary-table-container mb-3">
       <table class="table w-auto text-center" style="border: 2px solid green;">
         <thead style="background-color: #d4edda; color: #155724;">
           <tr>
@@ -55,13 +53,18 @@
 
 
     <!-- Action Buttons -->
-    <div class="d-flex justify-content-center gap-3 mb-5">
+    <div class="d-flex justify-content-center gap-3 mb-4">
       {% for farm in farms %}
         <a href="{% url 'App2:farm-detail' farm.pk %}" class="btn btn-outline-success">View</a>
         <a href="{% url 'App2:farm-update' farm.pk %}" class="btn btn-outline-secondary">Edit</a>
       {% endfor %}
     </div>
 
+    {% else %}
+    <p>No farms found. Start by adding a new farm.</p>
+    <a href="{% url 'App2:farm-create' %}" class="btn btn-success mt-2">+ Add New Farm</a>
+    {% endif %}
+    
     <!-- CI Results Section -->
 {% if ci_results %}
 <div class="ci-card mt-4">
@@ -90,17 +93,7 @@
   </table>
 </div>
 {% endif %}
-
-
-    {% else %}
-    <div class="text-center">
-      <p>No farms found. Start by adding a new farm.</p>
-      <a href="{% url 'App2:farm-create' %}" class="btn btn-success mt-2">+ Add New Farm</a>
-    </div>
-    {% endif %}
-
-
-
+    
     <!-- Quick Actions Section -->
     <div class="row mt-4 justify-content-center">
       <div class="col-md-6">
