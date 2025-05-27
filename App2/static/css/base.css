@@ -20,61 +20,71 @@ html, body {
   height: 100%;
 }
 
-.login-page-wrapper {
+.auth-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh;
-  height: calc(100vh - 100px); /* adjust for header/footer if needed */
+  min-height: calc(100vh - 120px); /* fits under header/footer */
   padding: 2rem 1rem;
 }
 
-
-
-.login-card {
+.auth-box {
   background-color: #fff;
   border: 1px solid var(--primary-green, #2e7d32);
-  padding: 3rem 2.5rem;
+  padding: 3rem;
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 100, 0, 0.1);
-  max-width: 550px;
+  box-shadow: 0 8px 20px rgba(0, 100, 0, 0.08);
   width: 100%;
+  max-width: 500px;
   text-align: center;
 }
 
-.login-card h2 {
-  color: var(--primary-green, #2e7d32);
+.auth-title {
+  font-size: 1.75rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
+  color: var(--primary-green);
 }
 
-.login-card .form-group {
+.auth-box .form-group {
   margin-bottom: 1.2rem;
   text-align: left;
 }
 
-.login-card .form-group label {
-  font-weight: 500;
+.auth-box .form-group label {
   display: block;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.3rem;
+  font-weight: 500;
 }
 
-.login-card .form-group input {
+.auth-box .form-group input {
   width: 100%;
-  padding: 0.6rem;
+  padding: 0.7rem;
   border: 1px solid var(--border-color, #ccc);
   border-radius: 6px;
   font-size: 1rem;
 }
 
-.login-card .btn {
+.auth-box .btn {
   margin-top: 1rem;
   width: 100%;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem;
 }
 
+.auth-note {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+}
 
+.auth-link {
+  color: var(--primary-green, #2e7d32);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
 
 
 .dashboard-card {
