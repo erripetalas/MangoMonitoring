@@ -1,18 +1,36 @@
 {% extends 'app2/base.html' %}
-{% block title %}My Pests{% endblock %}
-{% block content %}
-<a href="{% url 'App2:profile' %}" class="btn btn-secondary mb-3">← Back to Dashboard</a>
+{% block title %}My Pest Records{% endblock %}
 
-<h2>My Pest Records</h2>
-<a href="{% url 'App2:pest-create' %}" class="btn btn-primary mb-3">+ Add Pest</a>
-<ul>
+{% block content %}
+<div class="container mt-4">
+  <a href="{% url 'App2:profile' %}" class="btn btn-outline-secondary mb-3">← Back to Dashboard</a>
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>🪲 Pest Records</h2>
+    <a href="{% url 'App2:pest-create' %}" class="btn btn-success">+ Add New Pest</a>
+  </div>
+
+  {% if pests %}
+  <div class="row">
     {% for pest in pests %}
-        <li>
-            <strong>{{ pest.name }}</strong> – {{ pest.description|truncatewords:10 }}
-            <a href="{% url 'App2:pest-delete' pest.id %}" class="text-danger">Delete</a>
-        </li>
-    {% empty %}
-        <li>No pest records found.</li>
+    <div class="col-md-6 col-lg-4 mb-4">
+      <div class="card h-100">
+        {% if pest.image_url %}
+        <img src="/{{ pest.image_url }}" class="card-img-top" alt="{{ pest.name }}">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ pest.name }}</h5>
+          <p class="card-text small text-muted">{{ pest.description|truncatewords:20 }}</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+          <a href="{% url 'App2:pest-delete' pest.id %}" class="btn btn-sm btn-outline-danger">🗑️ Delete</a>
+        </div>
+      </div>
+    </div>
     {% endfor %}
-</ul>
+  </div>
+  {% else %}
+    <div class="alert alert-info">No pest records found.</div>
+  {% endif %}
+</div>
 {% endblock %}

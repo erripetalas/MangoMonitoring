@@ -1,13 +1,26 @@
 {% extends 'app2/base.html' %}
 {% block title %}{{ form.instance.pk|yesno:"Edit Pest,Add Pest" }}{% endblock %}
-{% block content %}
-<a href="{% url 'App2:profile' %}" class="btn btn-secondary mb-3">← Back to Dashboard</a>
 
-<h2>{{ form.instance.pk|yesno:"Edit Pest,Add New Pest" }}</h2>
-<form method="post">
+{% block content %}
+<div class="container mt-4">
+  <a href="{% url 'App2:pest-list' %}" class="btn btn-outline-secondary mb-3">← Back to Pest Records</a>
+  <h2>{{ form.instance.pk|yesno:"Edit Pest,Add New Pest" }}</h2>
+
+  <form method="post" class="row g-3">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Save</button>
-    <a href="{% url 'App2:pest-list' %}" class="btn btn-secondary">Cancel</a>
-</form>
+    {% for field in form %}
+    <div class="col-md-6">
+      <label class="form-label">{{ field.label }}{% if field.field.required %}<span class="text-danger">*</span>{% endif %}</label>
+      {{ field }}
+      {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+      {% if field.errors %}<div class="text-danger small">{{ field.errors }}</div>{% endif %}
+    </div>
+    {% endfor %}
+
+    <div class="col-12 mt-2">
+      <button type="submit" class="btn btn-success">💾 Save Pest</button>
+      <a href="{% url 'App2:pest-list' %}" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
 {% endblock %}

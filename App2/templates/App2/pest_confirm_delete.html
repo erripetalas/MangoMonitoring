@@ -1,13 +1,19 @@
 {% extends 'app2/base.html' %}
 {% block title %}Delete Pest{% endblock %}
-{% block content %}
-<a href="{% url 'App2:profile' %}" class="btn btn-secondary mb-3">← Back to Dashboard</a>
 
-<h2>Delete Pest</h2>
-<p>Are you sure you want to delete "<strong>{{ pest.name }}</strong>"?</p>
-<form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Yes, Delete</button>
-    <a href="{% url 'App2:pest-list' %}" class="btn btn-secondary">Cancel</a>
-</form>
+{% block content %}
+<div class="container mt-4">
+  <a href="{% url 'App2:pest-list' %}" class="btn btn-outline-secondary mb-3">← Back to Pest List</a>
+
+  <div class="alert alert-danger">
+    <h4 class="alert-heading">⚠️ Confirm Deletion</h4>
+    <p>Are you sure you want to <strong>permanently delete</strong> the pest <strong>{{ pest.name }}</strong>?</p>
+    <hr>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">🗑️ Yes, Delete</button>
+      <a href="{% url 'App2:pest-list' %}" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+  </div>
+</div>
 {% endblock %}
