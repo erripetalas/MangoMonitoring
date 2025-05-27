@@ -30,12 +30,31 @@ header {
 }
 
 .dashboard-card {
-  background: #fff;
-  border: 1px solid #dcdcdc;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  background: #ffffff;
+  border: 1px solid var(--border-color, #d4e9d4);
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 12px rgba(0, 100, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 2rem;
 }
+
+
+.dashboard-card::before {
+  content: '';
+  display: block;
+  height: 6px;
+  background-color: var(--primary-green, #2e7d32);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+
 
 
 .form-card {
