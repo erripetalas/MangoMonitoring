@@ -9,6 +9,16 @@
             <li><a href="/projectlist/" class="{% if request.resolver_match.url_name == 'projectlist' %}active{% endif %}">Pests & Diseases</a></li>
             <li><a href="/about" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a></li>
             <li><a href="{% url 'App2:profile' %}" class="{% if request.resolver_match.url_name == 'profile' %}active{% endif %}">My Farms</a></li>
+            <li class="tts-nav-item">
+        <select id="language-selector">
+            <option value="en-US" selected>English</option>
+            <option value="th-TH">Thai</option>
+            <option value="vi-VN">Vietnamese</option>
+        </select>
+    </li>
+    <li class="tts-nav-item">
+        <button id="tts-button" class="btn btn-sm btn-outline-light">🔊 Read Aloud</button>
+    </li>
         </ul>
     </div>
 </nav>
