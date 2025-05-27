@@ -43,35 +43,35 @@ def register_view(request):
 @login_required
 def profile_view(request):
     farms = request.user.farms.all()
+    farms_count = farms.count()
+
     ci_results = []
 
     for farm in farms:
-        records = Surveillance.objects.filter(farm=farm)
-        pest_counts = [record.pest_count for record in records if record.pest_count is not None]
+        pest_counts = farm.surveillance_set.values_list('pest_count', flat=True)
 
-        if len(pest_counts) >= 2:
-            sample_mean = mean(pest_counts)
-            sample_std = stdev(pest_counts)
-            n = len(pest_counts)
-            confidence = 0.95
-            t_score = t.ppf(1 - (1 - confidence)/2, df=n-1)
-            margin_error = t_score * (sample_std / sqrt(n))
-            ci = {
+        values = list(pest_counts)
+        if len(values) > 1:
+            n = len(values)
+            mean_val = mean(values)
+            std_dev = stdev(values)
+            margin = t.ppf(0.975, df=n-1) * (std_dev / sqrt(n))
+            ci_results.append({
                 'farm_name': farm.name,
-                'mean': round(sample_mean, 2),
-                'lower': round(sample_mean - margin_error, 2),
-                'upper': round(sample_mean + margin_error, 2),
-                'margin_of_error': round(margin_error, 2)
-            }
-            ci_results.append(ci)
+                'mean': round(mean_val, 2),
+                'lower': round(mean_val - margin, 2),
+                'upper': round(mean_val + margin, 2),
+                'margin_of_error': round(margin, 2),
+            })
 
     context = {
         'farms': farms[:5],
-        'farms_count': farms.count(),
-        'ci_results': ci_results
+        'farms_count': farms_count,
+        'ci_results': ci_results,  # ✅ this must be passed
     }
-
+    
     return render(request, 'App2/profile.html', context)
+
 
 # OWNER Mixin
 class OwnerMixin(UserPassesTestMixin):
