@@ -17,14 +17,15 @@
 {% block content %}
 <div class="profile-wrapper">
   <div class="profile-card-box">
-
-    <h2>Welcome, {{ user.username }}!</h2>
+    <h2 class="mb-3">Welcome, {{ user.username }}!</h2>
     <p class="lead">Track your mango crops and pest monitoring efforts easily.</p>
 
-    <h4 class="mt-4">🌿 My Farm Summary</h4>
+    <hr class="my-4" />
+    <h4 class="mb-3">🌿 My Farm Summary</h4>
 
     {% if farms %}
-    <div class="summary-table-container mb-3">
+    <!-- ✅ Original Farm Summary Table Style Preserved -->
+    <div class="summary-table-container mb-4">
       <table class="table w-auto text-center" style="border: 2px solid green;">
         <thead style="background-color: #d4edda; color: #155724;">
           <tr>
@@ -32,7 +33,7 @@
             <th style="border: 1px solid green;">Name</th>
             <th style="border: 1px solid green;">Location</th>
             <th style="border: 1px solid green;">Plants</th>
-            <th style="border: 1px solid green;">Size </th>
+            <th style="border: 1px solid green;">Size</th>
             <th style="border: 1px solid green;">Stocking Rate</th>
           </tr>
         </thead>
@@ -51,7 +52,6 @@
       </table>
     </div>
 
-
     <!-- Action Buttons -->
     <div class="d-flex justify-content-center gap-3 mb-4">
       {% for farm in farms %}
@@ -61,40 +61,42 @@
     </div>
 
     {% else %}
-    <p>No farms found. Start by adding a new farm.</p>
-    <a href="{% url 'App2:farm-create' %}" class="btn btn-success mt-2">+ Add New Farm</a>
+    <div class="text-center">
+      <p>No farms found. Start by adding a new farm.</p>
+      <a href="{% url 'App2:farm-create' %}" class="btn btn-success mt-2">+ Add New Farm</a>
+    </div>
     {% endif %}
-    
-    <!-- CI Results Section -->
-{% if ci_results %}
-<div class="ci-card mt-4">
-  <h4 class="mb-3">📊 Confidence Interval Summary</h4>
-  <table class="table ci-table text-center">
-    <thead>
-      <tr>
-        <th>Farm</th>
-        <th>Mean Count</th>
-        <th>95% CI (Lower)</th>
-        <th>95% CI (Upper)</th>
-        <th>Margin of Error</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for ci in ci_results %}
-      <tr>
-        <td>{{ ci.farm_name }}</td>
-        <td>{{ ci.mean }}</td>
-        <td>{{ ci.lower }}</td>
-        <td>{{ ci.upper }}</td>
-        <td>{{ ci.margin_of_error }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-{% endif %}
-    
-    <!-- Quick Actions Section -->
+
+    <!-- CI Summary Table -->
+    {% if ci_results %}
+    <div class="ci-card mt-5">
+      <h4 class="mb-3">📊 Confidence Interval Summary</h4>
+      <table class="table ci-table text-center">
+        <thead>
+          <tr>
+            <th>Farm</th>
+            <th>Mean Count</th>
+            <th>95% CI (Lower)</th>
+            <th>95% CI (Upper)</th>
+            <th>Margin of Error</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ci in ci_results %}
+          <tr>
+            <td>{{ ci.farm_name }}</td>
+            <td>{{ ci.mean }}</td>
+            <td>{{ ci.lower }}</td>
+            <td>{{ ci.upper }}</td>
+            <td>{{ ci.margin_of_error }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+    <!-- Quick Links -->
     <div class="row mt-4 justify-content-center">
       <div class="col-md-6">
         <div class="form-card text-center">

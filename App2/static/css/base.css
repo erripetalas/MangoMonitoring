@@ -116,6 +116,14 @@ html, body {
   text-align: center;
 }
 
+.profile-card-box > h4 {
+  margin-top: 2rem;
+}
+
+.profile-card-box > .ci-card {
+  margin-top: 3rem;
+}
+
 
 .dashboard-card {
   background: #ffffff;
@@ -142,6 +150,11 @@ html, body {
   border-top-right-radius: 16px;
 }
 
+.summary-table-container {
+  margin: 1.5rem auto;
+  overflow-x: auto;
+  max-width: 100%;
+}
 
 
 
@@ -399,4 +412,18 @@ form.row.g-3 .form-control {
   background-color: var(--primary-green, #2e7d32);
   color: white;
   font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .summary-table th,
+  .summary-table td,
+  .ci-table th,
+  .ci-table td {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .profile-card-box {
+    padding: 2rem 1.5rem;
+  }
 }
