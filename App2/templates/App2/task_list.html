@@ -1,0 +1,47 @@
+{% extends 'App2/base.html' %}
+{% block title %}Farm Task Calendar{% endblock %}
+
+{% block content %}
+<a href="{% url 'App2:profile' %}" class="btn btn-outline-secondary">← Back to Dashboard</a>
+<div class="container mt-4">
+  <h2>📅 Scheduled Farm Tasks</h2>
+
+  {% if tasks %}
+  <div class="card shadow-sm p-3">
+    <div class="table-responsive">
+      <table class="table table-bordered text-center align-middle">
+        <thead class="table-success">
+          <tr>
+            <th style="width: 15%;">Farm</th>
+            <th style="width: 19%;">Task Name</th>
+            <th style="width: 15%;">Due Date</th>
+            <th style="width: 15%;">Status</th>
+            <th style="width: 19%;">Notes</th>
+            <th style="width: 20%;">Actions</th>
+          </tr>
+        </thead>
+          <tbody>
+  {% for task in tasks %}
+  <tr>
+    <td>{{ task.farm.name }}</td>
+    <td>{{ task.title|default:"—" }}</td>
+    <td>{{ task.scheduled_date|date:"M d, Y"|default:"—" }}</td>
+    <td>{{ task.task_type|title|default:"—" }}</td>
+    <td>{{ task.description|truncatechars:30|default:"—" }}</td>
+    <td>
+      <a href="{% url 'App2:task-update' task.pk %}" class="btn btn-success btn-sm">Edit</a>
+      <a href="{% url 'App2:task-delete' task.pk %}" class="btn btn-danger btn-sm">Delete</a>
+    </td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="6">No tasks found.</td></tr>
+  {% endfor %}
+</tbody>
+      </table>
+<a href="{% url 'App2:task-create' %}" class="btn btn-success mb-3">+ Add New Task</a>
+    </div>
+  {% else %}
+    <div class="alert alert-warning">No tasks scheduled yet.</div>
+  {% endif %}
+</div>
+{% endblock %}

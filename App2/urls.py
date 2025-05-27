@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import EntryExitCreateView
+from .views import EntryExitCreateView,TaskListView, TaskCreateView, TaskUpdateView, TaskDeleteView
 
 
 app_name = 'App2'
@@ -27,8 +27,12 @@ urlpatterns = [
     path('entryexit/<int:pk>/delete/', views.EntryExitDeleteView.as_view(), name='entryexit-delete'),
 
 
+    # Task CRUD URLs
+    path('tasks/', TaskListView.as_view(), name='task-list'),
+    path('tasks/create/', TaskCreateView.as_view(), name='task-create'),
+    path('tasks/<int:pk>/edit/', TaskUpdateView.as_view(), name='task-update'),
+    path('tasks/<int:pk>/delete/', TaskDeleteView.as_view(), name='task-delete'),
 
- 
     # Pest CRUD URLs
     path('pests/', views.PestListView.as_view(), name='pest-list'),
     path('pests/create/', views.PestCreateView.as_view(), name='pest-create'),

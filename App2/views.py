@@ -5,8 +5,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, CreateView
 from django.urls import reverse_lazy, reverse
-from .models import Farm, Surveillance, Pest, EntryExitLog  
-from .forms import FarmForm, SurveillanceForm, PestForm, SurveillanceFilterForm, EntryExitLogForm  
+from .models import Farm, Surveillance, Pest, EntryExitLog, Task 
+from .forms import FarmForm, SurveillanceForm, PestForm, SurveillanceFilterForm, EntryExitLogForm, TaskForm  
 from statistics import mean, stdev
 from math import sqrt
 from scipy.stats import t
@@ -250,3 +250,39 @@ class SurveillanceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView
 
     def test_func(self):
         return self.get_object().farm.owner == self.request.user
+    
+
+class TaskListView(LoginRequiredMixin, ListView):
+    model = Task
+    template_name = 'App2/task_list.html'
+    context_object_name = 'tasks'
+
+    def get_queryset(self):
+        return Task.objects.filter(farm__owner=self.request.user).order_by('scheduled_date', 'scheduled_time')
+
+class TaskCreateView(LoginRequiredMixin, CreateView):
+    model = Task
+    form_class = TaskForm
+    template_name = 'App2/task_form.html'
+    success_url = reverse_lazy('App2:task-list')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+class TaskUpdateView(LoginRequiredMixin, UpdateView):
+    model = Task
+    form_class = TaskForm
+    template_name = 'App2/task_form.html'
+    success_url = reverse_lazy('App2:task-list')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+class TaskDeleteView(LoginRequiredMixin, DeleteView):
+    model = Task
+    template_name = 'App2/task_confirm_delete.html'
+    success_url = reverse_lazy('App2:task-list')

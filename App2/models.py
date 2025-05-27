@@ -91,3 +91,22 @@ class Surveillance(models.Model):
     
     class Meta:
         ordering = ['-date_observed', '-time_observed']
+
+class Task(models.Model):
+    TASK_TYPES = [
+        ('inspection', 'Inspection'),
+        ('pesticide', 'Pesticide Application'),
+        ('note', 'Note / Reminder'),
+    ]
+
+    farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    task_type = models.CharField(max_length=20, choices=TASK_TYPES)
+    scheduled_date = models.DateField()
+    scheduled_time = models.TimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.title} ({self.task_type}) on {self.scheduled_date}"

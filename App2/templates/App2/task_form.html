@@ -1,0 +1,14 @@
+{% extends 'App2/base.html' %}
+{% block title %}{{ view.object.pk|yesno:"Edit Task,Add Task" }}{% endblock %}
+{% block content %}
+<a href="{% url 'App2:profile' %}" class="btn btn-outline-secondary">← Back to Dashboard</a>
+<div class="form-card">
+  <h2 class="mb-4">📝 {{ view.object.pk|yesno:"Edit Task,Add New Task" }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Save Task</button>
+    <a href="{% url 'App2:task-list' %}" class="btn btn-outline-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}
