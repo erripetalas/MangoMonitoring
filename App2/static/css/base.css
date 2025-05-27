@@ -15,49 +15,56 @@ header {
     padding-bottom: 0;
 }
 
-.login-wrapper {
-  min-height: 85vh;
+.login-page-wrapper {
   display: flex;
-  align-items: center;
   justify-content: center;
-  background-color: var(--light-bg);
+  align-items: center;
+  min-height: 80vh;
 }
 
-.auth-card {
-  background-color: #ffffff;
+.login-card {
+  background-color: #fff;
+  border: 1px solid var(--primary-green, #2e7d32);
   padding: 2.5rem;
-  max-width: 450px;
-  width: 100%;
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 100, 0, 0.08);
-  border: 1px solid #d4e9d4;
+  box-shadow: 0 8px 24px rgba(0, 100, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
   text-align: center;
 }
 
-.auth-card h2 {
+.login-card h2 {
   color: var(--primary-green, #2e7d32);
   font-weight: 600;
   margin-bottom: 1.5rem;
 }
 
-.auth-card .form-group label {
+.login-card .form-group {
+  margin-bottom: 1.2rem;
+  text-align: left;
+}
+
+.login-card .form-group label {
   font-weight: 500;
+  display: block;
   margin-bottom: 0.25rem;
 }
 
-.auth-card .form-group input {
+.login-card .form-group input {
   width: 100%;
-  padding: 0.65rem;
+  padding: 0.6rem;
   border: 1px solid var(--border-color, #ccc);
-  border-radius: 8px;
+  border-radius: 6px;
   font-size: 1rem;
 }
 
-.auth-card .btn {
+.login-card .btn {
   margin-top: 1rem;
-  border-radius: 6px;
+  width: 100%;
   font-weight: 500;
+  padding: 0.5rem 1rem;
 }
+
 
 
 
