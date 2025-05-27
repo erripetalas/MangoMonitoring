@@ -15,37 +15,37 @@
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-  <div class="dashboard-card p-4">
-    <div class="text-center mb-4">
+<div class="container mt-5 d-flex justify-content-center">
+  <div class="dashboard-card p-4 text-center" style="max-width: 1000px;">
+    <div class="mb-4">
       <h2>Welcome, {{ user.username }}!</h2>
       <p class="lead">Track your mango crops and pest monitoring efforts easily.</p>
     </div>
 
-   <!-- Summary Table -->
-   {% if farms %}
-    <div class="form-card text-center">
-      <h4 class="mb-4">🌿 My Farm Summary</h4>
-      <table class="table summary-table mx-auto">
-      <thead class="table-success">
+    <h4 class="mb-3">🌿 My Farm Summary</h4>
+
+    <!-- Summary Table -->
+    <div class="d-flex justify-content-center mb-4">
+      <table class="table w-auto text-center" style="border: 2px solid green;">
+        <thead style="background-color: #d4edda; color: #155724;">
           <tr>
-            <th>Total Farms</th>
-            <th>Name</th>
-            <th>Location</th>
-            <th>Plants</th>
-            <th>Size</th>
-            <th>Stocking Rate</th>
+            <th style="border: 1px solid green;">Total Farms</th>
+            <th style="border: 1px solid green;">Name</th>
+            <th style="border: 1px solid green;">Location</th>
+            <th style="border: 1px solid green;">Plants</th>
+            <th style="border: 1px solid green;">Size (ha)</th>
+            <th style="border: 1px solid green;">Stocking Rate</th>
           </tr>
         </thead>
         <tbody>
           {% for farm in farms %}
           <tr>
-            <td>{{ farms_count }}</td>
-            <td>{{ farm.name }}</td>
-            <td>{{ farm.location }}</td>
-            <td>{{ farm.total_plants }}</td>
-            <td>{{ farm.farm_size }}</td>
-            <td>{{ farm.stocking_rate|floatformat:2 }}</td>
+            <td style="border: 1px solid green;">{{ farms_count }}</td>
+            <td style="border: 1px solid green;">{{ farm.name }}</td>
+            <td style="border: 1px solid green;">{{ farm.location }}</td>
+            <td style="border: 1px solid green;">{{ farm.total_plants }}</td>
+            <td style="border: 1px solid green;">{{ farm.farm_size }}</td>
+            <td style="border: 1px solid green;">{{ farm.stocking_rate|floatformat:2 }}</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -60,8 +60,7 @@
       {% endfor %}
     </div>
 
-    <!-- Farm Cards -->
-   
+    
     {% else %}
     <div class="form-card text-center">
       <p>No farms found. Start by adding a new farm.</p>
@@ -70,8 +69,9 @@
     {% endif %}
 
 
+
     <!-- Quick Actions Section -->
-    <div class="row mt-4">
+    <div class="row mt-4 justify-content-center">
       <div class="col-md-6">
         <div class="form-card text-center">
           <h4 class="mb-3">📋 Surveillance Records</h4>
