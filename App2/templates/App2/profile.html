@@ -48,7 +48,6 @@
             <th style="border: 1px solid green;">Location</th>
             <th style="border: 1px solid green;">Plants</th>
             <th style="border: 1px solid green;">Size</th>
-            <th style="border: 1px solid green;">Stocking Rate</th>
           </tr>
         </thead>
         <tbody>
@@ -59,7 +58,7 @@
             <td style="border: 1px solid green;">{{ farm.location }}</td>
             <td style="border: 1px solid green;">{{ farm.total_plants }}</td>
             <td style="border: 1px solid green;">{{ farm.farm_size }}</td>
-            <td style="border: 1px solid green;">{{ farm.stocking_rate|floatformat:2 }}</td>
+            
           </tr>
           {% endfor %}
         </tbody>

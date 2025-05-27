@@ -10,28 +10,32 @@
 
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>📋 Surveillance Records</h2>
-    <a href="{% url 'App2:surveillance-create' %}" class="btn btn-success">+ Add New Record</a>
+    <a href="{% url 'App2:profile' %}" class="btn btn-outline-secondary mb-3">← Back to Dashboard</a>
   </div>
 
 
 
   {% if surveillance_records %}
-  <div class="table-bordered-custom">
-    <table class="table table-hover align-middle table-bordered-custom">
-      <thead class="table-light">
+  <div class="summary-table-container mb-4">
+      <table class="table w-auto text-center" style="border: 2px solid green;">
+        <thead style="background-color: #d4edda; color: #155724;">
         <tr>
-          <th>Farm</th>
-          <th>Pest</th>
-          <th>Severity</th>
-          <th>Count</th>
-          <th>Date</th>
-          <th>Actions</th>
+          <th style="border: 1px solid green;">Farm</th>
+          <th style="border: 1px solid green;">Pest</th>
+          <th style="border: 1px solid green;">Severity</th>
+          <th style="border: 1px solid green;">Count</th>
+          <th style="border: 1px solid green;">Date</th>
+          <th style="border: 1px solid green;">Actions</th>
         </tr>
       </thead>
       <tbody>
         {% for record in surveillance_records %}
         <tr>
           <td>{{ record.farm.name }}</td>
+          <td>
+              {{ record.pest.name }}
+            </td>
+        <td>
           <td>{{ record.pest.name }}</td>
           <td>
             <span class="badge bg-{% if record.severity == 1 %}success{% elif record.severity == 2 %}info{% elif record.severity == 3 %}warning{% else %}danger{% endif %}">
@@ -51,6 +55,7 @@
         {% endfor %}
       </tbody>
     </table>
+    <a href="{% url 'App2:surveillance-create' %}" class="btn btn-success">+ Add New Record</a>
   </div>
   {% else %}
   <div class="alert alert-warning" role="alert">
