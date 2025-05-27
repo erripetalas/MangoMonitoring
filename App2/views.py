@@ -40,37 +40,44 @@ def register_view(request):
         form = UserCreationForm()
     return render(request, 'App2/register.html', {'form': form})
 
+from statistics import mean, stdev
+from math import sqrt
+from scipy.stats import t
+
 @login_required
 def profile_view(request):
     farms = request.user.farms.all()
-    farms_count = farms.count()
-
     ci_results = []
 
     for farm in farms:
-        pest_counts = farm.surveillance_set.values_list('pest_count', flat=True)
+        plant_counts = list(
+            Surveillance.objects.filter(farm=farm).values_list('plant_count', flat=True)
+        )
 
-        values = list(pest_counts)
-        if len(values) > 1:
-            n = len(values)
-            mean_val = mean(values)
-            std_dev = stdev(values)
-            margin = t.ppf(0.975, df=n-1) * (std_dev / sqrt(n))
+        if len(plant_counts) >= 2:  # Need at least 2 to compute stdev
+            n = len(plant_counts)
+            avg = mean(plant_counts)
+            std = stdev(plant_counts)
+            margin_error = t.ppf(0.975, n - 1) * (std / sqrt(n))
+            lower = round(avg - margin_error, 2)
+            upper = round(avg + margin_error, 2)
+
             ci_results.append({
                 'farm_name': farm.name,
-                'mean': round(mean_val, 2),
-                'lower': round(mean_val - margin, 2),
-                'upper': round(mean_val + margin, 2),
-                'margin_of_error': round(margin, 2),
+                'mean': round(avg, 2),
+                'lower': lower,
+                'upper': upper,
+                'margin_of_error': round(margin_error, 2)
             })
 
     context = {
         'farms': farms[:5],
-        'farms_count': farms_count,
-        'ci_results': ci_results,  # ✅ this must be passed
+        'farms_count': farms.count(),
+        'ci_results': ci_results  # ✅ now passed correctly
     }
-    
+
     return render(request, 'App2/profile.html', context)
+
 
 
 # OWNER Mixin
