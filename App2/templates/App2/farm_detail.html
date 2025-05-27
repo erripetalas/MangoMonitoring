@@ -1,41 +1,56 @@
 {% extends 'app2/base.html' %}
 {% block title %}Farm Details{% endblock %}
+
 {% block content %}
-<a href="{% url 'App2:profile' %}" class="btn btn-secondary mb-3">← Back to Dashboard</a>
-<div class="form-card">
-<h2>{{ farm.name }}</h2>
-<p><strong>Location:</strong> {{ farm.location }}</p>
-<p><strong>Total Plants:</strong> {{ farm.total_plants }}</p>
-<p><strong>Stocking Rate:</strong> {{ farm.stocking_rate }}</p>
+<div class="farm-detail-wrapper">
 
-<h3>Plant Locations</h3>
+  <!-- Right-aligned Back Button -->
+  <div class="text-end mb-3">
+    <a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
+  </div>
 
-<ul>
-    {% for location in farm.locations.all %}
-        <li>
-            {{ location.name }} – {{ location.number_of_plants }} plants
-        </li>
-    {% empty %}
-        <li>No plant locations added yet.</li>
-    {% endfor %}
-</ul>
+  <!-- Detail Card -->
+  <div class="form-card">
 
-<a href="{% url 'App2:location-create' farm.pk %}" class="btn btn-sm btn-primary">+ Add Location</a>
+    <h2 class="mb-3">{{ farm.name }}</h2>
+    <p><strong>Location:</strong> {{ farm.location }}</p>
+    <p><strong>Total Plants:</strong> {{ farm.total_plants }}</p>
+    <p><strong>Stocking Rate:</strong> {{ farm.stocking_rate|floatformat:2 }}</p>
 
+    <hr class="my-4" />
 
-<h3>Surveillance Records</h3>
-<ul>
-    {% for record in farm.surveillance_set.all %}
-        <li>{{ record.date_observed }} - {{ record.pest.name }} ({{ record.severity }})</li>
-    {% empty %}
-        <li>No surveillance data yet.</li>
-    {% endfor %}
-</ul>
+    <!-- Plant Locations -->
+    <h4 class="mb-2">🌱 Plant Locations</h4>
+    {% if farm.locations.all %}
+      <ul class="text-start" style="max-width: 600px; margin: auto;">
+        {% for location in farm.locations.all %}
+          <li>{{ location.name }} – {{ location.number_of_plants }} plants</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No plant locations added yet.</p>
+    {% endif %}
+    <a href="{% url 'App2:location-create' farm.pk %}" class="btn btn-success mt-2">+ Add Location</a>
 
-<div class="btn-group">
-    <a href="{% url 'App2:farm-update' farm.pk %}">Edit Farm</a> |
-    <a href="{% url 'App2:farm-delete' farm.pk %}">Delete</a> |
-    <a href="{% url 'App2:farm-list' %}">Back to List</a>
-</div>
+    <!-- Surveillance -->
+    <h4 class="mt-4 mb-2">📋 Surveillance Records</h4>
+    {% if farm.surveillance_set.all %}
+      <ul class="text-start" style="max-width: 600px; margin: auto;">
+        {% for record in farm.surveillance_set.all %}
+          <li>{{ record.date_observed }} - {{ record.pest.name }} ({{ record.severity }})</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No surveillance data yet.</p>
+    {% endif %}
+
+    <!-- Bottom Buttons -->
+    <div class="mt-4 d-flex flex-wrap justify-content-center gap-2">
+      <a href="{% url 'App2:farm-update' farm.pk %}" class="btn btn-success">Edit Farm</a>
+      <a href="{% url 'App2:farm-delete' farm.pk %}" class="btn btn-success">Delete</a>
+      <a href="{% url 'App2:farm-list' %}" class="btn btn-success">Back to List</a>
+    </div>
+
+  </div>
 </div>
 {% endblock %}
