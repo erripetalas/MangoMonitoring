@@ -7,12 +7,17 @@ body {
     font-family: 'Segoe UI', sans-serif;
     margin: 0;
     padding: 0;
-    text-align: center;
+
 }
+
 
 header {
     margin-bottom: 0;
     padding-bottom: 0;
+}
+
+html, body {
+  height: 100%;
 }
 
 .login-page-wrapper {
@@ -20,15 +25,19 @@ header {
   justify-content: center;
   align-items: center;
   min-height: 80vh;
+  height: calc(100vh - 100px); /* adjust for header/footer if needed */
+  padding: 2rem 1rem;
 }
+
+
 
 .login-card {
   background-color: #fff;
   border: 1px solid var(--primary-green, #2e7d32);
-  padding: 2.5rem;
+  padding: 3rem 2.5rem;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 100, 0, 0.1);
-  max-width: 500px;
+  max-width: 550px;
   width: 100%;
   text-align: center;
 }
