@@ -61,7 +61,7 @@ class SurveillanceForm(forms.ModelForm):
             # Only show farms owned by the user
             self.fields['farm'].queryset = Farm.objects.filter(owner=user)
             # Only show pests created by the user
-            self.fields['pest'].queryset = Pest.objects.filter(created_by=user)
+            self.fields['pest'].queryset = Pest.objects.filter(reference_pest_id__in=[1, 2, 3, 4, 5, 6, 7])
             # Update location choices based on selected farm
             if 'farm' in self.data:
                 try:
