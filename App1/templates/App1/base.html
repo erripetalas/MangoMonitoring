@@ -22,8 +22,8 @@
     </header>
     
     <nav aria-label="Main navigation">
-        <div class="nav-container">
-            <ul>
+        <div class="nav-container" style="display: flex; justify-content: space-between; align-items: center;">
+            <ul style="display: flex; gap: 1.5rem; list-style: none; margin: 0; padding: 0;">
                 <li><a href="{% url 'App1:index' %}" 
                        class="{% if request.resolver_match.url_name == 'index' %}active{% endif %}"
                        aria-current="{% if request.resolver_match.url_name == 'index' %}page{% endif %}">
@@ -45,21 +45,19 @@
                        My Farms
                 </a></li>
             </ul>
-        </div>
-    </nav>
-
+        
     <!-- Add Text-to-Speech Button -->
     <!-- Add TTS Button and Language Selector -->
-    <div id="tts-container" style="margin-top: 10px;">
+    <div id="tts-container" style="display: flex; align-items: center; gap: 1rem;">
         <select id="language-selector">
             <option value="en-US" selected>English</option>
             <option value="th-TH">Thai</option>
             <option value="vi-VN">Vietnamese</option>
         </select>
-        <button id="tts-button">
-            🔊 Read Aloud
-        </button>
+        <a href="#" id="tts-button" class="nav-link-button">🔊 Read Aloud</a>
     </div>
+    </div>
+    </nav>
     
     <main id="main-content">
         {% block content %}
