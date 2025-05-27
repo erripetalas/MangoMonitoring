@@ -50,7 +50,7 @@ def profile_view(request):
     ci_results = []
 
     for farm in farms:
-        inspections = farm.surveillance_set.all().values_list('pest_count', flat=True)
+        inspections = farm.surveillance_records.all().values_list('pest_count', flat=True)
         if len(inspections) >= 2:
             sample = list(inspections)
             n = len(sample)
