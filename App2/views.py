@@ -79,7 +79,10 @@ def profile_view(request):
 
     return render(request, 'App2/profile.html', context)
 
-
+@login_required
+def farm_list(request):
+    farms = Farm.objects.filter(owner=request.user)
+    return render(request, 'App2/farm_list.html', {'farms': farms})
 
 
 # OWNER Mixin

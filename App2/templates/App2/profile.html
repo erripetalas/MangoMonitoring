@@ -33,53 +33,12 @@
     <p class="lead">Track your mango crops and pest monitoring efforts easily.</p>
 </div>
 
- <!-- Farm Summary -->
-    <div class="content-card mb-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h4>🌿 My Farm Summary</h4>
-    </div>
-
-    {% if farms %}
-    <div class="summary-table-container mb-4">
-      <table class="table w-auto text-center" style="border: 2px solid green;">
-        <thead style="background-color: #d4edda; color: #155724;">
-          <tr>
-            <th style="border: 1px solid green;">Farm #</th>
-            <th style="border: 1px solid green;">Name</th>
-            <th style="border: 1px solid green;">Location</th>
-            <th style="border: 1px solid green;">Plants</th>
-            <th style="border: 1px solid green;">Size</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for farm in farms %}
-          <tr>
-            <td style="border: 1px solid green;">{{ forloop.counter }}</td>
-            <td style="border: 1px solid green;">{{ farm.name }}</td>
-            <td style="border: 1px solid green;">{{ farm.location }}</td>
-            <td style="border: 1px solid green;">{{ farm.total_plants }}</td>
-            <td style="border: 1px solid green;">{{ farm.farm_size }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Action Buttons - Just 3 buttons total, no duplication -->
-    <div class="d-flex justify-content-center gap-2 mt-3">
-      <a href="{% url 'App2:farm-create' %}" class="btn btn-success">Add</a>
-      {% if farms %}
-        <a href="{% url 'App2:farm-detail' farms.0.pk %}" class="btn btn-outline-success">View</a>
-        <a href="{% url 'App2:farm-update' farms.0.pk %}" class="btn btn-outline-secondary">Edit</a>
-      {% endif %}
-    </div>
-
-    {% else %}
-    <div class="text-center">
-      <p>No farms found. Start by adding a new farm.</p>
-      <a href="{% url 'App2:farm-create' %}" class="btn btn-success mt-2">+ Add New Farm</a>
-    </div>
-    {% endif %}
+<!-- 🧑‍🌾 Farm Management -->
+<div class="content-card mb-4 hover-box">
+  <h5 class="mb-2">🧑‍🌾 Manage Your Farm</h5>
+  <p class="mb-3">Record and manage farm locations, plant counts, and other information with ease.</p>
+  <a href="{% url 'App2:farm-list' %}" class="btn btn-outline-primary">Manage your Farm</a>
+</div>
 
     <!-- CI Summary Table -->
     {% if ci_results %}

@@ -16,6 +16,7 @@ urlpatterns = [
     path('farms/<int:pk>/', views.FarmDetailView.as_view(), name='farm-detail'),
     path('farms/<int:pk>/update/', views.FarmUpdateView.as_view(), name='farm-update'),
     path('farms/<int:pk>/delete/', views.FarmDeleteView.as_view(), name='farm-delete'),
+    path('manage-farms/', views.farm_list, name='farm-list'),
     
     # Pest CRUD URLs
     path('pests/', views.PestListView.as_view(), name='pest-list'),

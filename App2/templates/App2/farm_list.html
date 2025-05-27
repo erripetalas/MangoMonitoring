@@ -1,0 +1,50 @@
+{% extends 'app2/base.html' %}
+{% block title %}My Farms{% endblock %}
+
+{% block content %}
+<a href="{% url 'App2:profile' %}" class="btn btn-secondary mb-3">← Back to Dashboard</a>
+
+<div class="form-card">
+    <h2>🌾 My Farms</h2>
+
+    {% if farms %}
+    <div class="summary-table-container mb-4">
+        <table class="table w-100 text-center table-bordered-custom">
+            <thead class="table-light">
+                <tr>
+                    <th>Farm #</th>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>Plants</th>
+                    <th>Size</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for farm in farms %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ farm.name }}</td>
+                    <td>{{ farm.location }}</td>
+                    <td>{{ farm.total_plants }}</td>
+                    <td>{{ farm.farm_size }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{% url 'App2:farm-detail' farm.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+                            <a href="{% url 'App2:farm-update' farm.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            <a href="{% url 'App2:farm-delete' farm.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="{% url 'App2:farm-create' %}" class="btn btn-success mb-4">+ Add New Farm</a>
+    {% else %}
+    <div class="alert alert-info text-center">
+        No farms available. <a href="{% url 'App2:farm-create' %}">Create a new farm</a> to get started!
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
