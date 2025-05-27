@@ -21,6 +21,7 @@
     <p class="lead">Track your mango crops and pest monitoring efforts easily.</p>
 
     <hr class="my-4" />
+    <div class="profile-content-box">
     <h4 class="mb-3">🌿 My Farm Summary</h4>
 
     {% if farms %}
@@ -110,6 +111,7 @@
           <h4 class="mb-3">🐛 Pest Management</h4>
           <p class="mb-2">Log pests identified on your properties and cross-reference with known species.</p>
           <a href="{% url 'App2:pest-list' %}" class="btn btn-outline-primary">Manage Pests</a>
+        </div>
         </div>
       </div>
     </div>
