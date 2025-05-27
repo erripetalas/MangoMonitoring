@@ -43,26 +43,26 @@
 
     {% if farms %}
     <div class="table-responsive">
-      <table class="table">
-        <thead >  
+      <table class="table custom-table">
+        <thead class="table-success">
           <tr>
-            <th>Name</th>
-            <th>Location</th>
-            <th>Plants</th>
-            <th>Size </th>
-            <th>Stocking Rate</th>
-            <th>Actions</th>
+            <th class="border">Name</th>
+            <th class="border">Location</th>
+            <th class="border">Plants</th>
+            <th class="border">Size</th>
+            <th class="border">Stocking Rate</th>
+            <th class="border">Actions</th>
           </tr>
         </thead>
         <tbody>
           {% for farm in farms %}
           <tr>
-            <td>{{ farm.name }}</td>
-            <td>{{ farm.location }}</td>
-            <td>{{ farm.total_plants }}</td>
-            <td>{{ farm.farm_size }}</td>
-            <td>{{ farm.stocking_rate|floatformat:2 }}</td>
-            <td>
+            <td class="border">{{ farm.name }}</td>
+            <td class="border">{{ farm.location }}</td>
+            <td class="border">{{ farm.total_plants }}</td>
+            <td class="border">{{ farm.farm_size }}</td>
+            <td class="border">{{ farm.stocking_rate|floatformat:2 }}</td>
+            <td class="border">
               <a href="{% url 'App2:farm-detail' farm.pk %}" class="btn btn-sm btn-outline-success">View</a>
               <a href="{% url 'App2:farm-update' farm.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
             </td>
