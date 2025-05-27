@@ -70,11 +70,14 @@ def profile_view(request):
                 'margin_of_error': round(margin_error, 2)
             })
 
-    context = {
-        'farms': farms[:5],
-        'farms_count': farms.count(),
-        'ci_results': ci_results  # ✅ now passed correctly
-    }
+        context = {
+    'farms': request.user.farms.all()[:5],
+    'farms_count': request.user.farms.count(),
+    'ci_results': []  # ✅ valid syntax
+}
+
+
+    
 
     return render(request, 'App2/profile.html', context)
 
