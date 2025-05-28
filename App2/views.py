@@ -10,9 +10,178 @@ from .forms import FarmForm, SurveillanceForm, PestForm, SurveillanceFilterForm,
 from statistics import mean, stdev
 from math import sqrt
 from scipy.stats import t
-from django.db.models import Avg
+from django.db.models import Avg, Count
 from django.contrib.auth.models import User
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import io
+import base64
+from django.db.models.functions import TruncDay
+from django.utils import timezone
+from datetime import timedelta
 
+
+# Helper functions for graph generation
+def get_graph_as_base64(plt):
+    """Convert matplotlib plot to base64 string for embedding in HTML"""
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png', dpi=100, bbox_inches='tight')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    buffer.close()
+    plt.close()
+    
+    graphic = base64.b64encode(image_png).decode('utf-8')
+    return graphic
+
+def generate_pest_trend_graph(selected_user=None, days=30):
+    """Generate graph showing pest trends over time"""
+    plt.figure(figsize=(10, 5))
+    
+    # Define date range for the last 30 days
+    end_date = timezone.now().date()
+    start_date = end_date - timedelta(days=days)
+    
+    # Filter surveillance data based on user and date range
+    if selected_user and selected_user != 'all':
+        surveillance_data = Surveillance.objects.filter(
+            date_observed__range=[start_date, end_date],
+            farm__owner=selected_user
+        )
+    else:
+        surveillance_data = Surveillance.objects.filter(
+            date_observed__range=[start_date, end_date]
+        )
+    
+    # Aggregate data by day
+    surveillance_by_day = surveillance_data.annotate(
+        day=TruncDay('date_observed')
+    ).values('day').annotate(
+        avg_count=Avg('pest_count'),
+        total_count=Count('id')
+    ).order_by('day')
+    
+    if not surveillance_by_day:
+        plt.text(0.5, 0.5, 'No surveillance data available for the selected period', 
+                horizontalalignment='center', verticalalignment='center', transform=plt.gca().transAxes)
+        plt.gca().set_axis_off()
+        return get_graph_as_base64(plt)
+    
+    # Extract data for plotting
+    dates = [item['day'] for item in surveillance_by_day]
+    avg_counts = [item['avg_count'] for item in surveillance_by_day]
+    total_surveillances = [item['total_count'] for item in surveillance_by_day]
+    
+    # Create plot
+    fig, ax1 = plt.subplots(figsize=(10, 5))
+    
+    # Plot average pest count
+    color = 'tab:red'
+    ax1.set_xlabel('Date')
+    ax1.set_ylabel('Average Pest Count', color=color)
+    ax1.plot(dates, avg_counts, color=color, marker='o', linestyle='-', label='Avg Pest Count')
+    ax1.tick_params(axis='y', labelcolor=color)
+    
+    # Create second y-axis for surveillance count
+    ax2 = ax1.twinx()
+    color = 'tab:blue'
+    ax2.set_ylabel('Number of Surveillances', color=color)
+    ax2.bar(dates, total_surveillances, color=color, alpha=0.3, label='Surveillance Count')
+    ax2.tick_params(axis='y', labelcolor=color)
+    
+    # Add title and legend
+    plt.title('Pest Trend Analysis (Last 30 Days)')
+    
+    # Combine legends from both axes
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left')
+    
+    fig.tight_layout()
+    return get_graph_as_base64(plt)
+
+def generate_pest_distribution_graph(selected_user=None):
+    """Generate pie chart showing distribution of pest types"""
+    plt.figure(figsize=(8, 8))
+    
+    # Get the top pests by count
+    if selected_user and selected_user != 'all':
+        pest_data = Surveillance.objects.filter(farm__owner=selected_user)
+    else:
+        pest_data = Surveillance.objects.all()
+    
+    # Group by pest and count occurrences
+    pest_counts = pest_data.values('pest__name').annotate(
+        count=Count('id')
+    ).order_by('-count')[:7]  # Get top 7 pests
+    
+    if not pest_counts:
+        plt.text(0.5, 0.5, 'No pest data available', 
+                horizontalalignment='center', verticalalignment='center', transform=plt.gca().transAxes)
+        plt.gca().set_axis_off()
+        return get_graph_as_base64(plt)
+    
+    # Extract data for plotting
+    labels = [item['pest__name'] for item in pest_counts]
+    sizes = [item['count'] for item in pest_counts]
+    
+    # Add an "Others" category if there are more than 7 pests
+    other_count = pest_data.count() - sum(sizes)
+    if other_count > 0:
+        labels.append('Others')
+        sizes.append(other_count)
+    
+    # Create pie chart
+    plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90, shadow=True)
+    plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle
+    plt.title('Pest Distribution by Type')
+    
+    return get_graph_as_base64(plt)
+
+def generate_severity_graph(selected_user=None):
+    """Generate bar chart showing surveillance records by severity level"""
+    plt.figure(figsize=(8, 6))
+    
+    # Define severity levels
+    severity_levels = [1, 2, 3, 4]
+    severity_names = ['Low', 'Medium', 'High', 'Critical']
+    
+    # Get data for each severity level
+    if selected_user and selected_user != 'all':
+        severity_counts = [
+            Surveillance.objects.filter(severity=level, farm__owner=selected_user).count()
+            for level in severity_levels
+        ]
+    else:
+        severity_counts = [
+            Surveillance.objects.filter(severity=level).count()
+            for level in severity_levels
+        ]
+    
+    if sum(severity_counts) == 0:
+        plt.text(0.5, 0.5, 'No severity data available', 
+                horizontalalignment='center', verticalalignment='center', transform=plt.gca().transAxes)
+        plt.gca().set_axis_off()
+        return get_graph_as_base64(plt)
+    
+    # Set colors based on severity
+    colors = ['#4CAF50', '#FFC107', '#FF9800', '#F44336']
+    
+    # Create bar chart
+    bars = plt.bar(severity_names, severity_counts, color=colors)
+    
+    # Add data labels above bars
+    for bar in bars:
+        height = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width()/2., height + 0.1,
+                 str(int(height)), ha='center', va='bottom')
+    
+    plt.title('Surveillance Records by Severity Level')
+    plt.xlabel('Severity Level')
+    plt.ylabel('Number of Records')
+    
+    return get_graph_as_base64(plt)
 
 # AUTHENTICATION VIEWS
 def logout_view(request):
@@ -57,11 +226,15 @@ def profile_view(request):
                 farms = Farm.objects.filter(owner=selected_user)
             except (ValueError, TypeError, User.DoesNotExist):
                 farms = Farm.objects.all()
+                selected_user = None
         else:
             farms = Farm.objects.all()
+            selected_user = None
             
         # Count total farms
-        farms_count = farms.count()        # Create context for superuser view with filtered stats
+        farms_count = farms.count()
+        
+        # Create context for superuser view with filtered stats
         if user_filter != 'all':
             # Get filtered statistics based on the selected user
             try:
@@ -79,6 +252,11 @@ def profile_view(request):
                 user_tasks_count = Task.objects.filter(farm__owner=selected_user).count()
                 user_entries_count = EntryExitLog.objects.filter(farm__in=farm_ids).count()
                 
+                # Generate graphs for this user
+                pest_trend_graph = generate_pest_trend_graph(selected_user)
+                pest_distribution_graph = generate_pest_distribution_graph(selected_user)
+                severity_graph = generate_severity_graph(selected_user)
+                
                 context = {
                     'is_superuser': True,
                     'farms': farms,
@@ -90,10 +268,17 @@ def profile_view(request):
                     'total_surveillance': user_surveillance_count,
                     'total_pests': user_pests_count,
                     'total_tasks': user_tasks_count,
-                    'total_entries': user_entries_count
+                    'total_entries': user_entries_count,
+                    'pest_trend_graph': pest_trend_graph,
+                    'pest_distribution_graph': pest_distribution_graph,
+                    'severity_graph': severity_graph
                 }
             except (ValueError, TypeError, User.DoesNotExist):
                 # Fallback to showing all statistics
+                pest_trend_graph = generate_pest_trend_graph()
+                pest_distribution_graph = generate_pest_distribution_graph()
+                severity_graph = generate_severity_graph()
+                
                 context = {
                     'is_superuser': True,
                     'farms': farms,
@@ -105,10 +290,17 @@ def profile_view(request):
                     'total_surveillance': Surveillance.objects.count(),
                     'total_pests': Pest.objects.count(),
                     'total_tasks': Task.objects.count(),
-                    'total_entries': EntryExitLog.objects.count()
+                    'total_entries': EntryExitLog.objects.count(),
+                    'pest_trend_graph': pest_trend_graph,
+                    'pest_distribution_graph': pest_distribution_graph,
+                    'severity_graph': severity_graph
                 }
         else:
-            # Show all system statistics
+            # Show all system statistics and generate system-wide graphs
+            pest_trend_graph = generate_pest_trend_graph()
+            pest_distribution_graph = generate_pest_distribution_graph()
+            severity_graph = generate_severity_graph()
+            
             context = {
                 'is_superuser': True,
                 'farms': farms,
@@ -120,7 +312,10 @@ def profile_view(request):
                 'total_surveillance': Surveillance.objects.count(),
                 'total_pests': Pest.objects.count(),
                 'total_tasks': Task.objects.count(),
-                'total_entries': EntryExitLog.objects.count()
+                'total_entries': EntryExitLog.objects.count(),
+                'pest_trend_graph': pest_trend_graph,
+                'pest_distribution_graph': pest_distribution_graph,
+                'severity_graph': severity_graph
             }
     else:
         # Regular user view - show only their farms
@@ -151,11 +346,19 @@ def profile_view(request):
                     'margin_of_error': margin_of_error
                 })
         
+        # Generate graphs specific to this user
+        pest_trend_graph = generate_pest_trend_graph(request.user)
+        pest_distribution_graph = generate_pest_distribution_graph(request.user)
+        severity_graph = generate_severity_graph(request.user)
+        
         context = {
             'is_superuser': False,
             'farms': farms,
             'farms_count': farms_count,
-            'ci_results': ci_results
+            'ci_results': ci_results,
+            'pest_trend_graph': pest_trend_graph,
+            'pest_distribution_graph': pest_distribution_graph,
+            'severity_graph': severity_graph
         }
 
     return render(request, 'App2/profile.html', context)
