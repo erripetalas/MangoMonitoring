@@ -61,21 +61,67 @@ def profile_view(request):
             farms = Farm.objects.all()
             
         # Count total farms
-        farms_count = farms.count()
-          # Create context for superuser view
-        context = {
-            'is_superuser': True,
-            'farms': farms,
-            'farms_count': farms_count,
-            'users': User.objects.all(),
-            'current_user_filter': user_filter,
-            'total_users': User.objects.count(),
-            'total_farms': Farm.objects.count(),
-            'total_surveillance': Surveillance.objects.count(),
-            'total_pests': Pest.objects.count(),
-            'total_tasks': Task.objects.count(),
-            'total_entries': EntryExitLog.objects.count()
-        }
+        farms_count = farms.count()        # Create context for superuser view with filtered stats
+        if user_filter != 'all':
+            # Get filtered statistics based on the selected user
+            try:
+                selected_user_id = int(user_filter)
+                selected_user = User.objects.get(id=selected_user_id)
+                
+                # Get all farms for this user
+                user_farms = Farm.objects.filter(owner=selected_user)
+                farm_ids = user_farms.values_list('id', flat=True)
+                
+                # Count statistics specific to this user
+                user_farms_count = user_farms.count()
+                user_surveillance_count = Surveillance.objects.filter(farm__owner=selected_user).count()
+                user_pests_count = Pest.objects.filter(created_by=selected_user).count()
+                user_tasks_count = Task.objects.filter(farm__owner=selected_user).count()
+                user_entries_count = EntryExitLog.objects.filter(farm__in=farm_ids).count()
+                
+                context = {
+                    'is_superuser': True,
+                    'farms': farms,
+                    'farms_count': farms_count,
+                    'users': User.objects.all(),
+                    'current_user_filter': user_filter,
+                    'total_users': 1,  # Just the selected user
+                    'total_farms': user_farms_count,
+                    'total_surveillance': user_surveillance_count,
+                    'total_pests': user_pests_count,
+                    'total_tasks': user_tasks_count,
+                    'total_entries': user_entries_count
+                }
+            except (ValueError, TypeError, User.DoesNotExist):
+                # Fallback to showing all statistics
+                context = {
+                    'is_superuser': True,
+                    'farms': farms,
+                    'farms_count': farms_count,
+                    'users': User.objects.all(),
+                    'current_user_filter': user_filter,
+                    'total_users': User.objects.count(),
+                    'total_farms': Farm.objects.count(),
+                    'total_surveillance': Surveillance.objects.count(),
+                    'total_pests': Pest.objects.count(),
+                    'total_tasks': Task.objects.count(),
+                    'total_entries': EntryExitLog.objects.count()
+                }
+        else:
+            # Show all system statistics
+            context = {
+                'is_superuser': True,
+                'farms': farms,
+                'farms_count': farms_count,
+                'users': User.objects.all(),
+                'current_user_filter': user_filter,
+                'total_users': User.objects.count(),
+                'total_farms': Farm.objects.count(),
+                'total_surveillance': Surveillance.objects.count(),
+                'total_pests': Pest.objects.count(),
+                'total_tasks': Task.objects.count(),
+                'total_entries': EntryExitLog.objects.count()
+            }
     else:
         # Regular user view - show only their farms
         farms = request.user.farms.all()
