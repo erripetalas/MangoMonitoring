@@ -5,7 +5,7 @@
 <div class="card shadow-sm p-3">
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="mb-0">{% if is_superuser %}🌾 All Farms{% else %}🌾 My Farms{% endif %}</h2>
+    <h2 class="mb-0">{% if is_superuser %}🌾 My Farms{% else %}🌾 My Farms{% endif %}</h2>
     <div class="d-flex">
       {% if is_superuser %}
         <form method="get" class="d-flex me-2">
@@ -24,29 +24,32 @@
   </div>
 
   <div class="card shadow-sm p-3">
-    <div class="table-responsive">
-        <table class="table table-hover table-bordered farm-table text-center align-middle">        <thead class="table-success">
+  <div class="summary-table-container mb-4"> 
+   <table class="table w-auto text-center" style="border: 2px solid green;">
+    <div class="stat-item" style="flex: 1; text-align: center; padding: 0 10px; border-right: 1px solid #eee;">
+      <thead style="background-color: #d4edda; color: #155724;">
+    
           <tr>
-            <th style="width: 3%;">S.N.</th>
-            {% if is_superuser %}<th style="width: 10%;">Owner</th>{% endif %}
-            <th style="width: 13%;">Name</th>
-            <th style="width: 13%;">Location</th>
-            <th style="width: 13%;">Total Plants</th>
-            <th style="width: 13%;">Size</th>
-            <th style="width: 20%;">Actions</th>
+            <th style="width: 3%;" style="border: 1px solid green;">S.N.</th>
+            {% if is_superuser %}<th style="width: 10%;" style="border: 1px solid green;">Owner</th>{% endif %}
+            <th style="width: 12%;" style="border: 1px solid green;">Name</th>
+            <th style="width: 12%;" style="border: 1px solid green;">Location</th>
+            <th style="width: 12%;" style="border: 1px solid green;">Total Plants</th>
+            <th style="width: 12%;" style="border: 1px solid green;">Size</th>
+            <th style="width: 25%;" style="border: 1px solid green;">Actions</th>
           </tr>
         </thead>
         <tbody>
           {% for farm in farms %}
           <tr>
-            <td class="text-center" >{{ forloop.counter }}</td>
-            {% if is_superuser %}<td class="text-center">{{ farm.owner.username }}</td>{% endif %}
-            <td class="text-center">{{ farm.name }}</td>
-            <td class="text-center">{{ farm.location }}</td>
-            <td class="text-center">{{ farm.total_plants }}</td>
-            <td class="text-center">{{ farm.farm_size }}</td>
+            <td style="border: 1px solid green;">{{ forloop.counter }}</td>
+            {% if is_superuser %}<td style="border: 1px solid green;">{{ farm.owner.username }}</td>{% endif %}
+            <td style="border: 1px solid green;">{{ farm.name }}</td>
+            <td style="border: 1px solid green;">{{ farm.location }}</td>
+            <td style="border: 1px solid green;">{{ farm.total_plants }}</td>
+            <td style="border: 1px solid green;">{{ farm.farm_size }}</td>
             <td>
-              <div class="d-flex justify-content-center gap-2 flex-wrap">
+              <div class="btn-group" role="group">
                 <a href="{% url 'App2:farm-detail' farm.pk %}" class="btn btn-sm btn-outline-primary">View</a>
                 <a href="{% url 'App2:farm-update' farm.pk %}" class="btn btn-sm btn-outline-warning">Edit</a>
                 <a href="{% url 'App2:farm-delete' farm.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>

@@ -204,6 +204,12 @@ header {
   padding: 0.75rem;
 }
 
+table, th, td {
+  border: 1px solid #ccc !important;
+}
+
+
+
 .surveillance-table {
   width: 100%;
   border-collapse: collapse;

@@ -24,32 +24,35 @@
 
   {% if surveillance_records %}
   <div class="card shadow-sm p-3">
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover text-center align-middle surveillance-table">        <thead class="table-success">
+    <div class="summary-table-container mb-4"> 
+   <table class="table w-auto text-center" style="border: 2px solid green;">
+    <div class="stat-item" style="flex: 1; text-align: center; padding: 0 10px; border-right: 1px solid #eee;">
+      <thead style="background-color: #d4edda; color: #155724;">
           <tr>
-            <th style="width: 13%;">Farm</th>
-            {% if is_superuser %}<th style="width: 10%;">Owner</th>{% endif %}
-            <th style="width: 13%;">Pest</th>
-            <th style="width: 20%;">Severity</th>
-            <th style="width: 15%;">Count</th>
-            <th style="width: 15%;">Date</th>
-            <th style="width: 20%;">Actions</th>
+            <th style="width: 10%;" style="border: 1px solid green;">Farm</th>
+            {% if is_superuser %}<th style="width: 10%;" style="border: 1px solid green;">Owner</th>{% endif %}
+            <th style="width: 13%;" style="border: 1px solid green;">Pest</th>
+            <th style="width: 12%;" style="border: 1px solid green;">Severity</th>
+            <th style="width: 15%;" style="border: 1px solid green;">Count</th>
+            <th style="width: 15%;" style="border: 1px solid green;">Date</th>
+            <th style="width: 17%;" style="border: 1px solid green;">Actions</th>
           </tr>
         </thead>
         <tbody>
+        </div>
           {% for record in surveillance_records %}
           <tr>
-            <td>{{ record.farm.name }}</td>
-            {% if is_superuser %}<td>{{ record.farm.owner.username }}</td>{% endif %}
-            <td>{{ record.pest.name }}</td>
-            <td>
+            <td style="border: 1px solid green;">{{ record.farm.name }}</td>
+            {% if is_superuser %}<td style="border: 1px solid green;">{{ record.farm.owner.username }}</td>{% endif %}
+            <td style="border: 1px solid green;">{{ record.pest.name }}</td>
+            <td style="border: 1px solid green;">
               <span class="badge bg-{% if record.severity == 1 %}success{% elif record.severity == 2 %}info{% elif record.severity == 3 %}warning{% else %}danger{% endif %}">
                 {{ record.get_severity_display }}
               </span>
             </td>
-            <td>{{ record.pest_count }}</td>
-            <td>{{ record.date_observed }}</td>
-            <td>
+            <td style="border: 1px solid green;">{{ record.pest_count }}</td>
+            <td style="border: 1px solid green;">{{ record.date_observed }}</td>
+            <td style="border: 1px solid green;">
               <div class="btn-group">
                 <a href="{% url 'App2:surveillance-update' record.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
                 <a href="{% url 'App2:surveillance-delete' record.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>

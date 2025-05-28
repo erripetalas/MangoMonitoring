@@ -33,38 +33,41 @@
   {% if logs %}
   
   <div class="card shadow-sm p-3">
-  <div class="table-responsive mt-4">
-    <table class="table table-bordered table-hover align-middle text-center surveillance-table">      <thead class="table-success">
+ <div class="summary-table-container mb-4"> 
+   <table class="table w-auto text-center" style="border: 2px solid green;">
+    <div class="stat-item" style="flex: 1; text-align: center; padding: 0 10px; border-right: 1px solid #eee;">
+      <thead style="background-color: #d4edda; color: #155724;">
         <tr>
-         <th scope="col", style="width: 7%;">🏡 Farm</th>
-          {% if is_superuser %}<th scope="col", style="width: 7%;">👨‍🌾 Owner</th>{% endif %}
-          <th scope="col", style="width: 10%;">🏢 Company</th>
-          <th scope="col", style="width: 10%;">👤 Person</th>
-          <th scope="col", style="width: 12%;">📝 Purpose</th>
-          <th scope="col", style="width: 10%;">📅 Date</th>
-          <th scope="col", style="width: 8%;">⏰ Time</th>
-          <th scope="col", style="width: 10%;">🗒️ Remarks</th>
-          <th scope="col", style="width: 20%;">⚙️ Actions</th>
+         <th scope="col", style="width: 7%;" style="border: 1px solid green;">🏡 Farm</th>
+          {% if is_superuser %}<th scope="col", style="width: 7%;" style="border: 1px solid green;">👨‍🌾 Owner</th>{% endif %}
+          <th scope="col", style="width: 10%;" style="border: 1px solid green;">🏢 Company</th>
+          <th scope="col", style="width: 10%;" style="border: 1px solid green;">👤 Person</th>
+          <th scope="col", style="width: 12%;" style="border: 1px solid green;">📝 Purpose</th>
+          <th scope="col", style="width: 10%;" style="border: 1px solid green;">📅 Date</th>
+          <th scope="col", style="width: 8%;" style="border: 1px solid green;">⏰ Time</th>
+          <th scope="col", style="width: 11%;" style="border: 1px solid green;">🗒️ Remarks</th>
+          <th scope="col", style="width: 17%;" style="border: 1px solid green;">⚙️ Actions</th>
         </tr>
       </thead>
       <tbody>
         {% for log in logs %}
         <tr>
-          <td>{{ log.farm.name }}</td>
-          {% if is_superuser %}<td>{{ log.farm.owner.username }}</td>{% endif %}
-          <td>{{ log.company_name }}</td>
-          <td>{{ log.person_name }}</td>
-          <td>{{ log.purpose }}</td>
-          <td>{{ log.date|date:"M d, Y" }}</td>
-          <td>{{ log.time|time:"H:i" }}</td>
-          <td>{{ log.remarks|default:"—" }}</td>
-          <td>
+          <td style="border: 1px solid green;">{{ log.farm.name }}</td>
+          {% if is_superuser %}<td style="border: 1px solid green;">{{ log.farm.owner.username }}</td>{% endif %}
+          <td style="border: 1px solid green;">{{ log.company_name }}</td>
+          <td style="border: 1px solid green;">{{ log.person_name }}</td>
+          <td style="border: 1px solid green;">{{ log.purpose }}</td>
+          <td style="border: 1px solid green;">{{ log.date|date:"M d, Y" }}</td>
+          <td style="border: 1px solid green;">{{ log.time|time:"H:i" }}</td>
+          <td style="border: 1px solid green;">{{ log.remarks|default:"—" }}</td>
+          <td style="border: 1px solid green;">
               <div class="d-flex justify-content-center gap-2 flex-wrap">
                 <a href="{% url 'App2:entryexit-edit' log.pk %}" class="btn btn-sm btn-outline-warning">Edit</a>
                 <a href="{% url 'App2:entryexit-delete' log.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
               </div>
             </td>
         </tr>
+        </div>
         {% endfor %}
       </tbody>
     </table>
