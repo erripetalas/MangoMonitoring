@@ -72,8 +72,9 @@
     <div class="alert alert-warning mt-3" role="alert">
       No surveillance records found.
     </div>
-    <a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
+    
     <a href="{% url 'App2:surveillance-create' %}" class="btn btn-success">+ Add New Record</a>
+    <a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
     {% endif %}
   </div>
 </div>
