@@ -73,9 +73,10 @@
   <div class="alert alert-warning text-center mt-4" role="alert">
     🚫 No entry or exit records found yet.
   </div>
+{% endif %}
   <a href="{% url 'App2:entry-exit-create' %}" class="btn btn-outline-success btn-sm mt-2">➕ Add New Record</a>
     <a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
-  {% endif %}
+  
 
 </div>
 {% endblock %}
