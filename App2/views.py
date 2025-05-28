@@ -394,6 +394,7 @@ def farm_list(request):
     
     return render(request, 'App2/farm_list.html', context)
 
+
 class EntryExitListView(LoginRequiredMixin, ListView):
     model = EntryExitLog
     template_name = 'App2/entryexit_list.html'
