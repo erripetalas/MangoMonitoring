@@ -15,7 +15,7 @@
             <option value="{{ u.id }}" {% if current_user_filter == u.id|stringformat:"s" %}selected{% endif %}>{{ u.username }}</option>
             {% endfor %}
           </select>
-          <button type="submit" class="btn btn-primary me-2">Filter</button>
+          
         </form>
       {% endif %}
     </div>

@@ -15,7 +15,7 @@
             <option value="{{ u.id }}" {% if current_user_filter == u.id|stringformat:"s" %}selected{% endif %}>{{ u.username }}</option>
             {% endfor %}
           </select>
-          <button type="submit" class="btn btn-primary me-2">Filter</button>
+          
         </form>
       {% endif %}
 
@@ -58,7 +58,7 @@
   {% endfor %}
 </tbody>
       </table>
-<a href="{% url 'App2:profile' %}" class="btn btn-outline-secondary">← Back to Dashboard</a>
+      
     </div>
   {% else %}
     <div class="alert alert-warning">No tasks scheduled yet.</div>
