@@ -17,7 +17,7 @@
           <button type="submit" class="btn btn-primary me-2">Filter</button>
         </form>
       {% endif %}
-      <a href="{% url 'App2:surveillance-create' %}" class="btn btn-success">+ Add New Record</a>
+      
     </div>
   </div>
 </div>
@@ -67,6 +67,7 @@
   
   <div class="text-end mt-3">
     <a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
+    <a href="{% url 'App2:surveillance-create' %}" class="btn btn-success">+ Add New Record</a>
   </div>
   {% else %}
   <div class="alert alert-warning" role="alert">

@@ -18,8 +18,6 @@
           <button type="submit" class="btn btn-primary me-2">Filter</button>
         </form>
       {% endif %}
-      <a href="{% url 'App2:task-create' %}" class="btn btn-success">+ Add New Task</a>
-      <a href="{% url 'App2:profile' %}" class="btn btn-outline-secondary">← Back to Dashboard</a>
     </div>
   </div>
 </div>
@@ -62,5 +60,8 @@
   {% else %}
     <div class="alert alert-warning">No tasks scheduled yet.</div>
   {% endif %}
-</div>
+  <div>
+    <a href="{% url 'App2:task-create' %}" class="btn btn-success">+ Add New Task</a>
+    <a href="{% url 'App2:profile' %}" class="btn btn-outline-secondary">← Back to Dashboard</a>
+  </div>
 {% endblock %}
