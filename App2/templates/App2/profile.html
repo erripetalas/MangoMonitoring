@@ -26,11 +26,14 @@
 
 {% block content %}
 <div class="profile-wrapper">
-  <div class="profile-card-box">    <!-- Welcome Message -->
+  <div class="profile-card-box">    
+    <!-- Welcome Message -->
     <div class="card shadow-sm p-3">
       <h2 class="mb-2">Welcome, {{ user.username }}{% if is_superuser %} (Admin){% endif %}!</h2>
       <p class="lead">{% if is_superuser %}Manage all farm monitoring data and users{% else %}Track your mango crops and pest monitoring efforts easily{% endif %}.</p>
-    </div>    <div class="card shadow-sm p-3">
+    </div>    
+    
+    <div class="card shadow-sm p-3">
     {% if is_superuser %}
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h3 class="mb-0">🏢 Farm Overview</h3>
@@ -44,7 +47,9 @@
           <button type="submit" class="btn btn-primary">Filter</button>
         </form>
       </div>
-        <!-- Admin Statistics -->      <div class="card mb-3">
+      
+      <!-- Admin Statistics -->      
+      <div class="card mb-3">
         <div class="card-header bg-primary text-white">
           <h4 class="mb-0">System Statistics</h4>
         </div>
@@ -77,7 +82,42 @@
           </div>
         </div>
       </div>
-      
+    {% endif %}
+    
+    <!-- Farm Management Dashboard Cards -->
+    <div class="dashboard-card-grid">
+      <div class="dashboard-card">
+        <h3 class="fw-bold mb-2">🧑‍🌾 Manage Your Farm</h3>
+        <p>Record and manage farm locations, plant counts, and other information with ease.</p>
+        <a href="{% url 'App2:farm-list' %}" class="btn">Go to Farm Manager</a>
+      </div>
+
+      <div class="dashboard-card">
+        <h3 class="fw-bold mb-2">🚪 Entry & Exit Records</h3>
+        <p>Track deliveries, maintenance work, and other visits to your farm with company names and purposes.</p>
+        <a href="{% url 'App2:entry-exit-list' %}" class="btn">View Logs</a>
+      </div>
+
+      <div class="dashboard-card">
+        <h3 class="fw-bold mb-2">📋 Surveillance Records</h3>
+        <p>Monitor pest activity and record plant inspections across your farms.</p>
+        <a href="{% url 'App2:surveillance-list' %}" class="btn">View Surveillance</a>
+      </div>
+
+      <div class="dashboard-card">
+        <h3 class="fw-bold mb-2">🐛 Pest Management</h3>
+        <p>Log pests identified on your properties and cross-reference with known species.</p>
+        <a href="{% url 'App2:pest-list' %}" class="btn">Manage Pests</a>
+      </div>
+
+      <div class="dashboard-card">
+        <h3 class="fw-bold mb-2">📆 Farm Task Calendar</h3>
+        <p>Schedule farm inspections, pesticide applications, and other important tasks.</p>
+        <a href="{% url 'App2:task-list' %}" class="btn">Manage Tasks</a>
+      </div>
+    </div>
+
+    {% if is_superuser %}
       <!-- Data Visualization Graphs -->
       <div class="card mb-3">
         <div class="card-header bg-success text-white">
@@ -173,39 +213,6 @@
       </div>
     {% endif %}
     
-    <div class="dashboard-card-grid">
-
-  <div class="dashboard-card">
-    <h3 class="fw-bold mb-2">🧑‍🌾 Manage Your Farm</h3>
-    <p>Record and manage farm locations, plant counts, and other information with ease.</p>
-    <a href="{% url 'App2:farm-list' %}" class="btn">Go to Farm Manager</a>
-  </div>
-
-  <div class="dashboard-card">
-  <h3 class="fw-bold mb-2">🚪 Entry & Exit Records</h3>
-  <p>Track deliveries, maintenance work, and other visits to your farm with company names and purposes.</p>
-  <a href="{% url 'App2:entry-exit-list' %}" class="btn">View Logs</a>
-</div>
-
-  <div class="dashboard-card">
-    <h3 class="fw-bold mb-2">📋 Surveillance Records</h3>
-    <p>Monitor pest activity and record plant inspections across your farms.</p>
-    <a href="{% url 'App2:surveillance-list' %}" class="btn">View Surveillance</a>
-  </div>
-
-  <div class="dashboard-card">
-    <h3 class="fw-bold mb-2">🐛 Pest Management</h3>
-    <p>Log pests identified on your properties and cross-reference with known species.</p>
-    <a href="{% url 'App2:pest-list' %}" class="btn">Manage Pests</a>
-  </div>
-
-  <div class="dashboard-card">
-        <h3 class="fw-bold mb-2">📆 Farm Task Calendar</h3>
-        <p>Schedule farm inspections, pesticide applications, and other important tasks.</p>
-        <a href="{% url 'App2:task-list' %}" class="btn">Manage Tasks</a>
-      </div>
-
-</div>
   </div>
 </div>
 
