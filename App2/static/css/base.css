@@ -19,6 +19,269 @@ header {
     padding-bottom: 0;
 }
 
+/* Table */
+/* Consistent styling */
+.table {
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 1rem;
+    width: 100%;
+    vertical-align: top;
+    border-color: #dee2e6;
+}
+
+/* Enhanced table headers */
+.table thead th {
+    background-color: #d4edda !important;
+    border: 1px solid #c3e6cb !important;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+    padding: 12px 8px;
+    color: #155724;
+    position: relative;
+}
+
+/* Table data cells */
+.table tbody td {
+    border: 1px solid #e9ecef;
+    vertical-align: middle;
+    padding: 10px 8px;
+    text-align: center;
+}
+
+/* Table hover effects */
+.table-hover tbody tr:hover {
+    background-color: #f8f9fa;
+    transition: background-color 0.15s ease-in-out;
+}
+
+/* Specific table styling classes */
+.farm-table th, .farm-table td {
+    border: 1px solid #c3e6cb;
+}
+
+.surveillance-table th, .surveillance-table td {
+    border: 1px solid #c3e6cb;
+}
+
+/* Remove inline styles with CSS specificity */
+.table th[style*="width"] {
+    border: 1px solid #c3e6cb !important;
+}
+
+.table td[style*="border"] {
+    border: 1px solid #e9ecef !important;
+}
+
+/* ===== ENHANCED BUTTON STYLING ===== */
+/* Action button containers */
+.d-flex.justify-content-center.gap-2.flex-wrap,
+.btn-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+/* Button improvements */
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    min-width: 65px;
+    font-weight: 500;
+}
+
+/* Outline button hover effects */
+.btn-outline-primary:hover,
+.btn-outline-warning:hover,
+.btn-outline-secondary:hover,
+.btn-outline-danger:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+}
+
+/* ===== PAGE HEADER IMPROVEMENTS ===== */
+/* Target existing h2 elements */
+h2 {
+    color: #2e7d32 !important;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+/* Header action containers */
+.d-flex.justify-content-between.align-items-center .d-flex {
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* ===== CARD AND CONTAINER ENHANCEMENTS ===== */
+/* Enhanced card styling */
+.card {
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
+}
+
+.card.shadow-sm {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+/* Container improvements */
+.container.mt-4 {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* ===== FORM ELEMENT IMPROVEMENTS ===== */
+.form-select, .form-control {
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.form-select:focus, .form-control:focus {
+    border-color: #2e7d32;
+    box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.25);
+}
+
+/* ===== BADGE AND ALERT STYLING ===== */
+.badge {
+    font-size: 0.85rem;
+    padding: 0.4em 0.6em;
+    font-weight: 500;
+    border-radius: 6px;
+}
+
+.alert {
+    border-radius: 8px;
+    border: none;
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border-left: 4px solid #ffc107;
+}
+
+/* ===== BACK BUTTON STYLING ===== */
+.btn-outline-secondary, .btn-outline-success {
+    border-width: 2px;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+}
+
+.btn-outline-secondary:hover, .btn-outline-success:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* ===== TABLE RESPONSIVE WRAPPER ===== */
+.table-responsive {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* ===== SPACING IMPROVEMENTS ===== */
+.mb-3, .mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+.mt-3, .mt-4 {
+    margin-top: 1.5rem !important;
+}
+
+/* Button spacing */
+.btn + .btn {
+    margin-left: 0.25rem;
+}
+
+/* ===== TEXT AND TYPOGRAPHY ===== */
+.text-muted {
+    color: #6c757d !important;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+/* Center text alignment for table content */
+.text-center {
+    text-align: center !important;
+}
+
+/* ===== SUMMARY TABLE STYLING (for pest list) ===== */
+.summary-table-container .table {
+    border: 2px solid #2e7d32 !important;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.summary-table-container .table th {
+    background-color: #d4edda !important;
+    color: #155724 !important;
+    border: 1px solid #2e7d32 !important;
+}
+
+.summary-table-container .table td {
+    border: 1px solid #2e7d32 !important;
+}
+
+/* ===== CONTENT CARD STYLING ===== */
+.content-card {
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 100, 0, 0.05);
+}
+
+/* ===== RESPONSIVE IMPROVEMENTS ===== */
+@media (max-width: 768px) {
+    .d-flex.justify-content-between {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 1rem;
+    }
+    
+    .btn-sm {
+        min-width: 50px;
+        padding: 4px 8px;
+        font-size: 0.8rem;
+    }
+    
+    .container.mt-4 {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+/* ===== HOVER ANIMATIONS ===== */
+.table tbody tr {
+    transition: background-color 0.15s ease-in-out;
+}
+
+.btn {
+    transition: all 0.2s ease-in-out;
+}
+
+.card {
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
 /* Authentication styles */
 .auth-wrapper {
     display: flex;
