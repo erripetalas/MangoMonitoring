@@ -1,13 +1,30 @@
 {% extends 'App2/base.html' %}
-{% block title %}Entry & Exit Logs{% endblock %}
+{% block title %}{% if is_superuser %}All Entry & Exit Logs{% else %}Entry & Exit Logs{% endif %}{% endblock %}
 
 {% block content %}
 <div class="card shadow-sm p-3">
 <div class="container mt-5">
 
   <div class="content-card mb-4 shadow-sm text-start">
-    <h2 class="mb-3">📋 Entry & Exit Records</h2>
-    <p class="text-muted">This section logs all movement of people and goods on your farm. Keep track of repairs, deliveries, visits, and other interactions.</p>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h2 class="mb-3">📋 {% if is_superuser %}All {% endif %}Entry & Exit Records</h2>
+        <p class="text-muted">This section logs all movement of people and goods on {% if is_superuser %}farms{% else %}your farm{% endif %}. Keep track of repairs, deliveries, visits, and other interactions.</p>
+      </div>
+      <div class="d-flex">
+        {% if is_superuser %}
+          <form method="get" class="d-flex me-2">
+            <select name="user_filter" class="form-select me-2">
+              <option value="all" {% if current_user_filter == 'all' %}selected{% endif %}>All Users</option>
+              {% for u in users %}
+              <option value="{{ u.id }}" {% if current_user_filter == u.id|stringformat:"s" %}selected{% endif %}>{{ u.username }}</option>
+              {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary me-2">Filter</button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
 
     <a href="{% url 'App2:entry-exit-create' %}" class="btn btn-outline-success btn-sm mt-2">➕ Add New Record</a>
   </div>
@@ -17,10 +34,10 @@
   
   <div class="card shadow-sm p-3">
   <div class="table-responsive mt-4">
-    <table class="table table-bordered table-hover align-middle text-center surveillance-table">
-      <thead class="table-success">
+    <table class="table table-bordered table-hover align-middle text-center surveillance-table">      <thead class="table-success">
         <tr>
          <th scope="col", style="width: 7%;">🏡 Farm</th>
+          {% if is_superuser %}<th scope="col", style="width: 7%;">👨‍🌾 Owner</th>{% endif %}
           <th scope="col", style="width: 10%;">🏢 Company</th>
           <th scope="col", style="width: 10%;">👤 Person</th>
           <th scope="col", style="width: 12%;">📝 Purpose</th>
@@ -34,6 +51,7 @@
         {% for log in logs %}
         <tr>
           <td>{{ log.farm.name }}</td>
+          {% if is_superuser %}<td>{{ log.farm.owner.username }}</td>{% endif %}
           <td>{{ log.company_name }}</td>
           <td>{{ log.person_name }}</td>
           <td>{{ log.purpose }}</td>

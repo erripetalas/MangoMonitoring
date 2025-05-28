@@ -1,5 +1,5 @@
 {% extends 'App2/base.html' %}
-{% block title %}My Farm{% endblock %}
+{% block title %}{% if is_superuser %}Admin Dashboard{% else %}My Farm{% endif %}{% endblock %}
 
 {% block navigation %}
 <nav aria-label="Main navigation" class="main-navbar">
@@ -26,15 +26,84 @@
 
 {% block content %}
 <div class="profile-wrapper">
-  <div class="profile-card-box">
-
-    <!-- Welcome Message -->
+  <div class="profile-card-box">    <!-- Welcome Message -->
     <div class="card shadow-sm p-3">
-      <h2 class="mb-2">Welcome, {{ user.username }}!</h2>
-      <p class="lead">Track your mango crops and pest monitoring efforts easily.</p>
-    </div>
-
-    <div class="card shadow-sm p-3">
+      <h2 class="mb-2">Welcome, {{ user.username }}{% if is_superuser %} (Admin){% endif %}!</h2>
+      <p class="lead">{% if is_superuser %}Manage all farm monitoring data and users{% else %}Track your mango crops and pest monitoring efforts easily{% endif %}.</p>
+    </div>    <div class="card shadow-sm p-3">
+    {% if is_superuser %}
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="mb-0">🏢 Farm Overview</h3>
+        <form method="get" class="d-flex">
+          <select name="user_filter" class="form-select me-2">
+            <option value="all" {% if current_user_filter == 'all' %}selected{% endif %}>All Users</option>
+            {% for u in users %}
+            <option value="{{ u.id }}" {% if current_user_filter == u.id|stringformat:"s" %}selected{% endif %}>{{ u.username }}</option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+      </div>
+      
+      <!-- Admin Statistics -->
+      <div class="card mb-3">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">System Statistics</h4>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <div class="card bg-light">
+                <div class="card-body text-center">
+                  <h5>Users</h5>
+                  <h2>{{ total_users }}</h2>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card bg-light">
+                <div class="card-body text-center">
+                  <h5>Farms</h5>
+                  <h2>{{ total_farms }}</h2>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card bg-light">
+                <div class="card-body text-center">
+                  <h5>Surveillance Records</h5>
+                  <h2>{{ total_surveillance }}</h2>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card bg-light">
+                <div class="card-body text-center">
+                  <h5>Pest Records</h5>
+                  <h2>{{ total_pests }}</h2>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card bg-light">
+                <div class="card-body text-center">
+                  <h5>Tasks</h5>
+                  <h2>{{ total_tasks }}</h2>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card bg-light">
+                <div class="card-body text-center">
+                  <h5>Entry/Exit Logs</h5>
+                  <h2>{{ total_entries }}</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
     <div class="dashboard-card-grid">
 
   <div class="dashboard-card">

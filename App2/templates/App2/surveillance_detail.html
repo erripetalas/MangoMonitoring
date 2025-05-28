@@ -10,10 +10,14 @@
     <div class="card-header bg-light">
       <h4 class="mb-0">📅 Surveillance on {{ surveillance.date_observed }}</h4>
     </div>
-    <div class="card-body">
-      <dl class="row">
+    <div class="card-body">      <dl class="row">
         <dt class="col-sm-3">Farm</dt>
         <dd class="col-sm-9">{{ surveillance.farm.name }}</dd>
+
+        {% if is_superuser %}
+        <dt class="col-sm-3">Owner</dt>
+        <dd class="col-sm-9">{{ surveillance.farm.owner.username }}</dd>
+        {% endif %}
 
         <dt class="col-sm-3">Location</dt>
         <dd class="col-sm-9">{{ surveillance.location.name }}</dd>

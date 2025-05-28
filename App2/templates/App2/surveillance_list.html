@@ -4,18 +4,31 @@
 {% block content %}
 <div class="card shadow-sm p-3">
 <div class="container mt-4">  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>📋 Surveillance Records</h2>
-    <a href="{% url 'App2:surveillance-create' %}" class="btn btn-success">+ Add New Record</a>
+    <h2>📋 {% if is_superuser %}All {% endif %}Surveillance Records</h2>
+    <div class="d-flex">
+      {% if is_superuser %}
+        <form method="get" class="d-flex me-2">
+          <select name="user_filter" class="form-select me-2">
+            <option value="all" {% if current_user_filter == 'all' %}selected{% endif %}>All Users</option>
+            {% for u in users %}
+            <option value="{{ u.id }}" {% if current_user_filter == u.id|stringformat:"s" %}selected{% endif %}>{{ u.username }}</option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="btn btn-primary me-2">Filter</button>
+        </form>
+      {% endif %}
+      <a href="{% url 'App2:surveillance-create' %}" class="btn btn-success">+ Add New Record</a>
+    </div>
   </div>
 </div>
 
   {% if surveillance_records %}
   <div class="card shadow-sm p-3">
     <div class="table-responsive">
-      <table class="table table-bordered table-hover text-center align-middle surveillance-table">
-        <thead class="table-success">
+      <table class="table table-bordered table-hover text-center align-middle surveillance-table">        <thead class="table-success">
           <tr>
             <th style="width: 13%;">Farm</th>
+            {% if is_superuser %}<th style="width: 10%;">Owner</th>{% endif %}
             <th style="width: 13%;">Pest</th>
             <th style="width: 20%;">Severity</th>
             <th style="width: 15%;">Count</th>
@@ -27,6 +40,7 @@
           {% for record in surveillance_records %}
           <tr>
             <td>{{ record.farm.name }}</td>
+            {% if is_superuser %}<td>{{ record.farm.owner.username }}</td>{% endif %}
             <td>{{ record.pest.name }}</td>
             <td>
               <span class="badge bg-{% if record.severity == 1 %}success{% elif record.severity == 2 %}info{% elif record.severity == 3 %}warning{% else %}danger{% endif %}">

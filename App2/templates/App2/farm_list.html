@@ -1,21 +1,34 @@
 {% extends 'app2/base.html' %}
-{% block title %}My Farms{% endblock %}
+{% block title %}{% if is_superuser %}All Farms{% else %}My Farms{% endif %}{% endblock %}
 
 {% block content %}
 <div class="card shadow-sm p-3">
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="mb-0">🌾 My Farms</h2>
-    <a href="{% url 'App2:farm-create' %}" class="btn btn-success">+ Add New Farm</a>
+    <h2 class="mb-0">{% if is_superuser %}🌾 All Farms{% else %}🌾 My Farms{% endif %}</h2>
+    <div class="d-flex">
+      {% if is_superuser %}
+        <form method="get" class="d-flex me-2">
+          <select name="user_filter" class="form-select me-2">
+            <option value="all" {% if current_user_filter == 'all' %}selected{% endif %}>All Users</option>
+            {% for u in users %}
+            <option value="{{ u.id }}" {% if current_user_filter == u.id|stringformat:"s" %}selected{% endif %}>{{ u.username }}</option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="btn btn-primary me-2">Filter</button>
+        </form>
+      {% endif %}
+      <a href="{% url 'App2:farm-create' %}" class="btn btn-success">+ Add New Farm</a>
+    </div>
  </div>
   </div>
 
   <div class="card shadow-sm p-3">
     <div class="table-responsive">
-        <table class="table table-hover table-bordered farm-table text-center align-middle">
-        <thead class="table-success">
+        <table class="table table-hover table-bordered farm-table text-center align-middle">        <thead class="table-success">
           <tr>
             <th style="width: 3%;">S.N.</th>
+            {% if is_superuser %}<th style="width: 10%;">Owner</th>{% endif %}
             <th style="width: 13%;">Name</th>
             <th style="width: 13%;">Location</th>
             <th style="width: 13%;">Total Plants</th>
@@ -27,6 +40,7 @@
           {% for farm in farms %}
           <tr>
             <td class="text-center" >{{ forloop.counter }}</td>
+            {% if is_superuser %}<td class="text-center">{{ farm.owner.username }}</td>{% endif %}
             <td class="text-center">{{ farm.name }}</td>
             <td class="text-center">{{ farm.location }}</td>
             <td class="text-center">{{ farm.total_plants }}</td>

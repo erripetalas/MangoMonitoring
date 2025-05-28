@@ -1,19 +1,34 @@
 {% extends 'App2/base.html' %}
-{% block title %}Farm Task Calendar{% endblock %}
+{% block title %}{% if is_superuser %}All Farm Tasks{% else %}Farm Task Calendar{% endif %}{% endblock %}
 
 {% block content %}
 <div class="card shadow-sm p-3">
 <div class="container mt-4">
-  <h2>📅 Scheduled Farm Tasks</h2>
-<a href="{% url 'App2:task-create' %}" class="btn btn-success mb-3">+ Add New Task</a>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>📅 {% if is_superuser %}All {% endif %}Scheduled Farm Tasks</h2>
+    <div class="d-flex">
+      {% if is_superuser %}
+        <form method="get" class="d-flex me-2">
+          <select name="user_filter" class="form-select me-2">
+            <option value="all" {% if current_user_filter == 'all' %}selected{% endif %}>All Users</option>
+            {% for u in users %}
+            <option value="{{ u.id }}" {% if current_user_filter == u.id|stringformat:"s" %}selected{% endif %}>{{ u.username }}</option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="btn btn-primary me-2">Filter</button>
+        </form>
+      {% endif %}
+      <a href="{% url 'App2:task-create' %}" class="btn btn-success">+ Add New Task</a>
+    </div>
+  </div>
 </div>
   {% if tasks %}
   <div class="card shadow-sm p-3">
     <div class="table-responsive">
-      <table class="table table-bordered text-center align-middle">
-        <thead class="table-success">
+      <table class="table table-bordered text-center align-middle">        <thead class="table-success">
           <tr>
             <th style="width: 15%;">Farm</th>
+            {% if is_superuser %}<th style="width: 10%;">Owner</th>{% endif %}
             <th style="width: 19%;">Task Name</th>
             <th style="width: 15%;">Due Date</th>
             <th style="width: 15%;">Status</th>
@@ -25,6 +40,7 @@
   {% for task in tasks %}
   <tr>
     <td>{{ task.farm.name }}</td>
+    {% if is_superuser %}<td>{{ task.farm.owner.username }}</td>{% endif %}
     <td>{{ task.title|default:"—" }}</td>
     <td>{{ task.scheduled_date|date:"M d, Y"|default:"—" }}</td>
     <td>{{ task.task_type|title|default:"—" }}</td>

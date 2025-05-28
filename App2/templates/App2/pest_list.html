@@ -1,21 +1,34 @@
 {% extends 'app2/base.html' %}
-{% block title %}My Pest Records{% endblock %}
+{% block title %}{% if is_superuser %}All Pest Records{% else %}My Pest Records{% endif %}{% endblock %}
 
 {% block content %}
 <div class="card shadow-sm p-3">
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>🐞 Pest Records</h2>
-    <a href="{% url 'App2:pest-create' %}" class="btn btn-success">+ Add New Pest</a>
+    <h2>🐞 {% if is_superuser %}All {% endif %}Pest Records</h2>
+    <div class="d-flex">
+      {% if is_superuser %}
+        <form method="get" class="d-flex me-2">
+          <select name="user_filter" class="form-select me-2">
+            <option value="all" {% if current_user_filter == 'all' %}selected{% endif %}>All Users</option>
+            {% for u in users %}
+            <option value="{{ u.id }}" {% if current_user_filter == u.id|stringformat:"s" %}selected{% endif %}>{{ u.username }}</option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="btn btn-primary me-2">Filter</button>
+        </form>
+      {% endif %}
+      <a href="{% url 'App2:pest-create' %}" class="btn btn-success">+ Add New Pest</a>
+    </div>
   </div>
 </div>
 
   {% if pests %}
-  <div class="summary-table-container mb-4">
-    <table class="table w-auto text-center" style="border: 2px solid green;">
+  <div class="summary-table-container mb-4">    <table class="table w-auto text-center" style="border: 2px solid green;">
       <thead style="background-color: #d4edda; color: #155724;">
         <tr>
           <th style="border: 1px solid green;">Pest #</th>
+          {% if is_superuser %}<th style="border: 1px solid green;">Owner</th>{% endif %}
           <th style="border: 1px solid green;">Name</th>
           <th style="border: 1px solid green;">Description</th>
           <th style="border: 1px solid green;">Reference ID</th>
@@ -26,6 +39,7 @@
         {% for pest in pests %}
         <tr>
           <td style="border: 1px solid green;">{{ forloop.counter }}</td>
+          {% if is_superuser %}<td style="border: 1px solid green;">{{ pest.created_by.username }}</td>{% endif %}
           <td style="border: 1px solid green;">{{ pest.name }}</td>
           <td style="border: 1px solid green;">{{ pest.description|truncatewords:8 }}</td>
           <td style="border: 1px solid green;">

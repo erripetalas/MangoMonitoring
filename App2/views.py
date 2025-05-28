@@ -11,6 +11,7 @@ from statistics import mean, stdev
 from math import sqrt
 from scipy.stats import t
 from django.db.models import Avg
+from django.contrib.auth.models import User
 
 
 # AUTHENTICATION VIEWS
@@ -44,45 +45,105 @@ def register_view(request):
 
 @login_required
 def profile_view(request):
-    farms = request.user.farms.all()
-    farms_count = farms.count()
-
-    ci_results = []
-
-    for farm in farms:
-        # Get all pest counts from Surveillance entries related to this farm
-        pest_counts = Surveillance.objects.filter(farm=farm).values_list('pest_count', flat=True)
-
-        # Convert to list of integers
-        pest_counts = [count for count in pest_counts if count is not None]
-
-        if len(pest_counts) >= 2:
-            n = len(pest_counts)
-            mean_val = mean(pest_counts)
-            std_err = stdev(pest_counts) / sqrt(n)
-            t_value = t.ppf(0.975, df=n - 1)  # 95% CI
-            margin_of_error = round(t_value * std_err, 2)
-
-            ci_results.append({
-                'farm_name': farm.name,
-                'mean': round(mean_val, 2),
-                'lower': round(mean_val - margin_of_error, 2),
-                'upper': round(mean_val + margin_of_error, 2),
-                'margin_of_error': margin_of_error
-            })
-
-    context = {
-        'farms': farms,
-        'farms_count': farms_count,
-        'ci_results': ci_results
-    }
+    # For superusers, provide an option to view system-wide data or filter by user
+    if request.user.is_superuser:
+        # Get selected user if any
+        user_filter = request.GET.get('user_filter', 'all')
+        
+        if user_filter != 'all':
+            try:
+                selected_user_id = int(user_filter)
+                selected_user = User.objects.get(id=selected_user_id)
+                farms = Farm.objects.filter(owner=selected_user)
+            except (ValueError, TypeError, User.DoesNotExist):
+                farms = Farm.objects.all()
+        else:
+            farms = Farm.objects.all()
+            
+        # Count total farms
+        farms_count = farms.count()
+          # Create context for superuser view
+        context = {
+            'is_superuser': True,
+            'farms': farms,
+            'farms_count': farms_count,
+            'users': User.objects.all(),
+            'current_user_filter': user_filter,
+            'total_users': User.objects.count(),
+            'total_farms': Farm.objects.count(),
+            'total_surveillance': Surveillance.objects.count(),
+            'total_pests': Pest.objects.count(),
+            'total_tasks': Task.objects.count(),
+            'total_entries': EntryExitLog.objects.count()
+        }
+    else:
+        # Regular user view - show only their farms
+        farms = request.user.farms.all()
+        farms_count = farms.count()
+        
+        ci_results = []
+        
+        for farm in farms:
+            # Get all pest counts from Surveillance entries related to this farm
+            pest_counts = Surveillance.objects.filter(farm=farm).values_list('pest_count', flat=True)
+            
+            # Convert to list of integers
+            pest_counts = [count for count in pest_counts if count is not None]
+            
+            if len(pest_counts) >= 2:
+                n = len(pest_counts)
+                mean_val = mean(pest_counts)
+                std_err = stdev(pest_counts) / sqrt(n)
+                t_value = t.ppf(0.975, df=n - 1)  # 95% CI
+                margin_of_error = round(t_value * std_err, 2)
+                
+                ci_results.append({
+                    'farm_name': farm.name,
+                    'mean': round(mean_val, 2),
+                    'lower': round(mean_val - margin_of_error, 2),
+                    'upper': round(mean_val + margin_of_error, 2),
+                    'margin_of_error': margin_of_error
+                })
+        
+        context = {
+            'is_superuser': False,
+            'farms': farms,
+            'farms_count': farms_count,
+            'ci_results': ci_results
+        }
 
     return render(request, 'App2/profile.html', context)
 
 @login_required
 def farm_list(request):
-    farms = Farm.objects.filter(owner=request.user)
-    return render(request, 'App2/farm_list.html', {'farms': farms})
+    # Superuser can see all farms, regular users only see their own
+    if request.user.is_superuser:
+        # Get filter param from query string, default to viewing all
+        user_filter = request.GET.get('user_filter', 'all')
+        if user_filter != 'all':
+            try:
+                user_id = int(user_filter)
+                farms = Farm.objects.filter(owner_id=user_id)
+            except (ValueError, TypeError):
+                farms = Farm.objects.all()
+        else:
+            farms = Farm.objects.all()
+        
+        # Pass the list of users for the filter dropdown
+        context = {
+            'farms': farms,
+            'users': User.objects.all(),
+            'current_user_filter': user_filter,
+            'is_superuser': True
+        }
+    else:
+        farms = Farm.objects.filter(owner=request.user)
+        context = {
+            'farms': farms,
+            'is_superuser': False
+        }
+    
+    return render(request, 'App2/farm_list.html', context)
 
 class EntryExitListView(LoginRequiredMixin, ListView):
     model = EntryExitLog
@@ -90,7 +151,31 @@ class EntryExitListView(LoginRequiredMixin, ListView):
     context_object_name = 'logs'
 
     def get_queryset(self):
-        return EntryExitLog.objects.filter(farm__owner=self.request.user)
+        if self.request.user.is_superuser:
+            # Get filter param from query string, default to viewing all
+            user_filter = self.request.GET.get('user_filter', 'all')
+            if user_filter != 'all':
+                try:
+                    user_id = int(user_filter)
+                    return EntryExitLog.objects.filter(farm__owner_id=user_id)
+                except (ValueError, TypeError):
+                    return EntryExitLog.objects.all()
+            else:
+                return EntryExitLog.objects.all()
+        else:
+            return EntryExitLog.objects.filter(farm__owner=self.request.user)
+            
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        if self.request.user.is_superuser:
+            context['users'] = User.objects.all()
+            context['current_user_filter'] = self.request.GET.get('user_filter', 'all')
+            context['is_superuser'] = True
+        else:
+            context['is_superuser'] = False
+            
+        return context
 
 class EntryExitCreateView(LoginRequiredMixin, CreateView):
     model = EntryExitLog
@@ -123,6 +208,10 @@ class EntryExitDeleteView(LoginRequiredMixin, DeleteView):
 # OWNER Mixin
 class OwnerMixin(UserPassesTestMixin):
     def test_func(self):
+        # Superusers can access anything
+        if self.request.user.is_superuser:
+            return True
+            
         obj = self.get_object()
         if hasattr(obj, 'owner'):
             return obj.owner == self.request.user
@@ -144,10 +233,10 @@ class FarmCreateView(LoginRequiredMixin, CreateView):
 class FarmDetailView(LoginRequiredMixin, OwnerMixin, DetailView):
     model = Farm
     template_name = 'app2/farm_detail.html'
-    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user_farms'] = Farm.objects.filter(owner=self.request.user)
+        context['is_superuser'] = self.request.user.is_superuser
         return context
     
 class FarmUpdateView(LoginRequiredMixin, OwnerMixin, UpdateView):
@@ -168,7 +257,31 @@ class PestListView(LoginRequiredMixin, ListView):
     context_object_name = 'pests'
 
     def get_queryset(self):
-        return Pest.objects.filter(created_by=self.request.user)
+        if self.request.user.is_superuser:
+            # Get filter param from query string, default to viewing all
+            user_filter = self.request.GET.get('user_filter', 'all')
+            if user_filter != 'all':
+                try:
+                    user_id = int(user_filter)
+                    return Pest.objects.filter(created_by_id=user_id)
+                except (ValueError, TypeError):
+                    return Pest.objects.all()
+            else:
+                return Pest.objects.all()
+        else:
+            return Pest.objects.filter(created_by=self.request.user)
+            
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        if self.request.user.is_superuser:
+            context['users'] = User.objects.all()
+            context['current_user_filter'] = self.request.GET.get('user_filter', 'all')
+            context['is_superuser'] = True
+        else:
+            context['is_superuser'] = False
+            
+        return context
 
 class PestCreateView(LoginRequiredMixin, CreateView):
     model = Pest
@@ -189,8 +302,12 @@ class PestUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
-
+        
     def test_func(self):
+        # Superusers can update any pest
+        if self.request.user.is_superuser:
+            return True
+        # Regular users can only update their own pests
         return self.get_object().created_by == self.request.user
 
 class PestDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -199,6 +316,10 @@ class PestDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = reverse_lazy('App2:pest-list')
 
     def test_func(self):
+        # Superusers can delete any pest
+        if self.request.user.is_superuser:
+            return True
+        # Regular users can only delete their own pests
         pest = self.get_object()
         return pest.created_by == self.request.user
 
@@ -209,15 +330,38 @@ class SurveillanceListView(LoginRequiredMixin, ListView):
     context_object_name = 'surveillance_records'
 
     def get_queryset(self):
-        qs = Surveillance.objects.filter(farm__owner=self.request.user)
+        if self.request.user.is_superuser:
+            # Get filter param from query string, default to viewing all
+            user_filter = self.request.GET.get('user_filter', 'all')
+            qs = Surveillance.objects.all()
+            
+            if user_filter != 'all':
+                try:
+                    user_id = int(user_filter)
+                    qs = qs.filter(farm__owner_id=user_id)
+                except (ValueError, TypeError):
+                    pass
+        else:
+            qs = Surveillance.objects.filter(farm__owner=self.request.user)
+            
+        # Filter by severity if provided
         severity = self.request.GET.get('severity')
         if severity:
             qs = qs.filter(severity=severity)
+            
         return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['severity_filter'] = self.request.GET.get('severity')
+        
+        if self.request.user.is_superuser:
+            context['users'] = User.objects.all()
+            context['current_user_filter'] = self.request.GET.get('user_filter', 'all')
+            context['is_superuser'] = True
+        else:
+            context['is_superuser'] = False
+            
         return context
 
 class SurveillanceCreateView(LoginRequiredMixin, CreateView):
@@ -240,7 +384,16 @@ class SurveillanceDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView
     template_name = 'app2/surveillance_detail.html'
 
     def test_func(self):
+        # Allow superusers to view any surveillance record
+        if self.request.user.is_superuser:
+            return True
+        # Regular users can only view their own records
         return self.get_object().farm.owner == self.request.user
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_superuser'] = self.request.user.is_superuser
+        return context
 
 class SurveillanceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Surveillance
@@ -249,6 +402,10 @@ class SurveillanceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
     success_url = reverse_lazy('App2:surveillance-list')
 
     def test_func(self):
+        # Allow superusers to update any surveillance record
+        if self.request.user.is_superuser:
+            return True
+        # Regular users can only update their own records
         return self.get_object().farm.owner == self.request.user
 
     def get_form_kwargs(self):
@@ -262,6 +419,10 @@ class SurveillanceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView
     success_url = reverse_lazy('App2:surveillance-list')
 
     def test_func(self):
+        # Allow superusers to delete any surveillance record
+        if self.request.user.is_superuser:
+            return True
+        # Regular users can only delete their own records
         return self.get_object().farm.owner == self.request.user
     
 
@@ -271,7 +432,31 @@ class TaskListView(LoginRequiredMixin, ListView):
     context_object_name = 'tasks'
 
     def get_queryset(self):
-        return Task.objects.filter(farm__owner=self.request.user).order_by('scheduled_date', 'scheduled_time')
+        if self.request.user.is_superuser:
+            # Get filter param from query string, default to viewing all
+            user_filter = self.request.GET.get('user_filter', 'all')
+            if user_filter != 'all':
+                try:
+                    user_id = int(user_filter)
+                    return Task.objects.filter(farm__owner_id=user_id).order_by('scheduled_date', 'scheduled_time')
+                except (ValueError, TypeError):
+                    return Task.objects.all().order_by('scheduled_date', 'scheduled_time')
+            else:
+                return Task.objects.all().order_by('scheduled_date', 'scheduled_time')
+        else:
+            return Task.objects.filter(farm__owner=self.request.user).order_by('scheduled_date', 'scheduled_time')
+            
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        if self.request.user.is_superuser:
+            context['users'] = User.objects.all()
+            context['current_user_filter'] = self.request.GET.get('user_filter', 'all')
+            context['is_superuser'] = True
+        else:
+            context['is_superuser'] = False
+            
+        return context
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
@@ -284,7 +469,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
         kwargs['user'] = self.request.user
         return kwargs
 
-class TaskUpdateView(LoginRequiredMixin, UpdateView):
+class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Task
     form_class = TaskForm
     template_name = 'App2/task_form.html'
@@ -294,8 +479,22 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
         kwargs = super().get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+        
+    def test_func(self):
+        # Superusers can update any task
+        if self.request.user.is_superuser:
+            return True
+        # Regular users can only update their own tasks
+        return self.get_object().farm.owner == self.request.user
 
-class TaskDeleteView(LoginRequiredMixin, DeleteView):
+class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Task
     template_name = 'App2/task_confirm_delete.html'
     success_url = reverse_lazy('App2:task-list')
+    
+    def test_func(self):
+        # Superusers can delete any task
+        if self.request.user.is_superuser:
+            return True
+        # Regular users can only delete their own tasks
+        return self.get_object().farm.owner == self.request.user

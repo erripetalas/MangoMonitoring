@@ -17,9 +17,10 @@
   </div>
 
   <!-- Detail Card -->
-  <div class="form-card mx-auto text-center" style="max-width: 700px;">
-
-    <h2 class="mb-3">{{ farm.name }}</h2>
+  <div class="form-card mx-auto text-center" style="max-width: 700px;">    <h2 class="mb-3">{{ farm.name }}</h2>
+    {% if is_superuser %}
+    <p><strong>Owner:</strong> {{ farm.owner.username }}</p>
+    {% endif %}
     <p><strong>Location:</strong> {{ farm.location }}</p>
     <p><strong>Total Plants:</strong> {{ farm.total_plants }}</p>
     <p><strong>Stocking Rate:</strong> {{ farm.stocking_rate|floatformat:2 }}</p>
