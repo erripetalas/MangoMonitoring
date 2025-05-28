@@ -3,11 +3,11 @@
 
 {% block content %}
 <div class="card shadow-sm p-3">
-<div class="container mt-4">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>🐞 {% if is_superuser %}All {% endif %}Pest Records</h2>
-    <div class="d-flex">
-      {% if is_superuser %}
+  <div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>🐞 {% if is_superuser %}All {% endif %}Pest Records</h2>
+      <div class="d-flex">
+        {% if is_superuser %}
         <form method="get" class="d-flex me-2">
           <select name="user_filter" class="form-select me-2">
             <option value="all" {% if current_user_filter == 'all' %}selected{% endif %}>All Users</option>
@@ -15,57 +15,66 @@
             <option value="{{ u.id }}" {% if current_user_filter == u.id|stringformat:"s" %}selected{% endif %}>{{ u.username }}</option>
             {% endfor %}
           </select>
-      
+          <button type="submit" class="btn btn-success">Filter</button>
         </form>
-      {% endif %}
+        {% endif %}
+      </div>
     </div>
-  </div>
-</div>
 
-  {% if pests %}
-  <div class="summary-table-container mb-4"> 
-   <table class="table w-auto text-center" style="border: 2px solid green;">
-    <div class="stat-item" style="flex: 1; text-align: center; padding: 0 10px; border-right: 1px solid #eee;">
-      <thead style="background-color: #d4edda; color: #155724;">
-        <tr>
-          <th style="width: 8%;", style="border: 1px solid green;">Pest #</th>
-          {% if is_superuser %}<th style="width: 14%;", style="border: 1px solid green;">Owner</th>{% endif %}
-          <th style="width: 18%;", style="border: 1px solid green;">Name</th>
-          <th style="width: 28%;", style="border: 1px solid green;">Description</th>
-          <th style="width: 10%;", style="border: 1px solid green;">Reference ID</th>
-          <th style="width: 18%;", style="border: 1px solid green;">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        </div>
-        {% for pest in pests %}
-        <tr>
-          <td style="border: 1px solid green;">{{ forloop.counter }}</td>
-          {% if is_superuser %}<td style="border: 1px solid green;">{{ pest.created_by.username }}</td>{% endif %}
-          <td style="border: 1px solid green;">{{ pest.name }}</td>
-          <td style="border: 1px solid green;">{{ pest.description|truncatewords:8 }}</td>
-          <td style="border: 1px solid green;">
-            {% if pest.reference_pest_id %}
-              {{ pest.reference_pest_id }}
-            {% else %}
-              -
+    {% if pests %}
+    <div class="summary-table-container mb-4">
+      <table class="table w-auto text-center" style="border: 2px solid green;">
+        <thead style="background-color: #d4edda; color: #155724;">
+          <tr>
+            <th style="width: 8%; border: 1px solid green;">Pest #</th>
+            {% if is_superuser %}
+            <th style="width: 14%; border: 1px solid green;">Owner</th>
             {% endif %}
-          </td>
-          <td style="border: 1px solid green;">
-            <a href="{% url 'App2:pest-update' pest.id %}" class="btn btn-success btn-sm">Edit</a>
-            <a href="{% url 'App2:pest-delete' pest.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+            <th style="width: 18%; border: 1px solid green;">Name</th>
+            <th style="width: 28%; border: 1px solid green;">Description</th>
+            <th style="width: 10%; border: 1px solid green;">Reference ID</th>
+            <th style="width: 18%; border: 1px solid green;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for pest in pests %}
+          <tr>
+            <td style="border: 1px solid green;">{{ forloop.counter }}</td>
+            {% if is_superuser %}
+            <td style="border: 1px solid green;">{{ pest.created_by.username }}</td>
+            {% endif %}
+            <td style="border: 1px solid green;">{{ pest.name }}</td>
+            <td style="border: 1px solid green;">{{ pest.description|truncatewords:8 }}</td>
+            <td style="border: 1px solid green;">
+              {% if pest.reference_pest_id %}
+                {{ pest.reference_pest_id }}
+              {% else %}
+                -
+              {% endif %}
+            </td>
+            <td style="border: 1px solid green;">
+              <a href="{% url 'App2:pest-update' pest.id %}" class="btn btn-success btn-sm">Edit</a>
+              <a href="{% url 'App2:pest-delete' pest.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="d-flex justify-content-start gap-2 mt-2">
+      <a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
+      <a href="{% url 'App2:pest-create' %}" class="btn btn-success">+ Add New Pest</a>
+    </div>
+
+    {% else %}
+    <div class="alert alert-warning" role="alert">
+      No pest records found.
+    </div>
+    <a href="{% url 'App2:pest-create' %}" class="btn btn-success">+ Add New Pest</a>
+    <a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
+  
+    {% endif %}
   </div>
-  <a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
-  <a href="{% url 'App2:pest-create' %}" class="btn btn-success">+ Add New Pest</a>
-  {% else %}
-  <div class="alert alert-warning" role="alert">
-    No pest records found.
-  </div>
-  {% endif %}
 </div>
 {% endblock %}
