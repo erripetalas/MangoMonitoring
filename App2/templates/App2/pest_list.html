@@ -24,18 +24,21 @@
 </div>
 
   {% if pests %}
-  <div class="summary-table-container mb-4">    <table class="table w-auto text-center" style="border: 2px solid green;">
+  <div class="summary-table-container mb-4"> 
+   <table class="table w-auto text-center" style="border: 2px solid green;">
+    <div class="stat-item" style="flex: 1; text-align: center; padding: 0 10px; border-right: 1px solid #eee;">
       <thead style="background-color: #d4edda; color: #155724;">
         <tr>
-          <th style="border: 1px solid green;">Pest #</th>
-          {% if is_superuser %}<th style="border: 1px solid green;">Owner</th>{% endif %}
-          <th style="border: 1px solid green;">Name</th>
-          <th style="border: 1px solid green;">Description</th>
-          <th style="border: 1px solid green;">Reference ID</th>
-          <th style="border: 1px solid green;">Actions</th>
+          <th style="width: 8%;", style="border: 1px solid green;">Pest #</th>
+          {% if is_superuser %}<th style="width: 14%;", style="border: 1px solid green;">Owner</th>{% endif %}
+          <th style="width: 18%;", style="border: 1px solid green;">Name</th>
+          <th style="width: 28%;", style="border: 1px solid green;">Description</th>
+          <th style="width: 10%;", style="border: 1px solid green;">Reference ID</th>
+          <th style="width: 18%;", style="border: 1px solid green;">Actions</th>
         </tr>
       </thead>
       <tbody>
+        </div>
         {% for pest in pests %}
         <tr>
           <td style="border: 1px solid green;">{{ forloop.counter }}</td>

@@ -24,32 +24,35 @@
 </div>
   {% if tasks %}
   <div class="card shadow-sm p-3">
-    <div class="table-responsive">
-      <table class="table table-bordered text-center align-middle">        <thead class="table-success">
+    <div class="summary-table-container mb-4"> 
+   <table class="table w-auto text-center" style="border: 2px solid green;">
+    <div class="stat-item" style="flex: 1; text-align: center; padding: 0 10px; border-right: 1px solid #eee;">
+      <thead style="background-color: #d4edda; color: #155724;">
           <tr>
-            <th style="width: 15%;">Farm</th>
-            {% if is_superuser %}<th style="width: 10%;">Owner</th>{% endif %}
-            <th style="width: 19%;">Task Name</th>
-            <th style="width: 15%;">Due Date</th>
-            <th style="width: 15%;">Status</th>
-            <th style="width: 19%;">Notes</th>
-            <th style="width: 20%;">Actions</th>
+            <th style="width: 10%;" style="border: 1px solid green;">Farm</th>
+            {% if is_superuser %}<th style="width: 10%;" style="border: 1px solid green;">Owner</th>{% endif %}
+            <th style="width: 12%;", style="border: 1px solid green;">Task Name</th>
+            <th style="width: 13%;" style="border: 1px solid green;">Due Date</th>
+            <th style="width: 15%;" style="border: 1px solid green;">Status</th>
+            <th style="width: 15%;" style="border: 1px solid green;">Notes</th>
+            <th style="width: 20%;" style="border: 1px solid green;">Actions</th>
           </tr>
         </thead>
           <tbody>
   {% for task in tasks %}
   <tr>
-    <td>{{ task.farm.name }}</td>
-    {% if is_superuser %}<td>{{ task.farm.owner.username }}</td>{% endif %}
-    <td>{{ task.title|default:"—" }}</td>
-    <td>{{ task.scheduled_date|date:"M d, Y"|default:"—" }}</td>
-    <td>{{ task.task_type|title|default:"—" }}</td>
-    <td>{{ task.description|truncatechars:30|default:"—" }}</td>
-    <td>
+    <td style="border: 1px solid green;">{{ task.farm.name }}</td>
+    {% if is_superuser %}<td style="border: 1px solid green;">{{ task.farm.owner.username }}</td>{% endif %}
+    <td style="border: 1px solid green;">{{ task.title|default:"—" }}</td>
+    <td style="border: 1px solid green;">{{ task.scheduled_date|date:"M d, Y"|default:"—" }}</td>
+    <td style="border: 1px solid green;">{{ task.task_type|title|default:"—" }}</td>
+    <td style="border: 1px solid green;">{{ task.description|truncatechars:30|default:"—" }}</td>
+    <td style="border: 1px solid green;">
       <a href="{% url 'App2:task-update' task.pk %}" class="btn btn-success btn-sm">Edit</a>
       <a href="{% url 'App2:task-delete' task.pk %}" class="btn btn-danger btn-sm">Delete</a>
     </td>
   </tr>
+</div>
   {% empty %}
   <tr><td colspan="6">No tasks found.</td></tr>
   {% endfor %}
