@@ -44,53 +44,35 @@
           <button type="submit" class="btn btn-primary">Filter</button>
         </form>
       </div>
-        <!-- Admin Statistics -->
-      <div class="card mb-3">
+        <!-- Admin Statistics -->      <div class="card mb-3">
         <div class="card-header bg-primary text-white">
           <h4 class="mb-0">System Statistics</h4>
         </div>
-        <div class="card-body">
-          <div class="d-flex flex-wrap justify-content-between">
-            <div class="stat-box text-center mx-2 mb-2" style="flex: 1; min-width: 150px;">
-              <h5>Users</h5>
-              <div class="bg-light p-2 rounded">
-                <h2>{{ total_users }}</h2>
-              </div>
+        <div class="card-body p-3">
+          <div class="stats-container" style="display: flex; flex-direction: row; flex-wrap: nowrap; width: 100%; overflow-x: auto;">
+            <div class="stat-item" style="flex: 1; text-align: center; padding: 0 10px; border-right: 1px solid #eee;">
+              <div>Users</div>
+              <h2 class="m-0">{{ total_users }}</h2>
             </div>
-            
-            <div class="stat-box text-center mx-2 mb-2" style="flex: 1; min-width: 150px;">
-              <h5>Farms</h5>
-              <div class="bg-light p-2 rounded">
-                <h2>{{ total_farms }}</h2>
-              </div>
+            <div class="stat-item" style="flex: 1; text-align: center; padding: 0 10px; border-right: 1px solid #eee;">
+              <div>Farms</div>
+              <h2 class="m-0">{{ total_farms }}</h2>
             </div>
-            
-            <div class="stat-box text-center mx-2 mb-2" style="flex: 1; min-width: 150px;">
-              <h5>Surveillance</h5>
-              <div class="bg-light p-2 rounded">
-                <h2>{{ total_surveillance }}</h2>
-              </div>
+            <div class="stat-item" style="flex: 1; text-align: center; padding: 0 10px; border-right: 1px solid #eee;">
+              <div>Surveillance</div>
+              <h2 class="m-0">{{ total_surveillance }}</h2>
             </div>
-            
-            <div class="stat-box text-center mx-2 mb-2" style="flex: 1; min-width: 150px;">
-              <h5>Pests</h5>
-              <div class="bg-light p-2 rounded">
-                <h2>{{ total_pests }}</h2>
-              </div>
+            <div class="stat-item" style="flex: 1; text-align: center; padding: 0 10px; border-right: 1px solid #eee;">
+              <div>Pests</div>
+              <h2 class="m-0">{{ total_pests }}</h2>
             </div>
-            
-            <div class="stat-box text-center mx-2 mb-2" style="flex: 1; min-width: 150px;">
-              <h5>Tasks</h5>
-              <div class="bg-light p-2 rounded">
-                <h2>{{ total_tasks }}</h2>
-              </div>
+            <div class="stat-item" style="flex: 1; text-align: center; padding: 0 10px; border-right: 1px solid #eee;">
+              <div>Tasks</div>
+              <h2 class="m-0">{{ total_tasks }}</h2>
             </div>
-            
-            <div class="stat-box text-center mx-2 mb-2" style="flex: 1; min-width: 150px;">
-              <h5>Entry/Exit</h5>
-              <div class="bg-light p-2 rounded">
-                <h2>{{ total_entries }}</h2>
-              </div>
+            <div class="stat-item" style="flex: 1; text-align: center; padding: 0 10px;">
+              <div>Entry/Exit</div>
+              <h2 class="m-0">{{ total_entries }}</h2>
             </div>
           </div>
         </div>
