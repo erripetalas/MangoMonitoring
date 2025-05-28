@@ -14,7 +14,6 @@
           <option value="{{ u.id }}" {% if current_user_filter == u.id|stringformat:"s" %}selected{% endif %}>{{ u.username }}</option>
           {% endfor %}
         </select>
-        
       </form>
       {% endif %}
     </div>
@@ -73,8 +72,9 @@
     <div class="alert alert-warning mt-3" role="alert">
       No surveillance records found.
     </div>
-    {% endif %}
     <a href="{% url 'App2:profile' %}" class="btn btn-outline-success">← Back to Dashboard</a>
+    <a href="{% url 'App2:surveillance-create' %}" class="btn btn-success">+ Add New Record</a>
+    {% endif %}
   </div>
 </div>
 {% endblock %}
