@@ -1,4 +1,5 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from . import views
 from .views import EntryExitCreateView,TaskListView, TaskCreateView, TaskUpdateView, TaskDeleteView
 
@@ -46,4 +47,6 @@ urlpatterns = [
     path('surveillance/<int:pk>/', views.SurveillanceDetailView.as_view(), name='surveillance-detail'),
     path('surveillance/<int:pk>/update/', views.SurveillanceUpdateView.as_view(), name='surveillance-update'),
     path('surveillance/<int:pk>/delete/', views.SurveillanceDeleteView.as_view(), name='surveillance-delete'),
+
+    path('logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
 ]

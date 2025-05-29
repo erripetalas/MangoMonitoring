@@ -15,6 +15,7 @@ from django.contrib.auth.models import User
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 import io
 import base64
 from django.db.models.functions import TruncDay
@@ -141,9 +142,7 @@ def generate_pest_distribution_graph(selected_user=None):
 
 def generate_severity_graph(selected_user=None):
     """Generate bar chart showing surveillance records by severity level"""
-    plt.figure(figsize=(8, 6))
     
-    # Define severity levels
     severity_levels = [1, 2, 3, 4]
     severity_names = ['Low', 'Medium', 'High', 'Critical']
     
@@ -158,29 +157,29 @@ def generate_severity_graph(selected_user=None):
             Surveillance.objects.filter(severity=level).count()
             for level in severity_levels
         ]
-    
+
     if sum(severity_counts) == 0:
-        plt.text(0.5, 0.5, 'No severity data available', 
-                horizontalalignment='center', verticalalignment='center', transform=plt.gca().transAxes)
+        plt.figure(figsize=(8, 6))
+        plt.text(0.5, 0.5, 'No severity data available',
+                 horizontalalignment='center', verticalalignment='center', transform=plt.gca().transAxes)
         plt.gca().set_axis_off()
         return get_graph_as_base64(plt)
-    
-    # Set colors based on severity
-    colors = ['#4CAF50', '#FFC107', '#FF9800', '#F44336']
-    
-    # Create bar chart
-    bars = plt.bar(severity_names, severity_counts, color=colors)
-    
+
+    # Create the bar chart
+    fig, ax = plt.subplots(figsize=(8, 6))
+    bars = ax.bar(severity_names, severity_counts, color=['#4CAF50', '#FFC107', '#FF9800', '#F44336'])
+
     # Add data labels above bars
     for bar in bars:
         height = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width()/2., height + 0.1,
-                 str(int(height)), ha='center', va='bottom')
-    
-    plt.title('Surveillance Records by Severity Level')
-    plt.xlabel('Severity Level')
-    plt.ylabel('Number of Records')
-    
+        ax.text(bar.get_x() + bar.get_width()/2., height + 0.5, str(int(height)), ha='center', va='bottom')
+
+    ax.set_title('Surveillance Records by Severity Level')
+    ax.set_xlabel('Severity Level')
+    ax.set_ylabel('Number of Records')
+    ax.yaxis.set_major_locator(MaxNLocator(integer=True))  # Force integer ticks on Y-axis
+
+    fig.tight_layout()
     return get_graph_as_base64(plt)
 
 # AUTHENTICATION VIEWS

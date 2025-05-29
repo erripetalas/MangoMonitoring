@@ -26,7 +26,13 @@
 
 {% block content %}
 <div class="profile-wrapper">
-  <div class="profile-card-box">    
+  <div class="profile-card-box">   
+ 
+  <form method="post" action="{% url 'App2:logout' %}">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Logout</button>
+</form>
+
     <!-- Welcome Message -->
     <div class="card shadow-sm p-3">
       <h2 class="mb-2">Welcome, {{ user.username }}{% if is_superuser %} (Admin){% endif %}!</h2>
@@ -213,21 +219,11 @@
       </div>
     {% endif %}
     
+</div>
   </div>
 </div>
 
-<style>
-  /* Additional styles for the graphs section */
-  .card-header h5 {
-    font-size: 1.1rem;
-    font-weight: 600;
-  }
-  
-  .img-fluid {
-    max-width: 100%;
-    height: auto;
-  }
-</style>
+
 {% endblock %}
 
 
